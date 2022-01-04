@@ -3,6 +3,7 @@ const notes = require("./data/notes");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
+const postRoutes = require("./routes/postRoutes");
 const { errorHandler, notFound } = require("./middlewares/errorMiddleware");
 
 const app = express();
@@ -15,17 +16,22 @@ app.get("/", (req, res) => {
   res.send("API is runnung...");
 });
 
-app.get("/api/notes", (req, res) => {
-  res.json(notes);
-});
+// app.get("/api/posts", (req, res) => {
+//   res.send("API is runnung...");
+// });
 
-app.get("/api/notes/:id", (req, res) => {
-  const note = notes.find((n) => n._id === req.params.id);
-  // console.log(req.params);
-  res.send(note);
-});
+// app.get("/api/notes", (req, res) => {
+//   res.json(notes);
+// });
+
+// app.get("/api/notes/:id", (req, res) => {
+//   const note = notes.find((n) => n._id === req.params.id);
+//   // console.log(req.params);
+//   res.send(note);
+// });
 
 //create route for users
+app.use("/api/posts", postRoutes);
 app.use("/api/users", userRoutes);
 
 app.use(notFound);

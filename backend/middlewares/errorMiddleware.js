@@ -2,7 +2,7 @@
 
 //1. when the route is not found
 const notFound = (req, res, next) => {
-  const error = new Error(`Not Found - ${req.originalUrl}`);
+  const error = new Error(`Notttt Found - ${req.originalUrl}`);
   res.status(404);
   next(error);
 };
