@@ -8,10 +8,12 @@ import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import reportWebVitals from "./reportWebVitals";
 import MyNotesPage from "./screens/MyNotes/MyNotes";
+import MyPostsPage from "./screens/MyPosts/MyPosts";
 import LandingPage from "./screens/LandingPage/LandingPage";
 import LoginScreen from "./screens/LoginScreen/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen/RegisterScreen";
 import store from "./store";
+import CreatePost from "./screens/CreatePost/CreatePost";
 
 ReactDOM.render(
   <Provider store={store}>
@@ -22,6 +24,8 @@ ReactDOM.render(
         <Route path="/login" element={<LoginScreen />} />
         <Route path="/register" element={<RegisterScreen />} />
         <Route path="/mynotes" element={<MyNotesPage />} />
+        <Route path="/myposts" element={<MyPostsPage />} />
+        <Route path="/createpost" element={<CreatePost />} />
       </Routes>
       <Footer />
     </BrowserRouter>

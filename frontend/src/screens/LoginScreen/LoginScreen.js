@@ -23,7 +23,7 @@ const LoginScreen = () => {
   //route to page if user login success
   useEffect(() => {
     if (userInfo) {
-      history("/mynotes");
+      history("/myposts");
     }
   }, [history, userInfo]);
 
