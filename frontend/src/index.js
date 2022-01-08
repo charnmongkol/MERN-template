@@ -14,18 +14,21 @@ import LoginScreen from "./screens/LoginScreen/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen/RegisterScreen";
 import store from "./store";
 import CreatePost from "./screens/CreatePost/CreatePost";
+import SinglePost from "./screens/SinglePost/SinglePost";
+import Layout from "./components/layout";
 
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
       <Header />
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
+      <Routes path="/" element={<Layout />}>
+        <Route index element={<LandingPage />} />
         <Route path="/login" element={<LoginScreen />} />
         <Route path="/register" element={<RegisterScreen />} />
         <Route path="/mynotes" element={<MyNotesPage />} />
         <Route path="/myposts" element={<MyPostsPage />} />
         <Route path="/createpost" element={<CreatePost />} />
+        <Route path="/post/:id" element={<SinglePost />} />
       </Routes>
       <Footer />
     </BrowserRouter>
