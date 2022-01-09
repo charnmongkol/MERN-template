@@ -4,6 +4,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import {
   userLoginReducer,
   userRegistrationReducer,
+  userUpdateReducer,
 } from "./reducers/userReducers";
 import {
   postCreateReducer,
@@ -16,6 +17,7 @@ const reducer = combineReducers({
   //this will contain our reducers
   userLogin: userLoginReducer,
   userRegistration: userRegistrationReducer,
+  userUpdate: userUpdateReducer,
   postList: postListReducer,
   postCreate: postCreateReducer,
   postUpdate: postUpdateReducer,

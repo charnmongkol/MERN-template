@@ -16,6 +16,7 @@ import store from "./store";
 import CreatePost from "./screens/CreatePost/CreatePost";
 import SinglePost from "./screens/SinglePost/SinglePost";
 import Layout from "./components/layout";
+import ProfilePage from "./screens/ProfilePage/ProfilePage";
 
 ReactDOM.render(
   <Provider store={store}>
@@ -25,6 +26,7 @@ ReactDOM.render(
         <Route index element={<LandingPage />} />
         <Route path="/login" element={<LoginScreen />} />
         <Route path="/register" element={<RegisterScreen />} />
+        <Route path="/profile" element={<ProfilePage />} />
         <Route path="/mynotes" element={<MyNotesPage />} />
         <Route path="/myposts" element={<MyPostsPage />} />
         <Route path="/createpost" element={<CreatePost />} />

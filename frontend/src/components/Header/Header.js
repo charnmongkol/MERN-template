@@ -29,22 +29,28 @@ const Header = () => {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
-          <Nav
-            className="my-2 my-lg-0"
-            style={{ maxHeight: "100px" }}
-            navbarScroll
-          >
+          {userInfo ? (
+            <Nav
+              className="my-2 my-lg-0"
+              style={{ maxHeight: "100px" }}
+              navbarScroll
+            >
+              <Nav.Link>
+                <Link to="/myposts">My posts</Link>
+              </Nav.Link>
+              <NavDropdown title={userInfo?.name} id="navbarScrollingDropdown">
+                <NavDropdown.Item href="/profile">My profile</NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item onClick={logoutHandler}>
+                  Logout
+                </NavDropdown.Item>
+              </NavDropdown>
+            </Nav>
+          ) : (
             <Nav.Link>
-              <Link to="/myposts">My posts</Link>
+              <Link to="/login">Login</Link>
             </Nav.Link>
-            <NavDropdown title="UserName" id="navbarScrollingDropdown">
-              <NavDropdown.Item href="#action3">My profile</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item onClick={logoutHandler}>
-                Logout
-              </NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
+          )}
         </Navbar.Collapse>
       </Container>
     </Navbar>
