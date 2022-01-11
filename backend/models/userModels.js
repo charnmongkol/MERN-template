@@ -22,6 +22,30 @@ const userSchema = mongoose.Schema(
       required: true,
       default: false,
     },
+    licenseNumber: {
+      type: String,
+      required: true,
+    },
+    licenseStart: {
+      type: Date,
+      required: true,
+    },
+    licenseEnd: {
+      type: Date,
+      required: true,
+    },
+    address: {
+      type: String,
+      required: true,
+    },
+    phoneNumber: {
+      type: String,
+      required: false,
+    },
+    website: {
+      type: String,
+      required: false,
+    },
     pic: {
       type: String,
       required: true,

@@ -4,7 +4,18 @@ const generateToken = require("../utils/generateToken");
 
 // registration
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password, pic } = req.body;
+  const {
+    name,
+    email,
+    password,
+    licenseNumber,
+    licenseStart,
+    licenseEnd,
+    address,
+    phoneNumber,
+    website,
+    pic,
+  } = req.body;
 
   const userExists = await User.findOne({ email });
 
@@ -19,6 +30,12 @@ const registerUser = asyncHandler(async (req, res) => {
     name,
     email,
     password,
+    licenseNumber,
+    licenseStart,
+    licenseEnd,
+    address,
+    phoneNumber,
+    website,
     pic,
   });
 
@@ -28,6 +45,12 @@ const registerUser = asyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
+      licenseNumber: user.licenseNumber,
+      licenseStart: user.licenseStart,
+      licenseEnd: user.licenseEnd,
+      address: user.address,
+      phoneNumber: user.phoneNumber,
+      website: user.website,
       pic: user.pic,
       token: generateToken(user._id),
     });
@@ -35,11 +58,6 @@ const registerUser = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("Error Occured!");
   }
-
-  res.json({
-    name,
-    email,
-  });
 });
 
 // Log in
@@ -52,10 +70,16 @@ const authUser = asyncHandler(async (req, res) => {
   //if success
   if (user && (await user.matchPassword(password))) {
     res.json({
-      _id: user._id,
+      id: user._id,
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
+      licenseNumber: user.licenseNumber,
+      licenseStart: user.licenseStart,
+      licenseEnd: user.licenseEnd,
+      address: user.address,
+      phoneNumber: user.phoneNumber,
+      website: user.website,
       pic: user.pic,
       token: generateToken(user._id),
     });

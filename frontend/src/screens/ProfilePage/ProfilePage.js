@@ -108,6 +108,7 @@ const ProfilePage = () => {
                 <Form.Control
                   type="password"
                   placeholder="Password"
+                  autoComplete="off"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
@@ -117,6 +118,7 @@ const ProfilePage = () => {
                 <Form.Control
                   type="password"
                   placeholder="Confirm Password"
+                  autoComplete="off"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                 />

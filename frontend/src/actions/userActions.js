@@ -56,36 +56,60 @@ export const logout = () => async (dispatch) => {
 };
 
 //registration
-export const register = (name, email, password, pic) => async (dispatch) => {
-  try {
-    dispatch({ type: USER_REGISTRATION_REQUEST });
+export const register =
+  (
+    name,
+    email,
+    password,
+    licenseNumber,
+    licenseStart,
+    licenseEnd,
+    address,
+    phoneNumber,
+    website,
+    pic
+  ) =>
+  async (dispatch) => {
+    try {
+      dispatch({ type: USER_REGISTRATION_REQUEST });
 
-    const config = {
-      headers: {
-        "Content-type": "application/json",
-      },
-    };
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
 
-    const { data } = await axios.post(
-      "/api/users",
-      { name, pic, email, password },
-      config
-    );
+      const { data } = await axios.post(
+        "/api/users",
+        {
+          name,
+          email,
+          password,
+          licenseNumber,
+          licenseStart,
+          licenseEnd,
+          address,
+          phoneNumber,
+          website,
+          pic,
+        },
+        config
+      );
 
-    dispatch({ type: USER_REGISTRATION_SUCCESS, payload: data });
-    dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
+      dispatch({ type: USER_REGISTRATION_SUCCESS, payload: data });
+      dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
 
-    localStorage.setItem("userInfo", JSON.stringify(data));
-  } catch (error) {
-    dispatch({
-      type: USER_REGISTRATION_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
-  }
-};
+      localStorage.setItem("userInfo", JSON.stringify(data));
+    } catch (error) {
+      dispatch({
+        type: USER_REGISTRATION_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
 
 export const updateProfile = (user) => async (dispatch, getState) => {
   try {

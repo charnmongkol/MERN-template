@@ -8,13 +8,44 @@ const getPosts = asyncHandler(async (req, res) => {
 });
 
 const createPost = asyncHandler(async (req, res) => {
-  const { title, content, category } = req.body;
+  const {
+    title,
+    content,
+    category,
+    code,
+    startAt,
+    endAt,
+    commission,
+    seats,
+    pdfFile,
+  } = req.body;
 
-  if (!title || !content || !category) {
+  if (
+    !title ||
+    !content ||
+    !category ||
+    !code ||
+    !startAt ||
+    !endAt ||
+    !commission ||
+    !seats ||
+    !pdfFile
+  ) {
     res.status(400);
     throw new Error("please fill all the feilds");
   } else {
-    const post = new Post({ user: req.user._id, title, content, category });
+    const post = new Post({
+      user: req.user._id,
+      title,
+      content,
+      category,
+      code,
+      startAt,
+      endAt,
+      commission,
+      seats,
+      pdfFile,
+    });
 
     //save to db
     const createPost = await post.save();
@@ -36,19 +67,35 @@ const getPostById = asyncHandler(async (req, res) => {
 });
 
 const updatePost = asyncHandler(async (req, res) => {
-  const { title, content, category } = req.body;
+  const {
+    title,
+    content,
+    category,
+    code,
+    startAt,
+    endAt,
+    commission,
+    seats,
+    pdfFile,
+  } = req.body;
 
   const post = await Post.findById(req.params.id);
 
   //post = user id
   if (post.user.toString() !== req.user._id.toString()) {
     res.status(401);
-    throw new Error("You can't perform thi action");
+    throw new Error("You can't perform this action");
   }
   if (post) {
     post.title = title;
-    post.cntent = content;
+    post.content = content;
     post.category = category;
+    post.code = code;
+    post.startAt = startAt;
+    post.endAt = endAt;
+    post.commission = commission;
+    post.seats = seats;
+    post.pdfFile = pdfFile;
 
     const updatedPost = await post.save();
     res.json(updatedPost);

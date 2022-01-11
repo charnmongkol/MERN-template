@@ -6,11 +6,35 @@ const postSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    code: {
+      type: String,
+      required: true,
+    },
     content: {
       type: String,
       required: false,
     },
     category: {
+      type: String,
+      required: true,
+    },
+    startAt: {
+      type: Date,
+      required: true,
+    },
+    endAt: {
+      type: Date,
+      required: true,
+    },
+    commission: {
+      type: String,
+      required: true,
+    },
+    seats: {
+      type: String,
+      required: true,
+    },
+    pdfFile: {
       type: String,
       required: true,
     },

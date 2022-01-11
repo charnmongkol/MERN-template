@@ -16,6 +16,12 @@ const RegisterScreen = () => {
   const [pic, setPic] = useState(
     "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
   );
+  const [licenseNumber, setLicenseNumber] = useState("");
+  const [licenseStart, setLicenseStart] = useState("");
+  const [licenseEnd, setLicenseEnd] = useState("");
+  const [address, setAddress] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [website, setWebsite] = useState("");
   const [password, setPassword] = useState("");
   const [confirmpassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState(null);
@@ -34,17 +40,31 @@ const RegisterScreen = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    // console.log(email);
+    console.log(licenseEnd);
 
     if (password !== confirmpassword) {
       setMessage("Password do not match");
     } else {
-      dispatch(register(name, email, password, pic));
+      dispatch(
+        register(
+          name,
+          email,
+          password,
+          licenseNumber,
+          licenseStart,
+          licenseEnd,
+          address,
+          phoneNumber,
+          website,
+          pic
+        )
+      );
     }
   };
 
   //image uploading
   const postDetails = (pics) => {
+    console.log(pics);
     if (!pics) {
       return setPicMessage("Please select an image");
     }
@@ -80,29 +100,29 @@ const RegisterScreen = () => {
         {loading && <Loading />}
         <Form onSubmit={submitHandler}>
           <Form.Group className="mb-3" controlId="name">
-            <Form.Label>Name</Form.Label>
+            <Form.Label>ชื่อธุรกิจนำเที่ยว</Form.Label>
             <Form.Control
-              type="name"
-              placeholder="Enter name"
+              type="text"
+              placeholder="ชื่อธุรกิจนำเที่ยว"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>Email address</Form.Label>
+            <Form.Label>อีเมล์</Form.Label>
             <Form.Control
               type="email"
-              placeholder="Enter email"
+              placeholder="อีเมล์"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
+            <Form.Label>รหัสผ่าน</Form.Label>
             <Form.Control
               type="password"
-              placeholder="Password"
+              placeholder="รหัสผ่าน"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               autoComplete="on"
@@ -110,10 +130,10 @@ const RegisterScreen = () => {
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="confirmPassword">
-            <Form.Label>Confirm Password</Form.Label>
+            <Form.Label>ยืนยันรหัสผ่าน</Form.Label>
             <Form.Control
               type="password"
-              placeholder="Confirm Password"
+              placeholder="ยืนยันรหัสผ่าน"
               value={confirmpassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               autoComplete="on"
@@ -124,7 +144,7 @@ const RegisterScreen = () => {
             <ErrorMessage variant="danger">{picMessage}</ErrorMessage>
           )}
           <Form.Group className="mb-3" controlId="custom-file">
-            <Form.Label>Profile picture</Form.Label>
+            <Form.Label>รูปโลโก้บริษัท</Form.Label>
             <Form.Control
               type="file"
               label="Upload Profil Picture"
@@ -132,8 +152,68 @@ const RegisterScreen = () => {
             />
           </Form.Group>
 
+          <Form.Group className="mb-3" controlId="lisenceNumber">
+            <Form.Label>เลขที่ใบอนุญาต</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="เลขที่ใบอนุญาต"
+              value={licenseNumber}
+              onChange={(e) => setLicenseNumber(e.target.value)}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="licenseStart">
+            <Form.Label>วันที่ออกใบอนุญาต</Form.Label>
+            <Form.Control
+              type="date"
+              placeholder="วันที่ออกใบอนุญาต"
+              value={licenseStart}
+              onChange={(e) => setLicenseStart(e.target.value)}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="licenseEnd">
+            <Form.Label>วันที่หมดอายุใบอนุญาต</Form.Label>
+            <Form.Control
+              type="date"
+              placeholder="วันที่หมดอายุใบอนุญาต"
+              value={licenseEnd}
+              onChange={(e) => setLicenseEnd(e.target.value)}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="address">
+            <Form.Label>ที่อยู่บริษัท</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="ชื่อธุรกิจนำเที่ยว"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="phoneNumber">
+            <Form.Label>เบอร์โทร</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="เบอร์โทร"
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="website">
+            <Form.Label>ลิ้งเว็บไซต์</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="ลิ้งเว็บไซต์"
+              value={website}
+              onChange={(e) => setWebsite(e.target.value)}
+            />
+          </Form.Group>
+
           <Button variant="primary" type="submit">
-            Submit
+            ยืนยัน
           </Button>
         </Form>
       </div>
