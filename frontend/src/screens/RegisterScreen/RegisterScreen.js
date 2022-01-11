@@ -40,7 +40,7 @@ const RegisterScreen = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log(licenseEnd);
+    // console.log(licenseEnd);
 
     if (password !== confirmpassword) {
       setMessage("Password do not match");
@@ -64,7 +64,7 @@ const RegisterScreen = () => {
 
   //image uploading
   const postDetails = (pics) => {
-    console.log(pics);
+    // console.log(pics);
     if (!pics) {
       return setPicMessage("Please select an image");
     }

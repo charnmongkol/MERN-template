@@ -13,6 +13,13 @@ const CreatePost = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [category, setCategory] = useState("");
+  const [code, setCode] = useState("");
+  const [startAt, setStartAt] = useState("");
+  const [endAt, setEndAt] = useState("");
+  const [commission, setCommission] = useState("");
+  const [seats, setSeats] = useState("");
+  const [pdfFile, setPdfFile] = useState("");
+  const [fileMessage, setFileMessage] = useState(null);
 
   //taking dispatch hook
   const dispatch = useDispatch();
@@ -22,23 +29,78 @@ const CreatePost = () => {
   //taking loading,error,post from inside of postCreate state
   const { loading, error, post } = postCreate;
 
-  console.log(post);
+  // console.log(post);
 
   const resetHandler = () => {
     setTitle("");
     setCategory("");
     setContent("");
+    setCode("");
+    setCommission("");
+    setEndAt("");
+    setStartAt("");
+    setSeats("");
+    setPdfFile("");
   };
 
   const navigate = useNavigate();
 
   const submitHandler = (e) => {
     e.preventDefault();
-    if (!title || !content || !category) return;
-    dispatch(createPostAction(title, content, category));
+    if (
+      !title ||
+      !content ||
+      !category ||
+      !code ||
+      !startAt ||
+      !endAt ||
+      !commission ||
+      !seats ||
+      !pdfFile
+    )
+      return;
+    dispatch(
+      createPostAction(
+        title,
+        content,
+        category,
+        code,
+        startAt,
+        endAt,
+        commission,
+        seats,
+        pdfFile
+      )
+    );
 
     resetHandler();
     navigate("/myposts");
+  };
+
+  const uploadFile = (pdf) => {
+    if (pdf.type === "application/pdf") {
+      console.log("filePDF", pdf);
+
+      const data = new FormData();
+      data.append("file", pdf);
+      data.append("upload_preset", "topoftheworld");
+      data.append("cloud_name", "duby6v8jo");
+
+      fetch("https://api.cloudinary.com/v1_1/duby6v8jo/image/upload", {
+        method: "post",
+        body: data,
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          setPdfFile(data.url.toString());
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      return setFileMessage("Please select a PDF file.");
+    }
   };
 
   useEffect(() => {}, []);
@@ -50,21 +112,63 @@ const CreatePost = () => {
           <Form onSubmit={submitHandler}>
             {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
             <Form.Group controlId="title">
-              <Form.Label>Title</Form.Label>
+              <Form.Label>ชื่อโปรแกรม</Form.Label>
               <Form.Control
                 type="text"
                 value={title}
-                placeholder="Enter the title"
+                placeholder="ชื่อโปรแกรม"
                 onChange={(e) => setTitle(e.target.value)}
               />
             </Form.Group>
 
+            <Form.Group controlId="code">
+              <Form.Label>รหัสโปรแกรม</Form.Label>
+              <Form.Control
+                type="text"
+                value={code}
+                placeholder="รหัสโปรแกรม"
+                onChange={(e) => setCode(e.target.value)}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="startAt">
+              <Form.Label>วันที่ออกเดินทาง</Form.Label>
+              <Form.Control
+                type="date"
+                value={startAt}
+                placeholder="วันที่ออกเดินทาง"
+                onChange={(e) => setStartAt(e.target.value)}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="endAt">
+              <Form.Label>วันที่กลับ</Form.Label>
+              <Form.Control
+                type="date"
+                value={endAt}
+                placeholder="วันที่กลับ"
+                onChange={(e) => setEndAt(e.target.value)}
+              />
+            </Form.Group>
+
+            {fileMessage && (
+              <ErrorMessage variant="danger">{fileMessage}</ErrorMessage>
+            )}
+            <Form.Group controlId="pdfFile">
+              <Form.Label>File</Form.Label>
+              <Form.Control
+                type="file"
+                label="Upload PDF file"
+                onChange={(e) => uploadFile(e.target.files[0])}
+              />
+            </Form.Group>
+
             <Form.Group controlId="content">
-              <Form.Label>Content</Form.Label>
+              <Form.Label>รายละเอียดคร่าวๆ</Form.Label>
               <Form.Control
                 type="text"
                 value={content}
-                placeholder="Enter the content"
+                placeholder="รายละเอียดคร่าวๆ"
                 row={4}
                 onChange={(e) => setContent(e.target.value)}
               />
@@ -86,6 +190,26 @@ const CreatePost = () => {
                 value={category}
                 placeholder="Enter the category"
                 onChange={(e) => setCategory(e.target.value)}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="seats">
+              <Form.Label>จำนวนที่นั่ง</Form.Label>
+              <Form.Control
+                type="text"
+                value={seats}
+                placeholder=""
+                onChange={(e) => setSeats(e.target.value)}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="commission">
+              <Form.Label>ค่าคอม</Form.Label>
+              <Form.Control
+                type="text"
+                value={commission}
+                placeholder=""
+                onChange={(e) => setCommission(e.target.value)}
               />
             </Form.Group>
 

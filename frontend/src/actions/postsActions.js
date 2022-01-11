@@ -49,7 +49,18 @@ export const listPosts = () => async (dispatch, getState) => {
 };
 
 export const createPostAction =
-  (title, content, category) => async (dispatch, getState) => {
+  (
+    title,
+    content,
+    category,
+    code,
+    startAt,
+    endAt,
+    commission,
+    seats,
+    pdfFile
+  ) =>
+  async (dispatch, getState) => {
     try {
       dispatch({
         type: POSTS_CREATE_REQUEST,
@@ -71,7 +82,17 @@ export const createPostAction =
       //api calls
       const { data } = await axios.post(
         `/api/posts/create`,
-        { title, content, category },
+        {
+          title,
+          content,
+          category,
+          code,
+          startAt,
+          endAt,
+          commission,
+          seats,
+          pdfFile,
+        },
         config
       );
 
@@ -93,7 +114,19 @@ export const createPostAction =
   };
 
 export const updatePostAction =
-  (id, title, content, category) => async (dispatch, getState) => {
+  (
+    id,
+    title,
+    content,
+    category,
+    code,
+    startAt,
+    endAt,
+    commission,
+    seats,
+    pdfFile
+  ) =>
+  async (dispatch, getState) => {
     try {
       dispatch({
         type: POSTS_UPDATE_REQUEST,
@@ -112,7 +145,17 @@ export const updatePostAction =
 
       const { data } = await axios.put(
         `/api/posts/${id}`,
-        { title, content, category },
+        {
+          title,
+          content,
+          category,
+          code,
+          startAt,
+          endAt,
+          commission,
+          seats,
+          pdfFile,
+        },
         config
       );
 
