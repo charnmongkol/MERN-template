@@ -1,6 +1,11 @@
 const Post = require("../models/postModels");
 const asyncHandler = require("express-async-handler");
 
+const getAllPosts = asyncHandler(async (req, res) => {
+  const allPosts = await Post.find({});
+  res.json(allPosts);
+});
+
 const getPosts = asyncHandler(async (req, res) => {
   //mongodb query
   const posts = await Post.find({ user: req.user._id });
@@ -119,4 +124,11 @@ const deletePost = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { getPosts, createPost, getPostById, updatePost, deletePost };
+module.exports = {
+  getAllPosts,
+  getPosts,
+  createPost,
+  getPostById,
+  updatePost,
+  deletePost,
+};

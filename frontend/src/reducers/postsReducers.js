@@ -11,7 +11,23 @@ import {
   POSTS_DELETE_REQUEST,
   POSTS_DELETE_SUCCESS,
   POSTS_DELETE_FAIL,
+  POSTS_ALL_REQUEST,
+  POSTS_ALL_SUCCESS,
+  POSTS_ALL_FAIL,
 } from "../constants/postsConstants";
+
+export const allPostsReducer = (state = { allposts: [] }, action) => {
+  switch (action.type) {
+    case POSTS_ALL_REQUEST:
+      return { loading: true };
+    case POSTS_ALL_SUCCESS:
+      return { loading: false, allposts: action.payload };
+    case POSTS_ALL_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
 
 export const postListReducer = (state = { posts: [] }, action) => {
   switch (action.type) {

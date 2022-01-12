@@ -1,5 +1,8 @@
 import axios from "axios";
 import {
+  POSTS_ALL_FAIL,
+  POSTS_ALL_REQUEST,
+  POSTS_ALL_SUCCESS,
   POSTS_CREATE_REQUEST,
   POSTS_CREATE_SUCCESS,
   POSTS_DELETE_FAIL,
@@ -12,6 +15,30 @@ import {
   POSTS_UPDATE_REQUEST,
   POSTS_UPDATE_SUCCESS,
 } from "../constants/postsConstants";
+
+export const getAllPosts = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: POSTS_ALL_REQUEST,
+    });
+    const { data } = await axios.get("/api/posts/allPosts");
+
+    dispatch({
+      type: POSTS_ALL_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+
+    dispatch({
+      type: POSTS_ALL_FAIL,
+      payload: message,
+    });
+  }
+};
 
 export const listPosts = () => async (dispatch, getState) => {
   try {

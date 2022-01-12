@@ -10,12 +10,16 @@
   text-align: center;
 }
 .main {
-  min-height: 93vh;
-  display: flex;
-  align-items: center;
-  background-image: url("../../background1.jpeg");
+}
+.banner {
+  background-image: url("../../assets/images/imagebanner.jpg");
   background-position: center;
   background-size: cover;
+  min-height: 93vh;
+}
+.overlay {
+  background-color: rgba(0, 0, 0, 0.4);
+  height: 93vh;
 }
 .buttonContainer {
   margin-top: 50px;

@@ -22,7 +22,7 @@ const Header = () => {
   useEffect(() => {}, [userInfo]);
 
   return (
-    <Navbar bg="primary" expand="lg" variant="dark">
+    <Navbar collapseOnSelect expand="lg" bg="none" variant="dark">
       <Container>
         <Navbar.Brand href="/">
           <Link to="/">Top of The World</Link>

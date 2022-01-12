@@ -5,6 +5,7 @@ const {
   getPostById,
   updatePost,
   deletePost,
+  getAllPosts,
 } = require("../controllers/postControllers");
 const { protect } = require("../middlewares/authMiddleware");
 
@@ -13,6 +14,7 @@ const router = express.Router();
 //before creating a route, we need to create a model
 router.route("/").get(protect, getPosts);
 router.route("/create").post(protect, createPost);
+router.route("/allPosts").get(getAllPosts);
 
 router
   .route("/:id")
