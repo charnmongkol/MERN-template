@@ -27,8 +27,6 @@ const SinglePost = () => {
   const [picMessage, setPicMessage] = useState(null);
   const [fileMessage, setFileMessage] = useState(null);
 
-  const [pdfImage, setPdfImage] = useState("");
-
   const params = useParams();
   const navigate = useNavigate();
 

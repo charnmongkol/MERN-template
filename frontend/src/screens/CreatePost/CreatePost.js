@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, Form, Button } from "react-bootstrap";
+import { Card, Form, Button, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { createPostAction } from "../../actions/postsActions";
@@ -136,9 +136,8 @@ const CreatePost = () => {
   return (
     <MainScreen title="Create a Post">
       <Card>
-        <Card.Header>Create a new Post</Card.Header>
         <Card.Body>
-          <Form onSubmit={submitHandler}>
+          <Form onSubmit={submitHandler} className="d-flex flex-column gap-3">
             {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
             <Form.Group controlId="title">
               <Form.Label>ชื่อโปรแกรม</Form.Label>
@@ -160,49 +159,65 @@ const CreatePost = () => {
               />
             </Form.Group>
 
-            {picMessage && (
-              <ErrorMessage variant="danger">{picMessage}</ErrorMessage>
-            )}
-            <Form.Group controlId="featuredImage">
-              <Form.Label>รูปหน้าปก</Form.Label>
-              <Form.Control
-                type="file"
-                label="รูปหน้าปก"
-                onChange={(e) => uploadFeaturedImage(e.target.files[0])}
-              />
-            </Form.Group>
+            <Row xs={1} md={2}>
+              <div>
+                {picMessage && (
+                  <ErrorMessage variant="danger">{picMessage}</ErrorMessage>
+                )}
+                <div className="previewImageBox">
+                  <img src={featuredImage} className="img-preview m-auto" />
+                </div>
+                <Form.Group controlId="featuredImage">
+                  <Form.Label>รูปหน้าปก</Form.Label>
+                  <Form.Control
+                    type="file"
+                    label="รูปหน้าปก"
+                    onChange={(e) => uploadFeaturedImage(e.target.files[0])}
+                  />
+                </Form.Group>
+              </div>
+              <div>
+                {fileMessage && (
+                  <ErrorMessage variant="danger">{fileMessage}</ErrorMessage>
+                )}
+                <div className="previewImageBox">
+                  <img
+                    src={pdfFile.replace(".pdf", ".png")}
+                    className="img-preview m-auto"
+                  />
+                </div>
+                <Form.Group controlId="pdfFile">
+                  <Form.Label>PDF File</Form.Label>
+                  <Form.Control
+                    type="file"
+                    label="Upload PDF file"
+                    onChange={(e) => uploadFile(e.target.files[0])}
+                  />
+                </Form.Group>
+              </div>
+            </Row>
 
-            <Form.Group controlId="startAt">
-              <Form.Label>วันที่ออกเดินทาง</Form.Label>
-              <Form.Control
-                type="date"
-                value={startAt}
-                placeholder="วันที่ออกเดินทาง"
-                onChange={(e) => setStartAt(e.target.value)}
-              />
-            </Form.Group>
+            <Row xs={1} md={2}>
+              <Form.Group controlId="startAt">
+                <Form.Label>วันที่ออกเดินทาง</Form.Label>
+                <Form.Control
+                  type="date"
+                  value={startAt}
+                  placeholder="วันที่ออกเดินทาง"
+                  onChange={(e) => setStartAt(e.target.value)}
+                />
+              </Form.Group>
 
-            <Form.Group controlId="endAt">
-              <Form.Label>วันที่กลับ</Form.Label>
-              <Form.Control
-                type="date"
-                value={endAt}
-                placeholder="วันที่กลับ"
-                onChange={(e) => setEndAt(e.target.value)}
-              />
-            </Form.Group>
-
-            {fileMessage && (
-              <ErrorMessage variant="danger">{fileMessage}</ErrorMessage>
-            )}
-            <Form.Group controlId="pdfFile">
-              <Form.Label>PDF File</Form.Label>
-              <Form.Control
-                type="file"
-                label="Upload PDF file"
-                onChange={(e) => uploadFile(e.target.files[0])}
-              />
-            </Form.Group>
+              <Form.Group controlId="endAt">
+                <Form.Label>วันที่กลับ</Form.Label>
+                <Form.Control
+                  type="date"
+                  value={endAt}
+                  placeholder="วันที่กลับ"
+                  onChange={(e) => setEndAt(e.target.value)}
+                />
+              </Form.Group>
+            </Row>
 
             <Form.Group controlId="content">
               <Form.Label>รายละเอียดคร่าวๆ</Form.Label>
@@ -215,14 +230,14 @@ const CreatePost = () => {
               />
             </Form.Group>
 
-            {content && (
+            {/* {content && (
               <Card>
                 <Card.Header>Post Preview</Card.Header>
                 <Card.Body>
                   <ReactMarkdown>{content}</ReactMarkdown>
                 </Card.Body>
               </Card>
-            )}
+            )} */}
 
             <Form.Group controlId="category">
               <Form.Label>Category</Form.Label>
@@ -254,13 +269,18 @@ const CreatePost = () => {
               />
             </Form.Group>
 
-            {loading && <Loading size={50} />}
-            <Button type="submit" variant="primary">
-              Create Note
-            </Button>
-            <Button className="mx-2" onClick={resetHandler} variant="danger">
-              Reset Feilds
-            </Button>
+            <Row xs={1} md={2}>
+              {loading && <Loading size={50} />}
+              <Col></Col>
+              <Col className="text-end">
+                <Button type="submit" variant="primary" className="mx-3">
+                  Create Note
+                </Button>
+                <Button onClick={resetHandler} variant="danger">
+                  Reset Feilds
+                </Button>
+              </Col>
+            </Row>
           </Form>
         </Card.Body>
 
