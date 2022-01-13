@@ -11,7 +11,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import GoBack from "../../components/GoBack/GoBack";
 import moment from "moment";
 
-const SinglePost = () => {
+const EditPost = () => {
   //craete 4 states
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -91,7 +91,6 @@ const SinglePost = () => {
       !endAt ||
       !commission ||
       !seats ||
-      !pdfFile ||
       !featuredImage
     )
       return;
@@ -320,4 +319,4 @@ const SinglePost = () => {
   );
 };
 
-export default SinglePost;
+export default EditPost;

@@ -326,7 +326,7 @@ label {
   display: inline-block;
 }
 button {
-  border-radius: 0;
+  border-radius: 10px;
 }
 button:focus:not(:focus-visible) {
   outline: 0;
@@ -2811,6 +2811,7 @@ textarea.form-control.is-invalid {
   border-radius: 0.25rem;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
     border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  outline: none;
 }
 @media (prefers-reduced-motion: reduce) {
   .btn {
@@ -2822,8 +2823,7 @@ textarea.form-control.is-invalid {
 }
 .btn-check:focus + .btn,
 .btn:focus {
-  outline: 0;
-  box-shadow: 0 0 0 0.25rem rgba(55, 90, 127, 0.25);
+  outline: none;
 }
 .btn.disabled,
 .btn:disabled,
@@ -7618,7 +7618,7 @@ fieldset:disabled .btn {
   background-color: rgba(var(--bs-white-rgb), var(--bs-bg-opacity)) !important;
 }
 .bg-none {
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: transparent;
   position: fixed;
   top: 0;
   width: 100%;

@@ -1,40 +1,72 @@
 import React, { useEffect } from "react";
-import { Card, Col, Row } from "react-bootstrap";
+import { Button, Card, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPosts } from "../../actions/postsActions";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
-
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import SwiperCore, { Navigation } from "swiper";
 const AllPost = () => {
   const dispatch = useDispatch();
   const allPosts = useSelector((state) => state?.allPosts);
   const { loading, allposts, error } = allPosts;
-  console.log(allposts);
+  // console.log(allposts);
 
   useEffect(() => {
     dispatch(getAllPosts());
+    SwiperCore.use([Navigation]);
   }, [dispatch]);
   return (
-    <Row xs={1} md={3} className="allPosts g-4 m-5">
+    <div className="px-5 position-relative">
       {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
       {loading && <Loading />}
-      {allposts &&
-        allposts.map((post) => (
-          <Col key={post._id}>
-            <Card>
-              <Card.Img variant="top" src={post.featuredImage} />
-              <Card.Body>
-                <Card.Title>{post.title}</Card.Title>
-                <Card.Text>
-                  This is a longer card with supporting text below as a natural
-                  lead-in to additional content. This content is a little bit
-                  longer.
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
-    </Row>
+      <Swiper
+        modules={[Navigation]}
+        slidesPerView={1}
+        spaceBetween={10}
+        navigation={true}
+        breakpoints={{
+          "@0.00": {
+            slidesPerView: 1,
+            spaceBetween: 10,
+          },
+          "@0.75": {
+            slidesPerView: 2,
+            spaceBetween: 20,
+          },
+          "@1.00": {
+            slidesPerView: 3,
+            spaceBetween: 40,
+          },
+        }}
+        className="allPostsSwiper"
+      >
+        {allposts &&
+          allposts.map((post) => (
+            <SwiperSlide key={post._id}>
+              <Card>
+                <Card.Img variant="top" src={post.featuredImage} height={200} />
+                <Card.Body>
+                  <Card.Title>{post.title}</Card.Title>
+                  <Card.Text>
+                    This is a longer card with supporting text below as a
+                    natural lead-in to additional content. This content is a
+                    little bit longer.
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+            </SwiperSlide>
+          ))}
+      </Swiper>
+
+      <Row className="my-5 m-auto w-25">
+        <Button href="/posts" variant="link" size="sm">
+          <h4>All Programs</h4>
+        </Button>
+      </Row>
+    </div>
   );
 };
 

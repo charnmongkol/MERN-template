@@ -38,7 +38,7 @@ const MyPosts = () => {
       dispatch(deletePostAction(id));
     }
   };
-  console.log(posts);
+  // console.log(posts);
 
   const navigate = useNavigate();
 
@@ -106,7 +106,7 @@ const MyPosts = () => {
                     <div>
                       <a
                         className="btn btn-secondary"
-                        href={`/post/${note._id}`}
+                        href={`/editpost/${note._id}`}
                       >
                         Edit
                       </a>

@@ -14,9 +14,10 @@ import LoginScreen from "./screens/LoginScreen/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen/RegisterScreen";
 import store from "./store";
 import CreatePost from "./screens/CreatePost/CreatePost";
-import SinglePost from "./screens/SinglePost/SinglePost";
+import EditPost from "./screens/EditPost/EditPost";
 import Layout from "./components/layout";
 import ProfilePage from "./screens/ProfilePage/ProfilePage";
+import Posts from "./screens/Posts/Posts";
 
 ReactDOM.render(
   <Provider store={store}>
@@ -30,7 +31,8 @@ ReactDOM.render(
         <Route path="/mynotes" element={<MyNotesPage />} />
         <Route path="/myposts" element={<MyPostsPage />} />
         <Route path="/createpost" element={<CreatePost />} />
-        <Route path="/post/:id" element={<SinglePost />} />
+        <Route path="/editpost/:id" element={<EditPost />} />
+        <Route path="/posts" element={<Posts />} />
       </Routes>
       <Footer />
     </BrowserRouter>

@@ -6,7 +6,7 @@ import { createPostAction } from "../../actions/postsActions";
 import Loading from "../../components/Loading";
 import MainScreen from "../../components/MainScreen";
 import ErrorMessage from "../../components/ErrorMessage";
-import ReactMarkdown from "react-markdown";
+// import ReactMarkdown from "react-markdown";
 
 const CreatePost = () => {
   //create state for fields

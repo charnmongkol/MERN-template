@@ -36,7 +36,7 @@ const postSchema = mongoose.Schema(
     },
     pdfFile: {
       type: String,
-      required: true,
+      required: false,
     },
     featuredImage: {
       type: String,

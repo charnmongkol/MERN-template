@@ -1,6 +1,6 @@
 import React from "react";
 import "./LandingPage.css";
-import { Container } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 import Banner from "../../components/Banner/Banner";
 import AllPost from "../../components/AllPosts/AllPost";
 
@@ -16,6 +16,9 @@ const LandingPage = () => {
   return (
     <Container fluid className="main">
       <Banner />
+      <Row className="text-center my-4">
+        <h1>Best Value Trips</h1>
+      </Row>
       <AllPost />
     </Container>
   );
