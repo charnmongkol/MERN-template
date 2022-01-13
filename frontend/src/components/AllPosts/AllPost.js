@@ -15,14 +15,14 @@ const AllPost = () => {
     dispatch(getAllPosts());
   }, [dispatch]);
   return (
-    <Row xs={1} md={3} className="allPosts g-4 mx-5">
+    <Row xs={1} md={3} className="allPosts g-4 m-5">
       {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
       {loading && <Loading />}
       {allposts &&
         allposts.map((post) => (
-          <Col>
+          <Col key={post._id}>
             <Card>
-              <Card.Img variant="top" src="holder.js/100px160" />
+              <Card.Img variant="top" src={post.featuredImage} />
               <Card.Body>
                 <Card.Title>{post.title}</Card.Title>
                 <Card.Text>

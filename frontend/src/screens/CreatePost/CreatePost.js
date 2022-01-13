@@ -19,6 +19,8 @@ const CreatePost = () => {
   const [commission, setCommission] = useState("");
   const [seats, setSeats] = useState("");
   const [pdfFile, setPdfFile] = useState("");
+  const [featuredImage, setFeaturedImage] = useState("");
+  const [picMessage, setPicMessage] = useState(null);
   const [fileMessage, setFileMessage] = useState(null);
 
   //taking dispatch hook
@@ -41,6 +43,7 @@ const CreatePost = () => {
     setStartAt("");
     setSeats("");
     setPdfFile("");
+    setFeaturedImage("");
   };
 
   const navigate = useNavigate();
@@ -56,7 +59,8 @@ const CreatePost = () => {
       !endAt ||
       !commission ||
       !seats ||
-      !pdfFile
+      !pdfFile ||
+      !featuredImage
     )
       return;
     dispatch(
@@ -69,7 +73,8 @@ const CreatePost = () => {
         endAt,
         commission,
         seats,
-        pdfFile
+        pdfFile,
+        featuredImage
       )
     );
 
@@ -77,9 +82,33 @@ const CreatePost = () => {
     navigate("/myposts");
   };
 
+  const uploadFeaturedImage = (pics) => {
+    if (pics.type === "image/jpeg" || pics.type === "image/png") {
+      const image = new FormData();
+      image.append("file", pics);
+      image.append("upload_preset", "topoftheworld");
+      image.append("cloud_name", "duby6v8jo");
+
+      fetch("https://api.cloudinary.com/v1_1/duby6v8jo/image/upload", {
+        method: "post",
+        body: image,
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          setFeaturedImage(data.url.toString());
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      return setPicMessage("Please select an image");
+    }
+  };
+
   const uploadFile = (pdf) => {
     if (pdf.type === "application/pdf") {
-      console.log("filePDF", pdf);
+      // console.log("filePDF", pdf);
 
       const data = new FormData();
       data.append("file", pdf);
@@ -131,6 +160,18 @@ const CreatePost = () => {
               />
             </Form.Group>
 
+            {picMessage && (
+              <ErrorMessage variant="danger">{picMessage}</ErrorMessage>
+            )}
+            <Form.Group controlId="featuredImage">
+              <Form.Label>รูปหน้าปก</Form.Label>
+              <Form.Control
+                type="file"
+                label="รูปหน้าปก"
+                onChange={(e) => uploadFeaturedImage(e.target.files[0])}
+              />
+            </Form.Group>
+
             <Form.Group controlId="startAt">
               <Form.Label>วันที่ออกเดินทาง</Form.Label>
               <Form.Control
@@ -155,7 +196,7 @@ const CreatePost = () => {
               <ErrorMessage variant="danger">{fileMessage}</ErrorMessage>
             )}
             <Form.Group controlId="pdfFile">
-              <Form.Label>File</Form.Label>
+              <Form.Label>PDF File</Form.Label>
               <Form.Control
                 type="file"
                 label="Upload PDF file"
@@ -166,7 +207,7 @@ const CreatePost = () => {
             <Form.Group controlId="content">
               <Form.Label>รายละเอียดคร่าวๆ</Form.Label>
               <Form.Control
-                type="text"
+                type="textarea"
                 value={content}
                 placeholder="รายละเอียดคร่าวๆ"
                 row={4}

@@ -23,6 +23,7 @@ const createPost = asyncHandler(async (req, res) => {
     commission,
     seats,
     pdfFile,
+    featuredImage,
   } = req.body;
 
   if (
@@ -34,7 +35,8 @@ const createPost = asyncHandler(async (req, res) => {
     !endAt ||
     !commission ||
     !seats ||
-    !pdfFile
+    !pdfFile ||
+    !featuredImage
   ) {
     res.status(400);
     throw new Error("please fill all the feilds");
@@ -50,6 +52,7 @@ const createPost = asyncHandler(async (req, res) => {
       commission,
       seats,
       pdfFile,
+      featuredImage,
     });
 
     //save to db
@@ -82,6 +85,7 @@ const updatePost = asyncHandler(async (req, res) => {
     commission,
     seats,
     pdfFile,
+    featuredImage,
   } = req.body;
 
   const post = await Post.findById(req.params.id);
@@ -101,6 +105,7 @@ const updatePost = asyncHandler(async (req, res) => {
     post.commission = commission;
     post.seats = seats;
     post.pdfFile = pdfFile;
+    post.featuredImage = featuredImage;
 
     const updatedPost = await post.save();
     res.json(updatedPost);

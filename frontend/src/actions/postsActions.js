@@ -85,7 +85,8 @@ export const createPostAction =
     endAt,
     commission,
     seats,
-    pdfFile
+    pdfFile,
+    featuredImage
   ) =>
   async (dispatch, getState) => {
     try {
@@ -119,6 +120,7 @@ export const createPostAction =
           commission,
           seats,
           pdfFile,
+          featuredImage,
         },
         config
       );
@@ -151,7 +153,8 @@ export const updatePostAction =
     endAt,
     commission,
     seats,
-    pdfFile
+    pdfFile,
+    featuredImage
   ) =>
   async (dispatch, getState) => {
     try {
@@ -182,6 +185,7 @@ export const updatePostAction =
           commission,
           seats,
           pdfFile,
+          featuredImage,
         },
         config
       );

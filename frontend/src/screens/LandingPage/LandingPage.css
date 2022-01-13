@@ -10,16 +10,17 @@
   text-align: center;
 }
 .main {
+  padding: 0;
 }
 .banner {
   background-image: url("../../assets/images/imagebanner.jpg");
   background-position: center;
   background-size: cover;
-  min-height: 93vh;
+  min-height: 100vh;
 }
 .overlay {
   background-color: rgba(0, 0, 0, 0.4);
-  height: 93vh;
+  height: 100vh;
 }
 .buttonContainer {
   margin-top: 50px;

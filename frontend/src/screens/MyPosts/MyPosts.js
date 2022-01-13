@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Accordion, Badge, Button, Form, FormControl } from "react-bootstrap";
+import { Accordion, Badge, Col, Form, FormControl, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import MainScreen from "../../components/MainScreen";
 import { useDispatch, useSelector } from "react-redux";
@@ -57,76 +57,87 @@ const MyPosts = () => {
   ]);
 
   return (
-    <MainScreen title={`Welcome Back ${userInfo.name}`}>
-      <Form className="d-flex">
-        <FormControl
-          type="search"
-          placeholder="Search"
-          className="me-2"
-          aria-label="Search"
-          onChange={(e) => setSearch(e.target.value)}
-        />
-      </Form>
-      <Link to="/createpost">
-        <Button style={{ marginLeft: 10, marginBottom: 6 }} size="lg">
-          Create a new post
-        </Button>
-      </Link>
-      {errorDelete && (
-        <ErrorMessage variant="danger">{errorDelete}</ErrorMessage>
-      )}
-      {loadingDelete && <Loading />}
-      {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
-      {loading && <Loading />}
-      {posts &&
-        posts
-          ?.reverse()
-          .filter((filteredPost) => filteredPost.category.includes(search))
-          .map((note) => (
-            <Accordion key={note._id}>
-              <Accordion.Item eventKey="0">
-                <Accordion.Header style={{ display: "flex" }}>
-                  <span
-                    style={{
-                      color: "black",
-                      textDecoration: "none",
-                      flex: 1,
-                      cursor: "pointer",
-                      alignSelf: "center",
-                      fontSize: 18,
-                    }}
-                  >
-                    {note.title}
-                  </span>
-                  <div>
-                    <Button href={`/post/${note._id}`}>Edit</Button>
-                    <Button
-                      variant="danger"
-                      className="mx-2"
-                      onClick={() => deleteHandler(note._id)}
+    <MainScreen title={`${userInfo.name} Posts`}>
+      <Row className="my-3 align-items-center">
+        <Col>
+          <Link to="/createpost" className="btn btn-primary">
+            <div size="lg">Create a new post</div>
+          </Link>
+        </Col>
+        <Col>
+          <Form>
+            <FormControl
+              type="search"
+              placeholder="Search Category"
+              className="me-2"
+              aria-label="Search"
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </Form>
+        </Col>
+      </Row>
+      <Row className="gap-3">
+        {errorDelete && (
+          <ErrorMessage variant="danger">{errorDelete}</ErrorMessage>
+        )}
+        {loadingDelete && <Loading />}
+        {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
+        {loading && <Loading />}
+        {posts &&
+          posts
+            ?.reverse()
+            .filter((filteredPost) => filteredPost.category.includes(search))
+            .map((note) => (
+              <Accordion key={note._id}>
+                <Accordion.Item eventKey="0">
+                  <Accordion.Header style={{ display: "flex" }}>
+                    <span
+                      style={{
+                        color: "black",
+                        textDecoration: "none",
+                        flex: 1,
+                        cursor: "pointer",
+                        alignSelf: "center",
+                        fontSize: 18,
+                      }}
                     >
-                      Delete
-                    </Button>
-                  </div>
-                </Accordion.Header>
+                      {note.title}
+                    </span>
+                    <div>
+                      <a
+                        className="btn btn-secondary"
+                        href={`/post/${note._id}`}
+                      >
+                        Edit
+                      </a>
+                      <div
+                        variant="danger"
+                        className="mx-2 btn btn-danger"
+                        onClick={() => deleteHandler(note._id)}
+                      >
+                        Delete
+                      </div>
+                    </div>
+                  </Accordion.Header>
 
-                <Accordion.Body>
-                  <h4>
-                    <Badge bg="success">Category - {note.category}</Badge>
-                  </h4>
-                  <blockquote className="blockquote mb-0">
-                    <p>{note.content}</p>
-                    <footer className="blockquote-footer">
-                      Created on{" "}
-                      <cite title="Source Title">
-                        {note.createdAt.substring(0, 10)}
-                      </cite>
-                    </footer>
-                  </blockquote>
-                </Accordion.Body>
-              </Accordion.Item>
-            </Accordion>
-          ))}
+                  <Accordion.Body>
+                    <h4>
+                      <Badge bg="success">Category - {note.category}</Badge>
+                    </h4>
+                    <blockquote className="blockquote mb-0">
+                      <p>{note.content}</p>
+                      <footer className="blockquote-footer">
+                        Created on{" "}
+                        <cite title="Source Title">
+                          {note.createdAt.substring(0, 10)}
+                        </cite>
+                      </footer>
+                    </blockquote>
+                  </Accordion.Body>
+                </Accordion.Item>
+              </Accordion>
+            ))}
+      </Row>
     </MainScreen>
   );
 };

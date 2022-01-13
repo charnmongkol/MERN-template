@@ -24,9 +24,7 @@ const Header = () => {
   return (
     <Navbar collapseOnSelect expand="lg" bg="none" variant="dark">
       <Container>
-        <Navbar.Brand href="/">
-          <Link to="/">Top of The World</Link>
-        </Navbar.Brand>
+        <Navbar.Brand href="/">Top of The World</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           {userInfo ? (
@@ -35,9 +33,7 @@ const Header = () => {
               style={{ maxHeight: "100px" }}
               navbarScroll
             >
-              <Nav.Link>
-                <Link to="/myposts">My posts</Link>
-              </Nav.Link>
+              <Nav.Link href="/myposts">My posts</Nav.Link>
               <NavDropdown title={userInfo?.name} id="navbarScrollingDropdown">
                 <NavDropdown.Item href="/profile">My profile</NavDropdown.Item>
                 <NavDropdown.Divider />
@@ -47,9 +43,7 @@ const Header = () => {
               </NavDropdown>
             </Nav>
           ) : (
-            <Nav.Link>
-              <Link to="/login">Login</Link>
-            </Nav.Link>
+            <Link to="/login">Login</Link>
           )}
         </Navbar.Collapse>
       </Container>
