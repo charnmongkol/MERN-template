@@ -27,21 +27,23 @@ const Posts = () => {
           {allposts &&
             allposts.map((post) => (
               <article className="postcard dark blue" key={post._id}>
-                <div className="postcard__img_link">
+                <a href={`/posts/${post._id}`} className="postcard__img_link">
                   <img
                     className="postcard__img"
                     src={post.featuredImage}
                     alt={post.title}
                   />
-                </div>
+                </a>
                 <div className="postcard__text">
-                  <h1 className="postcard__title blue">{post.title}</h1>
-                  <div className="postcard__subtitle small">
-                    <i className="fas fa-calendar-alt mr-2"></i>
-                    {moment(post.createdAt).format("LL")}
-                  </div>
-                  <div className="postcard__bar"></div>
-                  <div className="postcard__preview-txt">{post.content}</div>
+                  <a href={`/posts/${post._id}`}>
+                    <h1 className="postcard__title blue">{post.title}</h1>
+                    <div className="postcard__subtitle small">
+                      <i className="fas fa-calendar-alt mr-2"></i>
+                      {moment(post.createdAt).format("LL")}
+                    </div>
+                    <div className="postcard__bar"></div>
+                    <div className="postcard__preview-txt">{post.content}</div>
+                  </a>
                   <ul className="postcard__tagbox">
                     <li className="tag__item">
                       <i className="fas fa-tag mr-2"></i>

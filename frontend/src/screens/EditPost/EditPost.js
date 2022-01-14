@@ -12,7 +12,7 @@ import GoBack from "../../components/GoBack/GoBack";
 import moment from "moment";
 
 const EditPost = () => {
-  //craete 4 states
+  //craete states
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [category, setCategory] = useState("");

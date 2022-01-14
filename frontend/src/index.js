@@ -18,6 +18,7 @@ import EditPost from "./screens/EditPost/EditPost";
 import Layout from "./components/layout";
 import ProfilePage from "./screens/ProfilePage/ProfilePage";
 import Posts from "./screens/Posts/Posts";
+import SinglePost from "./screens/Posts/SinglePost";
 
 ReactDOM.render(
   <Provider store={store}>
@@ -33,6 +34,7 @@ ReactDOM.render(
         <Route path="/createpost" element={<CreatePost />} />
         <Route path="/editpost/:id" element={<EditPost />} />
         <Route path="/posts" element={<Posts />} />
+        <Route path="/posts/:id" element={<SinglePost />} />
       </Routes>
       <Footer />
     </BrowserRouter>

@@ -55,6 +55,15 @@ const AllPost = () => {
                     natural lead-in to additional content. This content is a
                     little bit longer.
                   </Card.Text>
+                  <div className="d-grid gap-2">
+                    <Button
+                      variant="btn btn-outline-info"
+                      size="lg"
+                      href={`/posts/${post._id}`}
+                    >
+                      view
+                    </Button>
+                  </div>
                 </Card.Body>
               </Card>
             </SwiperSlide>
