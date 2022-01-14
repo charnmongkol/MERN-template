@@ -73,7 +73,7 @@ const Post = () => {
         <p className="singlePostDesc">{content}</p>
 
         <div className="mb-2 text-end">
-          <a href={pdfFile} download>
+          <a href={pdfFile} target="_blank" download>
             <img src={pdfIcon}></img>
           </a>
         </div>

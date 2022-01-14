@@ -1,38 +1,37 @@
 const express = require("express");
-const notes = require("./data/notes");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
 const postRoutes = require("./routes/postRoutes");
 const { errorHandler, notFound } = require("./middlewares/errorMiddleware");
+const path = require("path");
 
 const app = express();
 dotenv.config();
 connectDB();
-
 app.use(express.json());
-
-app.get("/", (req, res) => {
-  res.send("API is runnung...");
-});
-
-// app.get("/api/posts", (req, res) => {
-//   res.send("API is runnung...");
-// });
-
-// app.get("/api/notes", (req, res) => {
-//   res.json(notes);
-// });
-
-// app.get("/api/notes/:id", (req, res) => {
-//   const note = notes.find((n) => n._id === req.params.id);
-//   // console.log(req.params);
-//   res.send(note);
-// });
 
 //create route for users
 app.use("/api/posts", postRoutes);
 app.use("/api/users", userRoutes);
+
+//------------  deployment  ---------------\\
+
+__dirname = path.resolve();
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../frontend/build")));
+
+  app.get("*", (req, res) =>
+    //send first page of our app
+    res.sendFile(path.resolve(__dirname, "../frontend/build/index.html"))
+  );
+} else {
+  app.get("/", (req, res) => {
+    res.send("API is runnung...");
+  });
+}
+
+//------------  deployment  ---------------\\
 
 app.use(notFound);
 app.use(errorHandler);
