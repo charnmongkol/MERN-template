@@ -45,6 +45,7 @@ const registerUser = asyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
+      status: user.status,
       licenseNumber: user.licenseNumber,
       licenseStart: user.licenseStart,
       licenseEnd: user.licenseEnd,
@@ -74,6 +75,7 @@ const authUser = asyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
+      status: user.status,
       licenseNumber: user.licenseNumber,
       licenseStart: user.licenseStart,
       licenseEnd: user.licenseEnd,
@@ -111,6 +113,12 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       name: updatedUser.name,
       email: updatedUser.email,
       pic: updatedUser.pic,
+      licenseNumber: updatedUser.licenseNumber,
+      licenseStart: updatedUser.licenseStart,
+      licenseEnd: updatedUser.licenseEnd,
+      address: updatedUser.address,
+      phoneNumber: updatedUser.phoneNumber,
+      website: updatedUser.website,
       token: generateToken(updatedUser._id),
     });
   } else {
@@ -119,4 +127,26 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { registerUser, authUser, updateUserProfile };
+const getUsersforAdmin = asyncHandler(async (req, res) => {
+  const allUsers = await User.find({});
+
+  res.json(allUsers);
+});
+
+const getUserByName = async (req, res) => {
+  const user = await User.findById(req.params.id);
+
+  if (user) {
+    res.json(user);
+  } else {
+    res.status(404).json({ message: "User is not found!" });
+  }
+};
+
+module.exports = {
+  registerUser,
+  authUser,
+  updateUserProfile,
+  getUsersforAdmin,
+  getUserByName,
+};

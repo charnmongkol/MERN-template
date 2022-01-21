@@ -1,4 +1,7 @@
 import {
+  USER_ALL_FAIL,
+  USER_ALL_REQUEST,
+  USER_ALL_SUCCESS,
   USER_LOGIN_FAIL,
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
@@ -6,6 +9,9 @@ import {
   USER_REGISTRATION_FAIL,
   USER_REGISTRATION_REQUEST,
   USER_REGISTRATION_SUCCESS,
+  USER_SINGLE_FAIL,
+  USER_SINGLE_REQUEST,
+  USER_SINGLE_SUCCESS,
   USER_UPDATE_FAIL,
   USER_UPDATE_REQUEST,
   USER_UPDATE_SUCCESS,
@@ -144,3 +150,75 @@ export const updateProfile = (user) => async (dispatch, getState) => {
   }
 };
 //go to create a page for user profile
+
+export const allUsersForAdmin = () => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: USER_ALL_REQUEST,
+    });
+
+    //taking out user login from state
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get("/api/users/allUsers", config);
+
+    dispatch({
+      type: USER_ALL_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+
+    dispatch({
+      type: USER_ALL_FAIL,
+      payload: message,
+    });
+  }
+};
+
+export const singleUser = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: USER_SINGLE_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get(`/api/users/${id}`, config);
+
+    dispatch({
+      type: USER_SINGLE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+
+    dispatch({
+      type: USER_SINGLE_FAIL,
+      payload: message,
+    });
+  }
+};

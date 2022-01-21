@@ -41,3 +41,11 @@ code {
   position: initial;
   margin: 0 40px;
 }
+
+.objectFit {
+  object-fit: cover;
+}
+
+button:focus {
+  box-shadow: none !important;
+}

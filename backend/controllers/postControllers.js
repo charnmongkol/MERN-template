@@ -70,7 +70,7 @@ const getPostById = asyncHandler(async (req, res) => {
   if (post) {
     res.json(post);
   } else {
-    res.status(404).json({ message: "Post is not found" });
+    res.status(404).json({ message: "Post is not found!" });
   }
 });
 

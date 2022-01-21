@@ -22,6 +22,11 @@ const userSchema = mongoose.Schema(
       required: true,
       default: false,
     },
+    status: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
     licenseNumber: {
       type: String,
       required: true,

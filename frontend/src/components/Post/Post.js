@@ -25,7 +25,7 @@ const Post = () => {
   useEffect(() => {
     const fetching = async () => {
       const { data } = await axios.get(`/api/posts/${params.id}`);
-      // console.log(data);
+      console.log(data);
       setTitle(data.title);
       setContent(data.content);
       setCategory(data.category);

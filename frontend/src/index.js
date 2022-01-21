@@ -19,6 +19,7 @@ import Layout from "./components/layout";
 import ProfilePage from "./screens/ProfilePage/ProfilePage";
 import Posts from "./screens/Posts/Posts";
 import SinglePost from "./screens/Posts/SinglePost";
+import AllUsers from "./screens/allUsers/AllUsers";
 
 ReactDOM.render(
   <Provider store={store}>
@@ -35,6 +36,7 @@ ReactDOM.render(
         <Route path="/editpost/:id" element={<EditPost />} />
         <Route path="/posts" element={<Posts />} />
         <Route path="/posts/:id" element={<SinglePost />} />
+        <Route path="/all-users" element={<AllUsers />} />
       </Routes>
       <Footer />
     </BrowserRouter>

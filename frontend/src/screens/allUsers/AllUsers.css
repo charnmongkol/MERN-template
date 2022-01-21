@@ -1,0 +1,9 @@
+th,
+tr {
+  text-align: center;
+  vertical-align: middle;
+}
+
+tr img {
+  max-height: 70px;
+}
