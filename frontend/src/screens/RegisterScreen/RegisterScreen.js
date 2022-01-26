@@ -186,7 +186,7 @@ const RegisterScreen = () => {
             <Form.Label>ที่อยู่บริษัท</Form.Label>
             <Form.Control
               type="text"
-              placeholder="ชื่อธุรกิจนำเที่ยว"
+              placeholder="ที่อยู่บริษัท"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
             />

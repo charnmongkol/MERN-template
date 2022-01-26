@@ -66,7 +66,10 @@ const Header = () => {
               </NavDropdown>
             </Nav>
           ) : (
-            <Link to="/login">Login</Link>
+            <div className="d-flex gap-3">
+              <Link to="/login">Login</Link>
+              <Link to="/register">Registration</Link>
+            </div>
           )}
         </Navbar.Collapse>
       </Container>
