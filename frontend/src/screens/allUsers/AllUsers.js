@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { allUsersForAdmin, singleUser } from "../../actions/userActions";
+import { allUsersForAdmin, singleUser } from "../../redux/actions/userActions";
 import Loading from "../../components/Loading";
 import MainScreen from "../../components/MainScreen";
 import UserModal from "../../components/Modal/UserModal";

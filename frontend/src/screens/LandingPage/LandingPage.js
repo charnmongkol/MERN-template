@@ -16,10 +16,10 @@ const LandingPage = () => {
   return (
     <Container fluid className="main">
       <Banner />
-      <Row className="text-center my-4">
-        <h1>Best Value Trips</h1>
+      <Row className="text-center my-4 mx-5">
+        <h1 className="mb-4">Best Value Trips</h1>
+        <AllPost />
       </Row>
-      <AllPost />
     </Container>
   );
 };

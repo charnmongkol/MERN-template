@@ -3,7 +3,7 @@ import { Accordion, Badge, Col, Form, FormControl, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import MainScreen from "../../components/MainScreen";
 import { useDispatch, useSelector } from "react-redux";
-import { deletePostAction, listPosts } from "../../actions/postsActions";
+import { deletePostAction, listPosts } from "../../redux/actions/postsActions";
 import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
 
@@ -44,7 +44,7 @@ const MyPosts = () => {
 
   useEffect(() => {
     dispatch(listPosts());
-    if (!userInfo) {
+    if (!userInfo && userInfo.isAdmin !== true) {
       navigate("/");
     }
   }, [

@@ -1,13 +1,14 @@
 import React, { useEffect } from "react";
 import { Button, Card, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllPosts } from "../../actions/postsActions";
+import { getAllPosts } from "../../redux/actions/postsActions";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import SwiperCore, { Navigation } from "swiper";
+
 const AllPost = () => {
   const dispatch = useDispatch();
   const allPosts = useSelector((state) => state?.allPosts);

@@ -1,7 +1,5 @@
 import React from "react";
-import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { AiTwotoneHome } from "react-icons/ai";
 import { FaUserCog } from "react-icons/fa";
 import { BsFileEarmarkPost, BsFillCartFill } from "react-icons/bs";
 import "./SidebarAdmin.css";

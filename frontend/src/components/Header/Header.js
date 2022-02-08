@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Container, Navbar, Nav, NavDropdown } from "react-bootstrap";
+import { Container, Navbar, Nav, NavDropdown, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { logout } from "../../actions/userActions";
+import { logout } from "../../redux/actions/userActions";
 
 const Header = () => {
   const history = useNavigate();
@@ -42,8 +42,7 @@ const Header = () => {
     <Navbar
       collapseOnSelect
       expand="lg"
-      bg="none"
-      variant="dark"
+      bg="light"
       className={navbar ? "navbar active" : "navbar"}
     >
       <Container>
@@ -52,15 +51,18 @@ const Header = () => {
         <Navbar.Collapse id="navbarScroll">
           {userInfo ? (
             <Nav
-              className="my-2 my-lg-0"
+              className="ms-auto"
               style={{ maxHeight: "100px" }}
               navbarScroll
             >
-              <Nav.Link href="/myposts">My posts</Nav.Link>
+              <Nav.Link href="/myposts">Dashboard</Nav.Link>
               <NavDropdown title={userInfo?.name} id="navbarScrollingDropdown">
                 <NavDropdown.Item href="/profile">My profile</NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item onClick={logoutHandler}>
+                <NavDropdown.Item
+                  onClick={logoutHandler}
+                  className="btn btn-outline-danger"
+                >
                   Logout
                 </NavDropdown.Item>
               </NavDropdown>

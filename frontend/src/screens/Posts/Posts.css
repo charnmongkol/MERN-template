@@ -120,7 +120,7 @@ a:hover {
     font-size: 2rem;
   }
   .postcard .postcard__tagbox {
-    justify-content: start;
+    justify-content: flex-start;
   }
   .postcard .postcard__img {
     max-width: 300px;

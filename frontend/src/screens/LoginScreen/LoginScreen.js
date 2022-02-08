@@ -5,7 +5,7 @@ import "./LoginScreen.css";
 import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../actions/userActions";
+import { login } from "../../redux/actions/userActions";
 
 const LoginScreen = () => {
   const history = useNavigate();
@@ -22,8 +22,13 @@ const LoginScreen = () => {
   //route to page if user login success
   useEffect(() => {
     if (userInfo) {
-      history("/myposts");
+      history("/");
     }
+    // if (userInfo.isAdmin === true) {
+    //   history("/myposts");
+    // } else if (userInfo.status === false) {
+    //   history("/");
+    // }
   }, [history, userInfo]);
 
   const submitHandler = async (e) => {

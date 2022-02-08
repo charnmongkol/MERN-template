@@ -6,7 +6,10 @@ import Loading from "../../components/Loading";
 import MainScreen from "../../components/MainScreen";
 import ReactMarkdown from "react-markdown";
 import axios from "axios";
-import { deletePostAction, updatePostAction } from "../../actions/postsActions";
+import {
+  deletePostAction,
+  updatePostAction,
+} from "../../redux/actions/postsActions";
 import { useNavigate, useParams } from "react-router-dom";
 import GoBack from "../../components/GoBack/GoBack";
 import moment from "moment";

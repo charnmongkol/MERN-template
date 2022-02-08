@@ -5,7 +5,7 @@ import { Button, Form } from "react-bootstrap";
 import ErrorMessage from "../../components/ErrorMessage";
 import Loading from "../../components/Loading";
 import { useDispatch, useSelector } from "react-redux";
-import { register } from "../../actions/userActions";
+import { register } from "../../redux/actions/userActions";
 import { useNavigate } from "react-router-dom";
 
 const RegisterScreen = () => {

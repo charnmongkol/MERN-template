@@ -1,9 +1,16 @@
 import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import "./Post.css";
-import pdfIcon from "../../assets/images/pdf-download.svg";
+import { Col, Row, Table } from "react-bootstrap";
+import {
+  AiFillEnvironment,
+  AiFillFilePdf,
+  AiOutlineFieldTime,
+  AiOutlineShake,
+} from "react-icons/ai";
+import { useSelector } from "react-redux";
 
 const Post = () => {
   const [title, setTitle] = useState("");
@@ -18,28 +25,36 @@ const Post = () => {
   const [pdfFile, setPdfFile] = useState("");
   const [featuredImage, setFeaturedImage] = useState("");
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
   const params = useParams();
   // const dispatch = useDispatch();
+  const history = useNavigate();
 
   //get data
   useEffect(() => {
-    const fetching = async () => {
-      const { data } = await axios.get(`/api/posts/${params.id}`);
-      console.log(data);
-      setTitle(data.title);
-      setContent(data.content);
-      setCategory(data.category);
-      setDate(data.updatedAt);
-      setCode(data.code);
-      setCommission(data.commission);
-      setStartAt(data.startAt);
-      setEndAt(data.endAt);
-      setSeats(data.seats);
-      setFeaturedImage(data.featuredImage);
-      setPdfFile(data.pdfFile);
-    };
+    if (userInfo) {
+      const fetching = async () => {
+        const { data } = await axios.get(`/api/posts/${params.id}`);
+        console.log(data);
+        setTitle(data.title);
+        setContent(data.content);
+        setCategory(data.category);
+        setDate(data.updatedAt);
+        setCode(data.code);
+        setCommission(data.commission);
+        setStartAt(data.startAt);
+        setEndAt(data.endAt);
+        setSeats(data.seats);
+        setFeaturedImage(data.featuredImage);
+        setPdfFile(data.pdfFile);
+      };
 
-    fetching();
+      fetching();
+    } else {
+      history("/");
+    }
   }, [params.id, date]);
   return (
     <div className="singlePost">
@@ -51,30 +66,45 @@ const Post = () => {
         <h1 className="singlePostTitle">{title}</h1>
 
         <div className="singlePostInfo">
-          <span className="singlePostAuthor">
-            Category:
-            <Link to={"/"} className="link">
-              <b> {category}</b>
-            </Link>
-          </span>
-          <div className="singlePostDate ">
-            <strong>ระยะเวลา: </strong>
-            <span className="text-success">
-              {moment(startAt).format("YYYY-MM-DD")} -{" "}
-              {moment(endAt).format("YYYY-MM-DD")}
-            </span>
-          </div>
-          <div>
-            <strong>จำนวนที่นั่ง: </strong>
-            <span className="text-success">{seats}</span>
-          </div>
+          <Row className="w-50">
+            <Col sm={12} className="headBorderLeft">
+              &nbsp;
+            </Col>
+
+            <Col sm={4}>
+              <AiFillEnvironment></AiFillEnvironment>
+            </Col>
+            <Col sm={8}>{category}</Col>
+
+            <Col sm={4}>
+              <AiOutlineFieldTime></AiOutlineFieldTime>
+            </Col>
+            <Col sm={8}>
+              {" "}
+              <span className="text-white">
+                {moment(startAt).format("YYYY-MM-DD")} -{" "}
+                {moment(endAt).format("YYYY-MM-DD")}
+              </span>
+            </Col>
+
+            <Col sm={4}>
+              <AiOutlineShake></AiOutlineShake>
+            </Col>
+            <Col sm={8}>{seats}</Col>
+          </Row>
         </div>
 
         <p className="singlePostDesc">{content}</p>
 
         <div className="mb-2 text-end">
-          <a href={pdfFile} target="_blank" download>
-            <img src={pdfIcon}></img>
+          <a
+            className="btn btn-danger"
+            href={pdfFile}
+            target="_blank"
+            rel="noopener noreferrer"
+            download
+          >
+            <AiFillFilePdf color="red" size={40}></AiFillFilePdf>
           </a>
         </div>
         <div>
