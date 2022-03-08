@@ -1,4 +1,5 @@
 import React from "react";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
@@ -14,26 +15,48 @@ import Posts from "./screens/Posts/Posts";
 import SinglePost from "./screens/Posts/SinglePost";
 import ProfilePage from "./screens/ProfilePage/ProfilePage";
 import RegisterScreen from "./screens/RegisterScreen/RegisterScreen";
+import ResponsiveAppBar from "./components/Header/AppBar";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#002855",
+      light: "#335377",
+      dark: "#001c3b",
+    },
+    info: {
+      main: "#0F52BA",
+      light: "#3f74c7",
+      dark: "#0a3982",
+    },
+  },
+  typography: {
+    fontFamily: "Prompt",
+    fontWeightRegular: "",
+  },
+});
 
 const App = () => {
   return (
-    <BrowserRouter>
-      <Header />
-      <Routes path="/" element={<Layout />}>
-        <Route index element={<LandingPage />} />
-        <Route path="/login" element={<LoginScreen />} />
-        <Route path="/register" element={<RegisterScreen />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/myposts" element={<MyPostsPage />} />
-        <Route path="/createpost" element={<CreatePost />} />
-        <Route path="/editpost/:id" element={<EditPost />} />
-        <Route path="/posts" element={<Posts />} />
-        <Route path="/posts/:id" element={<SinglePost />} />
-        <Route path="/all-users" element={<AllUsers />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-      <Footer />
-    </BrowserRouter>
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        <ResponsiveAppBar />
+        <Routes path="/" element={<Layout />}>
+          <Route index element={<LandingPage />} />
+          <Route path="/login" element={<LoginScreen />} />
+          <Route path="/register" element={<RegisterScreen />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/myposts" element={<MyPostsPage />} />
+          <Route path="/createpost" element={<CreatePost />} />
+          <Route path="/editpost/:id" element={<EditPost />} />
+          <Route path="/posts" element={<Posts />} />
+          <Route path="/posts/:id" element={<SinglePost />} />
+          <Route path="/all-users" element={<AllUsers />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+        <Footer />
+      </BrowserRouter>
+    </ThemeProvider>
   );
 };
 

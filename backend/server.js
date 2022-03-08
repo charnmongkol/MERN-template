@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
 const postRoutes = require("./routes/postRoutes");
+const orderRoutes = require("./routes/orderRoutes");
 const { errorHandler, notFound } = require("./middlewares/errorMiddleware");
 const path = require("path");
 
@@ -18,6 +19,7 @@ app.get("/", (req, res) => {
 //create route for users
 app.use("/api/posts", postRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/orders", orderRoutes);
 
 //------------  deployment  ---------------\\
 

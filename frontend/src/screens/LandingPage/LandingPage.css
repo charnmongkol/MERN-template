@@ -13,13 +13,13 @@
   padding: 0;
 }
 .banner {
-  background-image: url("../../assets/images/imagebanner.jpg");
+  background-image: url("../../assets/images/manuel-cosentino-n--CMLApjfI-unsplash.jpg");
   background-position: center;
   background-size: cover;
   min-height: 100vh;
 }
 .overlay {
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.1);
   height: 100vh;
 }
 .buttonContainer {

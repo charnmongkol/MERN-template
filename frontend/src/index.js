@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./font/Prompt/Prompt-Thin.ttf";
+
 import reportWebVitals from "./reportWebVitals";
 import store from "./redux/store";
 import App from "./App";

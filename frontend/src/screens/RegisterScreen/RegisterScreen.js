@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import MainScreen from "../../components/MainScreen";
-import { Button, Form } from "react-bootstrap";
+import { Button, Col, Form, Row } from "react-bootstrap";
 // import { Link } from "react-router-dom";
 import ErrorMessage from "../../components/ErrorMessage";
 import Loading from "../../components/Loading";
@@ -117,40 +117,63 @@ const RegisterScreen = () => {
               onChange={(e) => setEmail(e.target.value)}
             />
           </Form.Group>
+          <Row xs={1} md={2}>
+            <div>
+              <Form.Group className="mb-3" controlId="formBasicPassword">
+                <Form.Label>รหัสผ่าน</Form.Label>
+                <Form.Control
+                  type="password"
+                  placeholder="รหัสผ่าน"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  autoComplete="on"
+                />
+              </Form.Group>
+            </div>
+            <div>
+              <Form.Group className="mb-3" controlId="confirmPassword">
+                <Form.Label>ยืนยันรหัสผ่าน</Form.Label>
+                <Form.Control
+                  type="password"
+                  placeholder="ยืนยันรหัสผ่าน"
+                  value={confirmpassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  autoComplete="on"
+                />
+              </Form.Group>
+            </div>
+          </Row>
 
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>รหัสผ่าน</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="รหัสผ่าน"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              autoComplete="on"
-            />
-          </Form.Group>
+          <Row md={1}>
+            {picMessage && (
+              <ErrorMessage variant="danger">{picMessage}</ErrorMessage>
+            )}
 
-          <Form.Group className="mb-3" controlId="confirmPassword">
-            <Form.Label>ยืนยันรหัสผ่าน</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="ยืนยันรหัสผ่าน"
-              value={confirmpassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              autoComplete="on"
-            />
-          </Form.Group>
-
-          {picMessage && (
-            <ErrorMessage variant="danger">{picMessage}</ErrorMessage>
-          )}
-          <Form.Group className="mb-3" controlId="custom-file">
-            <Form.Label>รูปโลโก้บริษัท</Form.Label>
-            <Form.Control
-              type="file"
-              label="Upload Profil Picture"
-              onChange={(e) => postDetails(e.target.files[0])}
-            />
-          </Form.Group>
+            <div className="d-flex align-items-center gap-3">
+              <Col>
+                <Form.Group className="mb-3" controlId="custom-file">
+                  <Form.Label>รูปโลโก้บริษัท</Form.Label>
+                  <Form.Control
+                    type="file"
+                    label="Upload Profil Picture"
+                    onChange={(e) => postDetails(e.target.files[0])}
+                  />
+                </Form.Group>
+              </Col>
+              <Col>
+                {pic && (
+                  <img
+                    src={pic}
+                    style={{
+                      width: "100%",
+                      objectFit: "cover",
+                      minHeight: "200px",
+                    }}
+                  />
+                )}
+              </Col>
+            </div>
+          </Row>
 
           <Form.Group className="mb-3" controlId="lisenceNumber">
             <Form.Label>เลขที่ใบอนุญาต</Form.Label>
@@ -162,25 +185,52 @@ const RegisterScreen = () => {
             />
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="licenseStart">
-            <Form.Label>วันที่ออกใบอนุญาต</Form.Label>
-            <Form.Control
-              type="date"
-              placeholder="วันที่ออกใบอนุญาต"
-              value={licenseStart}
-              onChange={(e) => setLicenseStart(e.target.value)}
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3" controlId="licenseEnd">
-            <Form.Label>วันที่หมดอายุใบอนุญาต</Form.Label>
-            <Form.Control
-              type="date"
-              placeholder="วันที่หมดอายุใบอนุญาต"
-              value={licenseEnd}
-              onChange={(e) => setLicenseEnd(e.target.value)}
-            />
-          </Form.Group>
+          <Row xs={1} md={2}>
+            <div>
+              <Form.Group className="mb-3" controlId="licenseStart">
+                <Form.Label>วันที่ออกใบอนุญาต</Form.Label>
+                <Form.Control
+                  type="date"
+                  placeholder="วันที่ออกใบอนุญาต"
+                  value={licenseStart}
+                  onChange={(e) => setLicenseStart(e.target.value)}
+                />
+              </Form.Group>
+            </div>
+            <div>
+              <Form.Group className="mb-3" controlId="licenseEnd">
+                <Form.Label>วันที่หมดอายุใบอนุญาต</Form.Label>
+                <Form.Control
+                  type="date"
+                  placeholder="วันที่หมดอายุใบอนุญาต"
+                  value={licenseEnd}
+                  onChange={(e) => setLicenseEnd(e.target.value)}
+                />
+              </Form.Group>
+            </div>
+            <div>
+              <Form.Group className="mb-3" controlId="phoneNumber">
+                <Form.Label>เบอร์โทร</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="เบอร์โทร"
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                />
+              </Form.Group>
+            </div>
+            <div>
+              <Form.Group className="mb-3" controlId="website">
+                <Form.Label>ลิ้งเว็บไซต์</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="ลิ้งเว็บไซต์"
+                  value={website}
+                  onChange={(e) => setWebsite(e.target.value)}
+                />
+              </Form.Group>
+            </div>
+          </Row>
 
           <Form.Group className="mb-3" controlId="address">
             <Form.Label>ที่อยู่บริษัท</Form.Label>
@@ -189,26 +239,6 @@ const RegisterScreen = () => {
               placeholder="ที่อยู่บริษัท"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3" controlId="phoneNumber">
-            <Form.Label>เบอร์โทร</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="เบอร์โทร"
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3" controlId="website">
-            <Form.Label>ลิ้งเว็บไซต์</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="ลิ้งเว็บไซต์"
-              value={website}
-              onChange={(e) => setWebsite(e.target.value)}
             />
           </Form.Group>
 

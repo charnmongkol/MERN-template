@@ -1,25 +1,12 @@
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 import React from "react";
-import { Spinner } from "react-bootstrap";
 
-const Loading = ({ size = 100 }) => {
+const Loading = () => {
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        width: "100%",
-        height: "100%",
-      }}
-    >
-      <Spinner
-        style={{
-          width: size,
-          height: size,
-        }}
-        animation="border"
-      />
-    </div>
+    <Box sx={{ display: "flex" }}>
+      <CircularProgress color="secondary" />
+    </Box>
   );
 };
 

@@ -48,13 +48,20 @@ const AllPost = () => {
           allposts.map((post) => (
             <SwiperSlide key={post._id}>
               <Card>
-                <Card.Img variant="top" src={post.featuredImage} height={200} />
+                <Card.Img
+                  variant="top"
+                  src={post.featuredImage}
+                  height={200}
+                  className="objectFit"
+                />
                 <Card.Body>
                   <Card.Title>{post.title}</Card.Title>
                   <Card.Text>
-                    This is a longer card with supporting text below as a
-                    natural lead-in to additional content. This content is a
-                    little bit longer.
+                    <span
+                      dangerouslySetInnerHTML={{
+                        __html: post?.content.substring(0, 110) + "...",
+                      }}
+                    />
                   </Card.Text>
                   <div className="d-grid gap-2">
                     <Button

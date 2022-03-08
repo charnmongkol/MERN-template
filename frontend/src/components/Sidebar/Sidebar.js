@@ -25,7 +25,7 @@ const Sidebar = () => {
       <div className="sidebarItem">
         <span className="sidebarTitle">ABOUT ME</span>
         <div className="logo-sidebar my-3">
-          <img src={userInfo.pic} class="img-fluid" alt={userInfo.name} />
+          <img src={userInfo.pic} className="img-fluid" alt={userInfo.name} />
         </div>
         <ul>
           <li>{userInfo.name}</li>

@@ -1,8 +1,11 @@
 import React from "react";
 import "./LandingPage.css";
-import { Container, Row } from "react-bootstrap";
+
 import Banner from "../../components/Banner/Banner";
 import AllPost from "../../components/AllPosts/AllPost";
+import { Container } from "@mui/material";
+import { Typography } from "@mui/material";
+import { Box } from "@mui/system";
 
 const LandingPage = () => {
   // const navigate = useNavigate();
@@ -14,13 +17,15 @@ const LandingPage = () => {
   //   }
   // }, [navigate]);
   return (
-    <Container fluid className="main">
+    <>
       <Banner />
-      <Row className="text-center my-4 mx-5">
-        <h1 className="mb-4">Best Value Trips</h1>
+      <Container maxWidth="xl">
+        <Box paddingY={3} sx={{ textAlign: "center" }}>
+          <Typography variant="h2">โปรแกรมทัวร์ของเรา</Typography>
+        </Box>
         <AllPost />
-      </Row>
-    </Container>
+      </Container>
+    </>
   );
 };
 

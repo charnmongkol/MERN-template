@@ -62,7 +62,7 @@ const AllUsers = () => {
                 <td>{user.phoneNumber}</td>
                 <td>{user.email}</td>
                 <td>
-                  <img src={user.pic} class="img-thumbnail objectFit" />
+                  <img src={user.pic} className="img-thumbnail objectFit" />
                 </td>
                 <td>
                   <Button

@@ -2,8 +2,27 @@ const Post = require("../models/postModels");
 const asyncHandler = require("express-async-handler");
 
 const getAllPosts = asyncHandler(async (req, res) => {
-  const allPosts = await Post.find({});
-  res.json(allPosts);
+  const qNew = req.query.new;
+  const qCategory = req.query.category;
+
+  try {
+    let posts;
+    if (qNew) {
+      posts = await Post.find().sort({ createdAt: -1 }).limit(1);
+    } else if (qCategory) {
+      posts = await Post.find({
+        category: {
+          $in: [qCategory],
+        },
+      });
+    } else {
+      posts = await Post.find();
+    }
+
+    res.status(200).json(posts);
+  } catch (error) {
+    res.status(500).json(error);
+  }
 });
 
 const getPosts = asyncHandler(async (req, res) => {
