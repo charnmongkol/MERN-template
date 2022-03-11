@@ -6,6 +6,7 @@ import { createPostAction } from "../../redux/actions/postsActions";
 import Loading from "../../components/Loading";
 import MainScreen from "../../components/MainScreen";
 import ErrorMessage from "../../components/ErrorMessage";
+import DashboardLayOut from "../../components/Layout/DashboardLayOut";
 // import ReactMarkdown from "react-markdown";
 
 const CreatePost = () => {
@@ -20,6 +21,11 @@ const CreatePost = () => {
   const [seats, setSeats] = useState("");
   const [pdfFile, setPdfFile] = useState("");
   const [featuredImage, setFeaturedImage] = useState("");
+  const [priceA, setPriceA] = useState("");
+  const [priceB, setPriceB] = useState("");
+  const [priceC, setPriceC] = useState("");
+  const [priceD, setPriceD] = useState("");
+  const [priceE, setPriceE] = useState("");
   const [picMessage, setPicMessage] = useState(null);
   const [fileMessage, setFileMessage] = useState(null);
 
@@ -44,6 +50,11 @@ const CreatePost = () => {
     setSeats("");
     setPdfFile("");
     setFeaturedImage("");
+    setPriceA("");
+    setPriceB("");
+    setPriceC("");
+    setPriceD("");
+    setPriceE("");
   };
 
   const navigate = useNavigate();
@@ -60,7 +71,12 @@ const CreatePost = () => {
       !commission ||
       !seats ||
       !pdfFile ||
-      !featuredImage
+      !featuredImage ||
+      !priceA ||
+      !priceB ||
+      !priceC ||
+      !priceD ||
+      !priceE
     )
       return;
     dispatch(
@@ -74,7 +90,12 @@ const CreatePost = () => {
         commission,
         seats,
         pdfFile,
-        featuredImage
+        featuredImage,
+        priceA,
+        priceB,
+        priceC,
+        priceD,
+        priceE
       )
     );
 
@@ -134,7 +155,7 @@ const CreatePost = () => {
 
   useEffect(() => {}, []);
   return (
-    <MainScreen title="Create a Post">
+    <DashboardLayOut title="เพิ่มโปรแกรมทัวร์">
       <Card>
         <Card.Body>
           <Form onSubmit={submitHandler} className="d-flex flex-column gap-3">
@@ -288,7 +309,7 @@ const CreatePost = () => {
           Creating on - {new Date().toLocaleDateString()}
         </Card.Footer>
       </Card>
-    </MainScreen>
+    </DashboardLayOut>
   );
 };
 

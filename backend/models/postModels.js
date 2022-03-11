@@ -42,6 +42,26 @@ const postSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    priceA: {
+      type: Number,
+      required: true,
+    },
+    priceB: {
+      type: Number,
+      required: true,
+    },
+    priceC: {
+      type: Number,
+      required: true,
+    },
+    priceD: {
+      type: Number,
+      required: true,
+    },
+    priceE: {
+      type: Number,
+      required: true,
+    },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,

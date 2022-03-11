@@ -8,6 +8,7 @@ import ErrorMessage from "../../components/ErrorMessage";
 import Loading from "../../components/Loading";
 import MainScreen from "../../components/MainScreen";
 import "./ProfilePage.css";
+import DashboardLayOut from "../../components/Layout/DashboardLayOut";
 
 const ProfilePage = () => {
   const [name, setName] = useState("");
@@ -99,7 +100,7 @@ const ProfilePage = () => {
   };
 
   return (
-    <MainScreen title="Edit profile">
+    <DashboardLayOut title="จัดการโปรไฟล์">
       <div>
         <Row className="profileContainer">
           <Col md={6}>
@@ -239,7 +240,7 @@ const ProfilePage = () => {
           </Col>
         </Row>
       </div>
-    </MainScreen>
+    </DashboardLayOut>
   );
 };
 

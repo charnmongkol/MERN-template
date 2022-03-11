@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { deletePostAction, listPosts } from "../../redux/actions/postsActions";
 import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
+import DashboardLayOut from "../../components/Layout/DashboardLayOut";
 
 const MyPosts = () => {
   const dispatch = useDispatch();
@@ -57,7 +58,7 @@ const MyPosts = () => {
   ]);
 
   return (
-    <MainScreen title={`${userInfo.name} Posts`}>
+    <DashboardLayOut title={`${userInfo.name} Posts`}>
       <Row className="my-3 align-items-center">
         <Col>
           <Link to="/createpost" className="btn btn-primary">
@@ -138,7 +139,7 @@ const MyPosts = () => {
               </Accordion>
             ))}
       </Row>
-    </MainScreen>
+    </DashboardLayOut>
   );
 };
 

@@ -8,6 +8,7 @@ import Loading from "../../components/Loading";
 import MainScreen from "../../components/MainScreen";
 import UserModal from "../../components/Modal/UserModal";
 import "./AllUsers.css";
+import DashboardLayOut from "../../components/Layout/DashboardLayOut";
 
 const AllUsers = () => {
   const dispatch = useDispatch();
@@ -30,13 +31,13 @@ const AllUsers = () => {
 
   useEffect(() => {
     dispatch(allUsersForAdmin());
-    if (userInfo.isAdmin !== false) {
+    if (userInfo.isAdmin === false) {
       navigate("/");
     }
   }, [dispatch]);
 
   return (
-    <MainScreen title={"All Users"}>
+    <DashboardLayOut title={"รายชื่อเอเจนท์"}>
       <Table bordered responsive="sm">
         <thead>
           <tr>
@@ -77,7 +78,7 @@ const AllUsers = () => {
         </tbody>
       </Table>
       <UserModal show={show} setShow={setShow} />
-    </MainScreen>
+    </DashboardLayOut>
   );
 };
 

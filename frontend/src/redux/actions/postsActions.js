@@ -86,7 +86,12 @@ export const createPostAction =
     commission,
     seats,
     pdfFile,
-    featuredImage
+    featuredImage,
+    priceA,
+    priceB,
+    priceC,
+    priceD,
+    priceE
   ) =>
   async (dispatch, getState) => {
     try {
@@ -121,6 +126,11 @@ export const createPostAction =
           seats,
           pdfFile,
           featuredImage,
+          priceA,
+          priceB,
+          priceC,
+          priceD,
+          priceE,
         },
         config
       );
@@ -154,7 +164,12 @@ export const updatePostAction =
     commission,
     seats,
     pdfFile,
-    featuredImage
+    featuredImage,
+    priceA,
+    priceB,
+    priceC,
+    priceD,
+    priceE
   ) =>
   async (dispatch, getState) => {
     try {
@@ -186,6 +201,11 @@ export const updatePostAction =
           seats,
           pdfFile,
           featuredImage,
+          priceA,
+          priceB,
+          priceC,
+          priceD,
+          priceE,
         },
         config
       );

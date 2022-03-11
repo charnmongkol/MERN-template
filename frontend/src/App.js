@@ -16,6 +16,7 @@ import SinglePost from "./screens/Posts/SinglePost";
 import ProfilePage from "./screens/ProfilePage/ProfilePage";
 import RegisterScreen from "./screens/RegisterScreen/RegisterScreen";
 import ResponsiveAppBar from "./components/Header/AppBar";
+import CreatePost2 from "./screens/CreatePost/CreatePost2";
 
 const theme = createTheme({
   palette: {
@@ -47,7 +48,7 @@ const App = () => {
           <Route path="/register" element={<RegisterScreen />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/myposts" element={<MyPostsPage />} />
-          <Route path="/createpost" element={<CreatePost />} />
+          <Route path="/createpost" element={<CreatePost2 />} />
           <Route path="/editpost/:id" element={<EditPost />} />
           <Route path="/posts" element={<Posts />} />
           <Route path="/posts/:id" element={<SinglePost />} />

@@ -86,6 +86,7 @@ const ResponsiveAppBar = () => {
         transition: "500ms",
         padding: 0,
         boxShadow: "none",
+        height: "64px",
       }}
     >
       <Container maxWidth="lg">
