@@ -2,7 +2,6 @@ import React from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Footer from "./components/Footer/Footer";
-import Header from "./components/Header/Header";
 import Layout from "./components/layout";
 import AllUsers from "./screens/allUsers/AllUsers";
 import CreatePost from "./screens/CreatePost/CreatePost";
@@ -17,6 +16,7 @@ import ProfilePage from "./screens/ProfilePage/ProfilePage";
 import RegisterScreen from "./screens/RegisterScreen/RegisterScreen";
 import ResponsiveAppBar from "./components/Header/AppBar";
 import CreatePost2 from "./screens/CreatePost/CreatePost2";
+import Bill from "./screens/Bills/Bill";
 
 const theme = createTheme({
   palette: {
@@ -53,6 +53,7 @@ const App = () => {
           <Route path="/posts" element={<Posts />} />
           <Route path="/posts/:id" element={<SinglePost />} />
           <Route path="/all-users" element={<AllUsers />} />
+          <Route path="/mybills" element={<Bill />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />

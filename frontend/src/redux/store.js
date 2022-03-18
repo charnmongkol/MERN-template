@@ -15,6 +15,11 @@ import {
   postListReducer,
   postUpdateReducer,
 } from "./reducers/postsReducers";
+import {
+  allBillsReducer,
+  billCreateReducer,
+  myBillsReducer,
+} from "./reducers/BillsReducers";
 
 const reducer = combineReducers({
   //this will contain our reducers
@@ -28,6 +33,9 @@ const reducer = combineReducers({
   postCreate: postCreateReducer,
   postUpdate: postUpdateReducer,
   postDelete: postDeleteReducer,
+  allBills: allBillsReducer,
+  myBills: myBillsReducer,
+  billCreate: billCreateReducer,
 });
 
 //whenever user comes back(or refreshing), it should fetch all stuffs from localStorage
