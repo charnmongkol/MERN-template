@@ -73,7 +73,9 @@ export const register =
     address,
     phoneNumber,
     website,
-    pic
+    pic,
+    licensePic,
+    zone
   ) =>
   async (dispatch) => {
     try {
@@ -98,6 +100,8 @@ export const register =
           phoneNumber,
           website,
           pic,
+          licensePic,
+          zone,
         },
         config
       );

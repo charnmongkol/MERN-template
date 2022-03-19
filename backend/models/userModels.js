@@ -57,6 +57,15 @@ const userSchema = mongoose.Schema(
       default:
         "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
     },
+    licensePic: {
+      type: String,
+      required: true,
+      default: " ",
+    },
+    zone: {
+      type: String,
+      enum: ["n", "s", "e", "w", "c", "isan"],
+    },
   },
   {
     timestamps: true,

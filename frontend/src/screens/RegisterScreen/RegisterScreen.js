@@ -66,7 +66,7 @@ const RegisterScreen = () => {
   const postDetails = (pics) => {
     // console.log(pics);
     if (!pics) {
-      return setPicMessage("Please select an image");
+      return setPicMessage("โปรดเลือกรูปโลโก้บริษัทของคุณ");
     }
     setPicMessage(null);
 
@@ -89,7 +89,7 @@ const RegisterScreen = () => {
           console.log(err);
         });
     } else {
-      return setPicMessage("Please select an image.");
+      return setPicMessage("ใส่ได้เฉพาะ .jpeg หรือ .png");
     }
   };
   return (
@@ -164,6 +164,7 @@ const RegisterScreen = () => {
                 {pic && (
                   <img
                     src={pic}
+                    alt=""
                     style={{
                       width: "100%",
                       objectFit: "cover",
