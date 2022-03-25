@@ -1,30 +1,33 @@
 const Post = require("../models/postModels");
 const asyncHandler = require("express-async-handler");
 
+// const getAllPosts = asyncHandler(async (req, res) => {
+//   const qNew = req.query.new;
+//   const qCategory = req.query.category;
+
+//   try {
+//     let posts;
+//     if (qNew) {
+//       posts = await Post.find().sort({ createdAt: -1 }).limit(1);
+//     } else if (qCategory) {
+//       posts = await Post.find({
+//         category: {
+//           $in: [qCategory],
+//         },
+//       });
+//     } else {
+//       posts = await Post.find();
+//     }
+
+//     res.status(200).json(posts);
+//   } catch (error) {
+//     res.status(500).json(error);
+//   }
+// });
 const getAllPosts = asyncHandler(async (req, res) => {
-  const qNew = req.query.new;
-  const qCategory = req.query.category;
-
-  try {
-    let posts;
-    if (qNew) {
-      posts = await Post.find().sort({ createdAt: -1 }).limit(1);
-    } else if (qCategory) {
-      posts = await Post.find({
-        category: {
-          $in: [qCategory],
-        },
-      });
-    } else {
-      posts = await Post.find();
-    }
-
-    res.status(200).json(posts);
-  } catch (error) {
-    res.status(500).json(error);
-  }
+  const allposts = await Post.find({});
+  res.json(allposts);
 });
-
 const getPosts = asyncHandler(async (req, res) => {
   //mongodb query
   const posts = await Post.find({ user: req.user._id });
@@ -33,60 +36,72 @@ const getPosts = asyncHandler(async (req, res) => {
 
 const createPost = asyncHandler(async (req, res) => {
   const {
-    title,
-    content,
-    category,
-    code,
+    tourName,
+    tourCode,
+    highlight,
+    country,
     startAt,
     endAt,
     commission,
-    seats,
+    comSales,
+    seatsCl,
+    seatsGu,
     pdfFile,
+    wordFile,
     featuredImage,
     priceA,
     priceB,
     priceC,
     priceD,
     priceE,
+    priceF,
   } = req.body;
 
   if (
-    !title ||
-    !content ||
-    !category ||
-    !code ||
+    !tourName ||
+    !tourCode ||
+    !highlight ||
+    !country ||
     !startAt ||
     !endAt ||
     !commission ||
-    !seats ||
+    !comSales ||
+    !seatsCl ||
+    !seatsGu ||
     !pdfFile ||
+    !wordFile ||
     !featuredImage ||
     !priceA ||
     !priceB ||
     !priceC ||
     !priceD ||
-    !priceE
+    !priceE ||
+    !priceF
   ) {
     res.status(400);
     throw new Error("please fill all the feilds");
   } else {
     const post = new Post({
       user: req.user._id,
-      title,
-      content,
-      category,
-      code,
+      tourName,
+      tourCode,
+      highlight,
+      country,
       startAt,
       endAt,
       commission,
-      seats,
+      comSales,
+      seatsCl,
+      seatsGu,
       pdfFile,
+      wordFile,
       featuredImage,
       priceA,
       priceB,
       priceC,
       priceD,
       priceE,
+      priceF,
     });
 
     //save to db
@@ -110,21 +125,25 @@ const getPostById = asyncHandler(async (req, res) => {
 
 const updatePost = asyncHandler(async (req, res) => {
   const {
-    title,
-    content,
-    category,
-    code,
+    tourName,
+    tourCode,
+    highlight,
+    country,
     startAt,
     endAt,
     commission,
-    seats,
+    comSales,
+    seatsCl,
+    seatsGu,
     pdfFile,
+    wordFile,
     featuredImage,
     priceA,
     priceB,
     priceC,
     priceD,
     priceE,
+    priceF,
   } = req.body;
 
   const post = await Post.findById(req.params.id);
@@ -135,21 +154,25 @@ const updatePost = asyncHandler(async (req, res) => {
     throw new Error("You can't perform this action");
   }
   if (post) {
-    post.title = title;
-    post.content = content;
-    post.category = category;
-    post.code = code;
+    post.tourName = tourName;
+    post.tourCode = tourCode;
+    post.highlight = highlight;
+    post.country = country;
     post.startAt = startAt;
     post.endAt = endAt;
     post.commission = commission;
-    post.seats = seats;
+    post.comSales = comSales;
+    post.seatsCl = seatsCl;
+    post.seatsGu = seatsGu;
     post.pdfFile = pdfFile;
+    post.wordFile = wordFile;
     post.featuredImage = featuredImage;
     post.priceA = priceA;
     post.priceB = priceB;
     post.priceC = priceC;
     post.priceD = priceD;
     post.priceE = priceE;
+    post.priceF = priceF;
 
     const updatedPost = await post.save();
     res.json(updatedPost);

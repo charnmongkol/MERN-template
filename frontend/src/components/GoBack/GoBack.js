@@ -1,6 +1,6 @@
+import { Button } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Button } from "react-bootstrap";
 
 const GoBack = () => {
   const navigate = useNavigate();
@@ -9,8 +9,8 @@ const GoBack = () => {
     navigate(-1);
   };
   return (
-    <Button variant="warning" onClick={returnPage}>
-      back
+    <Button variant="contained" color="info" onClick={returnPage}>
+      กลับไปหน้าก่อน
     </Button>
   );
 };

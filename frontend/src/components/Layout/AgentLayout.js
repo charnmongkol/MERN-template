@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -15,13 +15,11 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 
 import ReceiptIcon from "@mui/icons-material/Receipt";
-import GroupIcon from "@mui/icons-material/Group";
-import ListAltIcon from "@mui/icons-material/ListAlt";
-import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
+import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import { Link } from "react-router-dom";
 
-const adminMenus = [
+const agentMenus = [
   {
     display: "หน้าหลัก",
     icon: <HomeRoundedIcon />,
@@ -32,28 +30,14 @@ const adminMenus = [
   {
     display: "โปรไฟล์",
     icon: <AccountCircleRoundedIcon />,
-    to: "/admin/profile",
+    to: "/agent/dashboard/profile",
     cName: "nav-text",
     section: "started",
-  },
-  {
-    display: "โปรแกรมทัวร์",
-    icon: <ListAltIcon />,
-    to: "/admin/myposts",
-    cName: "nav-text",
-    section: "started",
-  },
-  {
-    display: "เอเจนซี่",
-    icon: <GroupIcon />,
-    to: "/admin/all-users",
-    cName: "nav-text",
-    section: "calendar",
   },
   {
     display: "คำสั่งจอง",
     icon: <ReceiptIcon />,
-    to: "/admin/mybills",
+    to: "/agent/dashboard",
     cName: "nav-text",
     section: "user",
   },
@@ -61,7 +45,7 @@ const adminMenus = [
 
 const drawerWidth = 240;
 
-function DashboardLayOut(props) {
+const AgentLayout = (props) => {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -75,7 +59,7 @@ function DashboardLayOut(props) {
       <Divider />
 
       <List>
-        {adminMenus.map((menu, index) => (
+        {agentMenus.map((menu, index) => (
           <Link to={menu.to} key={index}>
             <ListItem button key={menu}>
               <ListItemIcon>{menu.icon}</ListItemIcon>
@@ -169,14 +153,13 @@ function DashboardLayOut(props) {
       </Box>
     </Box>
   );
-}
+};
 
-DashboardLayOut.propTypes = {
+AgentLayout.propTypes = {
   /**
    * Injected by the documentation to work in an iframe.
    * You won't need it on your project.
    */
   window: PropTypes.func,
 };
-
-export default DashboardLayOut;
+export default AgentLayout;

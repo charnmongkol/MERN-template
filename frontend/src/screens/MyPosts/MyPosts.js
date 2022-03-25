@@ -1,20 +1,86 @@
 import React, { useEffect, useState } from "react";
 import { Accordion, Badge, Col, Form, FormControl, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import MainScreen from "../../components/MainScreen";
 import { useDispatch, useSelector } from "react-redux";
 import { deletePostAction, listPosts } from "../../redux/actions/postsActions";
 import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
 import DashboardLayOut from "../../components/Layout/DashboardLayOut";
+import ClearIcon from "@mui/icons-material/Clear";
+import SearchIcon from "@mui/icons-material/Search";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Paper from "@mui/material/Paper";
+import IconButton from "@mui/material/IconButton";
+import EditIcon from "@mui/icons-material/Edit";
+import TextField from "@mui/material/TextField";
+import moment from "moment";
+import PropTypes from "prop-types";
+import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
+import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+
+function escapeRegExp(value) {
+  return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+}
+
+function QuickSearchToolbar(props) {
+  return (
+    <Box
+      sx={{
+        p: 0.5,
+        my: 3,
+      }}
+    >
+      <TextField
+        variant="standard"
+        value={props.value}
+        onChange={props.onChange}
+        placeholder="ค้นหา..."
+        InputProps={{
+          startAdornment: <SearchIcon fontSize="small" />,
+          endAdornment: (
+            <IconButton
+              title="Clear"
+              aria-label="Clear"
+              size="small"
+              style={{ visibility: props.value ? "visible" : "hidden" }}
+              onClick={props.clearSearch}
+            >
+              <ClearIcon fontSize="small" />
+            </IconButton>
+          ),
+        }}
+        sx={{
+          width: {
+            xs: 1,
+            sm: "auto",
+          },
+          m: (theme) => theme.spacing(1, 0.5, 1.5),
+          "& .MuiSvgIcon-root": {
+            mr: 0.5,
+          },
+          "& .MuiInput-underline:before": {
+            borderBottom: 1,
+            borderColor: "divider",
+          },
+        }}
+      />
+    </Box>
+  );
+}
+QuickSearchToolbar.propTypes = {
+  clearSearch: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired,
+};
 
 const MyPosts = () => {
   const dispatch = useDispatch();
   const [search, setSearch] = useState("");
+  const [myposts, setMyposts] = useState([]);
 
   const postList = useSelector((state) => state?.postList);
   const { loading, posts, error } = postList;
-
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
@@ -39,7 +105,6 @@ const MyPosts = () => {
       dispatch(deletePostAction(id));
     }
   };
-  // console.log(posts);
 
   const navigate = useNavigate();
 
@@ -57,88 +122,104 @@ const MyPosts = () => {
     successDelete,
   ]);
 
+  const [searchText, setSearchText] = useState("");
+  const [dataTable, setDataTable] = useState([]);
+  const [rows, setRows] = useState(posts);
+  const requestSearch = (searchValue) => {
+    setSearchText(searchValue);
+    const searchRegex = new RegExp(escapeRegExp(searchValue), "i");
+    const filteredRows = posts.filter((row) => {
+      return Object.keys(row).some((field) => {
+        return searchRegex.test(row[field].toString());
+      });
+    });
+    setRows(filteredRows);
+  };
+  useEffect(() => {
+    setRows(dataTable);
+  }, [dataTable]);
+
+  useEffect(() => {
+    if (posts) {
+      setDataTable(posts);
+    }
+  }, [dispatch, posts]);
+
+  console.log("posts", posts);
+  console.log("dataTable", dataTable);
+  console.log("rows", rows);
+
+  const editPostList = (id) => (e) => {
+    e.stopPropagation();
+    navigate(`/editpost/${id}`);
+  };
+  const columns = [
+    { field: "_id", headerName: "No.", flex: 0.5 },
+    { field: "tourName", headerName: "ทัวร์", flex: 1 },
+    { field: "tourCode", headerName: "รหัส", flex: 1 },
+    { field: "country", headerName: "ประเทศ", flex: 1 },
+    { field: "startAt", headerName: "", flex: 1 },
+    { field: "endAt", headerName: "", flex: 1 },
+    { field: "seatsCl", headerName: "", flex: 0.5 },
+    {
+      field: "actions",
+      type: "actions",
+      flex: 0.5,
+      getActions: ({ id }) => [
+        <GridActionsCellItem
+          icon={<EditIcon />}
+          label="edit"
+          onClick={editPostList(id)}
+        />,
+      ],
+    },
+  ];
+
   return (
     <DashboardLayOut title={`${userInfo.name} Posts`}>
-      <Row className="my-3 align-items-center">
-        <Col>
-          <Link to="/createpost" className="btn btn-primary">
-            <div size="lg">Create a new post</div>
-          </Link>
-        </Col>
-        <Col>
-          <Form>
-            <FormControl
-              type="search"
-              placeholder="Search Category"
-              className="me-2"
-              aria-label="Search"
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </Form>
-        </Col>
-      </Row>
-      <Row className="gap-3">
+      <Box sx={{ my: 1, display: "flex", gap: 1 }}>
+        <Button
+          href="/createpost"
+          variant="outlined"
+          color="primary"
+          startIcon={<AddCircleRoundedIcon />}
+        >
+          เพิ่มทัวร์ใหม่
+        </Button>
+        <Button
+          href="/createpostbycode"
+          variant="outlined"
+          color="primary"
+          startIcon={<AddCircleRoundedIcon />}
+        >
+          เพิ่มทัวร์ (จากtour codeเดิม)
+        </Button>
+      </Box>
+      <Paper>
         {errorDelete && (
-          <ErrorMessage variant="danger">{errorDelete}</ErrorMessage>
+          <ErrorMessage variant="error">{errorDelete}</ErrorMessage>
         )}
         {loadingDelete && <Loading />}
-        {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
+        {error && <ErrorMessage variant="error">{error}</ErrorMessage>}
         {loading && <Loading />}
-        {posts &&
-          posts
-            ?.reverse()
-            .filter((filteredPost) => filteredPost.category.includes(search))
-            .map((note) => (
-              <Accordion key={note._id}>
-                <Accordion.Item eventKey="0">
-                  <Accordion.Header style={{ display: "flex" }}>
-                    <span
-                      style={{
-                        color: "black",
-                        textDecoration: "none",
-                        flex: 1,
-                        cursor: "pointer",
-                        alignSelf: "center",
-                        fontSize: 18,
-                      }}
-                    >
-                      {note.title}
-                    </span>
-                    <div>
-                      <a
-                        className="btn btn-secondary"
-                        href={`/editpost/${note._id}`}
-                      >
-                        Edit
-                      </a>
-                      <div
-                        variant="danger"
-                        className="mx-2 btn btn-danger"
-                        onClick={() => deleteHandler(note._id)}
-                      >
-                        Delete
-                      </div>
-                    </div>
-                  </Accordion.Header>
-
-                  <Accordion.Body>
-                    <h4>
-                      <Badge bg="success">Category - {note.category}</Badge>
-                    </h4>
-                    <blockquote className="blockquote mb-0">
-                      <p>{note.content}</p>
-                      <footer className="blockquote-footer">
-                        Created on{" "}
-                        <cite title="Source Title">
-                          {note.createdAt.substring(0, 10)}
-                        </cite>
-                      </footer>
-                    </blockquote>
-                  </Accordion.Body>
-                </Accordion.Item>
-              </Accordion>
-            ))}
-      </Row>
+        <div style={{ width: "100%" }}>
+          <DataGrid
+            rows={loading ? [] : rows}
+            columns={columns}
+            pageSize={20}
+            getRowId={(row) => row._id}
+            autoHeight
+            components={{ Toolbar: QuickSearchToolbar }}
+            componentsProps={{
+              toolbar: {
+                value: searchText,
+                onChange: (event) => requestSearch(event.target.value),
+                clearSearch: () => requestSearch(""),
+              },
+            }}
+          />
+        </div>
+      </Paper>
     </DashboardLayOut>
   );
 };

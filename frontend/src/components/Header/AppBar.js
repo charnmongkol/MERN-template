@@ -18,17 +18,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/actions/userActions";
 import { useEffect } from "react";
 import { useState } from "react";
+import styled from "@emotion/styled";
 
-const pages = [
-  {
-    main: "โปรแกรมทัวร์",
-    path: "/posts",
-  },
-];
-const settings = [
-  { main: "โปรไฟล์", path: "/pofile" },
-  { main: "Dashboard", path: "/profile" },
-];
+const PRIMARYLIGHT = "#335377";
+const Item = styled(Button)`
+  background-color: ${PRIMARYLIGHT};
+  color: #ffffff;
+  &:hover,
+  &:active,
+  &:visited,
+  &:link,
+  &:focus {
+    background-color: ${PRIMARYLIGHT};
+    color: #ffffff;
+  }
+`;
 
 const ResponsiveAppBar = () => {
   const navigate = useNavigate();
@@ -39,19 +43,20 @@ const ResponsiveAppBar = () => {
   const [navbar, setNavbar] = useState(false);
 
   //navbar scroll changeBackground function
-  const changeBackground = () => {
-    // console.log(window.scrollY);
-    if (window.scrollY >= 66) {
-      setNavbar(true);
-    } else {
-      setNavbar(false);
-    }
-  };
+  // const changeBackground = () => {
+  //   // console.log(window.scrollY);
+  //   if (window.scrollY >= 66) {
+  //     setNavbar(true);
+  //   } else {
+  //     setNavbar(false);
+  //   }
+  // };
 
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
+  console.log(userInfo);
   const logoutHandler = () => {
     dispatch(logout());
     navigate("/");
@@ -71,22 +76,22 @@ const ResponsiveAppBar = () => {
     setAnchorElUser(null);
   };
 
-  useEffect(() => {
-    changeBackground();
-    // adding the event when scroll change background
-    window.addEventListener("scroll", changeBackground);
-  }, [userInfo]);
+  // useEffect(() => {
+  //   changeBackground();
+  //   // adding the event when scroll change background
+  //   window.addEventListener("scroll", changeBackground);
+  // }, [userInfo]);
 
   return (
     <AppBar
       position="fixed"
-      color={navbar ? "primary" : "transparent"}
-      className={navbar ? "active" : " "}
+      color={"primary"}
       sx={{
         transition: "500ms",
         padding: 0,
         boxShadow: "none",
-        height: "64px",
+        height: "80px",
+        justifyContent: "center",
       }}
     >
       <Container maxWidth="lg">
@@ -94,10 +99,10 @@ const ResponsiveAppBar = () => {
           <Box sx={{ mr: 2, display: { xs: "none", md: "flex" } }}>
             <Link to="/">
               <img
-                src={navbar ? Logo : LogoNoBg}
+                src={Logo}
                 alt="Top of the world"
-                width="90px"
-                height="60px"
+                width="100%"
+                height="80px"
                 style={{
                   transition: "1s",
                   objectFit: navbar ? "cover" : "fill",
@@ -167,9 +172,10 @@ const ResponsiveAppBar = () => {
 
           <Box sx={{ flexGrow: 0 }}>
             {!userInfo ? (
-              <Link to="/login" style={{ color: "white" }}>
-                เข้าสู่ระบบ
-              </Link>
+              <Box sx={{ display: "flex", gap: 1 }}>
+                <Item href="/registration">REGISTER</Item>
+                <Item href="/login">LOG-IN</Item>
+              </Box>
             ) : (
               <>
                 <Tooltip title="Open settings">
@@ -193,16 +199,33 @@ const ResponsiveAppBar = () => {
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
-                  <MenuItem onClick={handleCloseUserMenu}>
-                    <Link to="/profile">
-                      <Typography textAlign="center">โปรไฟล์</Typography>
-                    </Link>
-                  </MenuItem>
-                  <MenuItem onClick={handleCloseUserMenu}>
-                    <Button onClick={logoutHandler}>
-                      <Typography textAlign="center">ออกจากระบบ</Typography>
-                    </Button>
-                  </MenuItem>
+                  {userInfo.isAdmin == false ? (
+                    <Box>
+                      <MenuItem onClick={handleCloseUserMenu}>
+                        <Link to="/agent/dashboard">
+                          <Typography textAlign="center">Dashboard</Typography>
+                        </Link>
+                      </MenuItem>
+                      <MenuItem onClick={handleCloseUserMenu}>
+                        <Button onClick={logoutHandler}>
+                          <Typography textAlign="center">ออกจากระบบ</Typography>
+                        </Button>
+                      </MenuItem>
+                    </Box>
+                  ) : (
+                    <Box>
+                      <MenuItem onClick={handleCloseUserMenu}>
+                        <Link to="/admin/myposts">
+                          <Typography textAlign="center">Dashboardd</Typography>
+                        </Link>
+                      </MenuItem>
+                      <MenuItem onClick={handleCloseUserMenu}>
+                        <Button onClick={logoutHandler}>
+                          <Typography textAlign="center">ออกจากระบบ</Typography>
+                        </Button>
+                      </MenuItem>
+                    </Box>
+                  )}
                 </Menu>
               </>
             )}

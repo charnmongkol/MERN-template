@@ -1,29 +1,23 @@
-import React, { useEffect, useState } from "react";
-
+import React from "react";
+import { useEffect } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import ErrorMessage from "../../components/ErrorMessage";
-import Loading from "../../components/Loading";
+import { useNavigate } from "react-router-dom";
+import DashboardLayOut from "../../components/Layout/DashboardLayOut";
 import axios from "axios";
-import {
-  deletePostAction,
-  updatePostAction,
-} from "../../redux/actions/postsActions";
-import { useNavigate, useParams } from "react-router-dom";
+import { createPostAction, listPosts } from "../../redux/actions/postsActions";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 import GoBack from "../../components/GoBack/GoBack";
 import moment from "moment";
-import DashboardLayOut from "../../components/Layout/DashboardLayOut";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import InputAdornment from "@mui/material/InputAdornment";
 import CardMedia from "@mui/material/CardMedia";
 import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import ListItemText from "@mui/material/ListItemText";
-import Select from "@mui/material/Select";
-import Checkbox from "@mui/material/Checkbox";
 import PictureAsPdfRoundedIcon from "@mui/icons-material/PictureAsPdfRounded";
 import UploadFileRoundedIcon from "@mui/icons-material/UploadFileRounded";
 import Table from "@mui/material/Table";
@@ -39,20 +33,7 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 
-import countries from "../../conf/countries.json";
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
-
-const EditPost = () => {
-  //craete states
+const CreatePostByCode = () => {
   const [tourName, setTourName] = useState("");
   const [tourCode, setTourCode] = useState("");
   const [highlight, setHighlight] = useState("");
@@ -74,29 +55,31 @@ const EditPost = () => {
   const [priceF, setPriceF] = useState("");
   const [picMessage, setPicMessage] = useState(null);
   const [fileMessage, setFileMessage] = useState(null);
+  const [tourID, setTourID] = useState("");
 
-  const params = useParams();
+  const [inputs, setInputs] = useState([]);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const dispatch = useDispatch();
+  const allPosts = useSelector((state) => state?.allPosts);
+  const { loading: lodingAllposts, allposts } = allPosts;
 
-  const postUpdate = useSelector((state) => state.postUpdate);
-  const { loading, error } = postUpdate;
+  useEffect(() => {
+    dispatch(listPosts());
+  }, [dispatch]);
 
-  //delete actions
-  const postDelete = useSelector((state) => state.postDelete);
-  const { loading: loadingDelete, error: errorDelete } = postDelete;
-
-  const deleteHandler = (id) => {
-    if (window.confirm("Are you sure?")) {
-      dispatch(deletePostAction(id));
+  useEffect(() => {
+    if (allposts) {
+      setInputs(allposts);
     }
-    navigate("/myposts");
-  };
+  });
+  const postCreate = useSelector((state) => state.postCreate);
+  //taking loading,error,post from inside of postCreate state
+  const { loading: loadingCreating, error, post } = postCreate;
 
   useEffect(() => {
     const fetching = async () => {
-      const { data } = await axios.get(`/api/posts/${params.id}`);
+      const { data } = await axios.get(`/api/posts/${tourID}`);
       // console.log(data);
       setTourName(data.tourName);
       setTourCode(data.tourCode);
@@ -120,34 +103,10 @@ const EditPost = () => {
     };
 
     fetching();
-  }, [params.id]);
+  }, [tourID]);
 
-  const resetHandler = () => {
-    setTourName("");
-    setTourCode("");
-    setHighlight("");
-    setCountry("");
-    setCommission("");
-    setComSales("");
-    setSeatsCl("");
-    setSeatsGu("");
-    setEndAt("");
-    setStartAt("");
-    setWordFile("");
-    setPdfFile("");
-    setFeaturedImage("");
-    setWordFile("");
-    setPriceA("");
-    setPriceB("");
-    setPriceC("");
-    setPriceD("");
-    setPriceE("");
-    setPriceF("");
-  };
-
-  const updateHandler = (e) => {
+  const submitHandler = (e) => {
     e.preventDefault();
-
     if (
       !tourName ||
       !tourCode ||
@@ -159,6 +118,8 @@ const EditPost = () => {
       !comSales ||
       !seatsCl ||
       !seatsGu ||
+      !pdfFile ||
+      !wordFile ||
       !featuredImage ||
       !priceA ||
       !priceB ||
@@ -169,8 +130,7 @@ const EditPost = () => {
     )
       return;
     dispatch(
-      updatePostAction(
-        params.id,
+      createPostAction(
         tourName,
         tourCode,
         highlight,
@@ -181,8 +141,8 @@ const EditPost = () => {
         comSales,
         seatsCl,
         seatsGu,
-        wordFile,
         pdfFile,
+        wordFile,
         featuredImage,
         priceA,
         priceB,
@@ -193,7 +153,6 @@ const EditPost = () => {
       )
     );
 
-    resetHandler();
     navigate("/myposts");
   };
 
@@ -243,7 +202,7 @@ const EditPost = () => {
           console.log(err);
         });
     } else {
-      return setFileMessage("Please select a PDF file.");
+      return setFileMessage("โปรดเลือก pdf ไฟล์");
     }
   };
 
@@ -267,13 +226,52 @@ const EditPost = () => {
       });
   };
 
+  console.log(
+    tourName,
+    tourCode,
+    highlight,
+    country,
+    startAt,
+    endAt,
+    commission,
+    comSales,
+    seatsCl,
+    seatsGu,
+    pdfFile,
+    wordFile,
+    featuredImage,
+    priceA,
+    priceB,
+    priceC,
+    priceD,
+    priceE,
+    priceF
+  );
   return (
-    <DashboardLayOut title="แก้ไขโปรแกรมทัวร์">
-      <Box sx={{ my: 1, display: "flex", gap: 1 }}>
-        <GoBack />
+    <DashboardLayOut title="เพิ่มโปรแกรมทัวร์">
+      <Box marginY={2}>
+        <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label">
+            รหัสโปรแกรมทัวร์
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={tourID}
+            label="รหัสโปรแกรมทัวร์"
+            onChange={(e) => setTourID(e.target.value)}
+          >
+            {inputs.map((item) => (
+              <MenuItem key={item._id} value={item._id}>
+                {item.tourCode}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
       </Box>
+
       <Paper>
-        <form autoComplete="off" onSubmit={updateHandler}>
+        <form autoComplete="on" onSubmit={submitHandler}>
           <Card sx={{ minWidth: 275 }}>
             <CardContent>
               <Box sx={{ width: "100%" }}>
@@ -374,17 +372,7 @@ const EditPost = () => {
                         value={country}
                         input={<OutlinedInput label="ประเทศ" />}
                         renderValue={(selected) => selected.join(", ")}
-                        MenuProps={MenuProps}
-                      >
-                        {countries.map((item, index) => (
-                          <MenuItem key={index} value={item.label}>
-                            <Checkbox
-                              checked={country.indexOf(item.label) > -1}
-                            />
-                            <ListItemText primary={item.label} />
-                          </MenuItem>
-                        ))}
-                      </Select>
+                      ></Select>
                     </FormControl>
                   </Grid>
                   <Grid item md={4}>
@@ -559,9 +547,6 @@ const EditPost = () => {
               <Button color="success" variant="contained" type="submit">
                 บันทึก
               </Button>
-              <Button onClick={resetHandler} color="error" variant="outlined">
-                Reset
-              </Button>
             </CardActions>
           </Card>
         </form>
@@ -570,4 +555,4 @@ const EditPost = () => {
   );
 };
 
-export default EditPost;
+export default CreatePostByCode;

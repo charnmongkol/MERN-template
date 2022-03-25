@@ -17,6 +17,7 @@ const Image = styled.img`
 `;
 
 const TourCard = ({ data }) => {
+  // console.log(data.country);
   return (
     <Grid item xs={12} md={6} lg={4} key={data._id}>
       <Link to={`/posts/${data._id}`}>
@@ -24,7 +25,7 @@ const TourCard = ({ data }) => {
           <Image src={data.featuredImage} alt={data.title} />
           <Box sx={{ px: 2, pt: 2 }}>
             <Typography component="h2" variant="h6">
-              {data.title}
+              {data.tourName}
             </Typography>
           </Box>
           <Box sx={{ px: 2, display: "flex", alignItems: "center" }}>
@@ -35,22 +36,25 @@ const TourCard = ({ data }) => {
             </Typography>
           </Box>
           <Box
-            sx={{ px: 2, display: "flex", alignItems: "center" }}
+            sx={{ px: 2, display: "flex", alignItems: "center", gap: 1 }}
             marginTop={3}
             paddingBottom={2}
           >
-            <Button
-              variant="contained"
-              color="primary"
-              style={{ borderRadius: "16px" }}
-            >
-              <img
-                src={`https://countryflagsapi.com/svg/${data.category}`}
-                width="20px"
-                style={{ marginRight: "4px" }}
-              />
-              {data.category}
-            </Button>
+            {data.country.map((item, idx) => (
+              <Button
+                variant="contained"
+                color="primary"
+                style={{ borderRadius: "16px" }}
+                key={idx}
+              >
+                <img
+                  src={`https://countryflagsapi.com/svg/${item}`}
+                  width="20px"
+                  style={{ marginRight: "4px" }}
+                />
+                {item}
+              </Button>
+            ))}
           </Box>
         </Paper>
       </Link>

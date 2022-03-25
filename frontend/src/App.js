@@ -18,6 +18,10 @@ import ResponsiveAppBar from "./components/Header/AppBar";
 import CreatePost2 from "./screens/CreatePost/CreatePost2";
 import Bill from "./screens/Bills/Bill";
 import Registration from "./screens/Auth/Registration";
+import CreatePostByCode from "./screens/CreatePost/CreatePostByCode";
+import MyPofile from "./screens/Agent/Dashboard/MyPofile";
+import MyBills from "./screens/Agent/Dashboard/MyBills";
+import Login from "./screens/Auth/Login";
 
 const theme = createTheme({
   palette: {
@@ -45,17 +49,26 @@ const App = () => {
         <ResponsiveAppBar />
         <Routes path="/" element={<Layout />}>
           <Route index element={<LandingPage />} />
-          <Route path="/login" element={<LoginScreen />} />
-          <Route path="/register" element={<Registration />} />
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/myposts" element={<MyPostsPage />} />
-          <Route path="/createpost" element={<CreatePost2 />} />
-          <Route path="/editpost/:id" element={<EditPost />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/registration" element={<Registration />} />
+          <Route path="/admin/profile" element={<ProfilePage />} />
+          <Route path="/admin/myposts" element={<MyPostsPage />} />
+          <Route path="/admin/createpost" element={<CreatePost2 />} />
+          <Route
+            path="/admin/createpostbycode"
+            element={<CreatePostByCode />}
+          />
+          <Route path="/admin/editpost/:id" element={<EditPost />} />
+          <Route path="/admin/all-users" element={<AllUsers />} />
+          <Route path="/admin/mybills" element={<Bill />} />
+
           <Route path="/posts" element={<Posts />} />
           <Route path="/posts/:id" element={<SinglePost />} />
-          <Route path="/all-users" element={<AllUsers />} />
-          <Route path="/mybills" element={<Bill />} />
+
           <Route path="*" element={<NotFound />} />
+
+          <Route path="/agent/dashboard/profile" element={<MyPofile />} />
+          <Route path="/agent/dashboard" element={<MyBills />} />
         </Routes>
         <Footer />
       </BrowserRouter>

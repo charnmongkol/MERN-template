@@ -50,25 +50,28 @@ const MenuProps = {
 
 const CreatePost2 = () => {
   //create state for fields
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [category, setCategory] = useState("");
-  const [code, setCode] = useState("");
+  const [tourName, setTourName] = useState("");
+  const [tourCode, setTourCode] = useState("");
+  const [highlight, setHighlight] = useState("");
+  const [country, setCountry] = useState([]);
   const [startAt, setStartAt] = useState("");
   const [endAt, setEndAt] = useState("");
   const [commission, setCommission] = useState("");
-  const [seats, setSeats] = useState("");
+  const [comSales, setComSales] = useState("");
+  const [seatsCl, setSeatsCl] = useState("");
+  const [seatsGu, setSeatsGu] = useState("");
   const [pdfFile, setPdfFile] = useState("");
+  const [wordFile, setWordFile] = useState(" ");
   const [featuredImage, setFeaturedImage] = useState("");
   const [priceA, setPriceA] = useState("");
   const [priceB, setPriceB] = useState("");
   const [priceC, setPriceC] = useState("");
   const [priceD, setPriceD] = useState("");
   const [priceE, setPriceE] = useState("");
+  const [priceF, setPriceF] = useState("");
   const [picMessage, setPicMessage] = useState(null);
   const [fileMessage, setFileMessage] = useState(null);
 
-  console.log(category);
   //taking dispatch hook
   const dispatch = useDispatch();
 
@@ -78,21 +81,26 @@ const CreatePost2 = () => {
   const { loading, error, post } = postCreate;
 
   const resetHandler = () => {
-    setTitle("");
-    setCategory("");
-    setContent("");
-    setCode("");
+    setTourName("");
+    setTourCode("");
+    setHighlight("");
+    setCountry("");
     setCommission("");
+    setComSales("");
+    setSeatsCl("");
+    setSeatsGu("");
     setEndAt("");
     setStartAt("");
-    setSeats("");
+    setWordFile("");
     setPdfFile("");
     setFeaturedImage("");
+    setWordFile("");
     setPriceA("");
     setPriceB("");
     setPriceC("");
     setPriceD("");
     setPriceE("");
+    setPriceF("");
   };
 
   const navigate = useNavigate();
@@ -100,40 +108,48 @@ const CreatePost2 = () => {
   const submitHandler = (e) => {
     e.preventDefault();
     if (
-      !title ||
-      !content ||
-      !category ||
-      !code ||
+      !tourName ||
+      !tourCode ||
+      !highlight ||
+      !country ||
       !startAt ||
       !endAt ||
       !commission ||
-      !seats ||
+      !comSales ||
+      !seatsCl ||
+      !seatsGu ||
       !pdfFile ||
+      !wordFile ||
       !featuredImage ||
       !priceA ||
       !priceB ||
       !priceC ||
       !priceD ||
-      !priceE
+      !priceE ||
+      !priceF
     )
       return;
     dispatch(
       createPostAction(
-        title,
-        content,
-        category,
-        code,
+        tourName,
+        tourCode,
+        highlight,
+        country,
         startAt,
         endAt,
         commission,
-        seats,
+        comSales,
+        seatsCl,
+        seatsGu,
         pdfFile,
+        wordFile,
         featuredImage,
         priceA,
         priceB,
         priceC,
         priceD,
-        priceE
+        priceE,
+        priceF
       )
     );
 
@@ -187,8 +203,28 @@ const CreatePost2 = () => {
           console.log(err);
         });
     } else {
-      return setFileMessage("Please select a PDF file.");
+      return setFileMessage("โปรดเลือก pdf ไฟล์");
     }
+  };
+
+  const uploadWordFile = (docx) => {
+    const data = new FormData();
+    data.append("file", docx);
+    data.append("upload_preset", "topoftheworld");
+    data.append("cloud_name", "duby6v8jo");
+
+    fetch("https://api.cloudinary.com/v1_1/duby6v8jo/raw/upload", {
+      method: "post",
+      body: data,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setWordFile(data.url.toString());
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   useEffect(() => {}, []);
@@ -197,15 +233,15 @@ const CreatePost2 = () => {
     today: moment().format("YYYY-MM-DD"),
   };
 
-  // const handleChangeCountry = (event) => {
-  //   const {
-  //     target: { value },
-  //   } = event;
-  //   setCategory(
-  //     // On autofill we get a stringified value.
-  //     typeof value === "string" ? value.split(",") : value
-  //   );
-  // };
+  const handleChangeCountry = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setCountry(
+      // On autofill we get a stringified value.
+      typeof value === "string" ? value.split(",") : value
+    );
+  };
 
   return (
     <DashboardLayOut title="เพิ่มโปรแกรมทัวร์">
@@ -218,25 +254,25 @@ const CreatePost2 = () => {
                 rowSpacing={4}
                 columnSpacing={{ xs: 1, sm: 2, md: 4 }}
               >
-                <Grid item md={8}>
+                <Grid item md={8} xs={12}>
                   <TextField
                     fullWidth
                     label="ชื่อโปรแกรมทัวร์"
                     variant="outlined"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
+                    value={tourName}
+                    onChange={(e) => setTourName(e.target.value)}
                   />
                 </Grid>
-                <Grid item md={4}>
+                <Grid item md={4} xs={12}>
                   <TextField
                     fullWidth
                     label="รหัสโปรแกรม"
                     variant="outlined"
-                    value={code}
-                    onChange={(e) => setCode(e.target.value)}
+                    value={tourCode}
+                    onChange={(e) => setTourCode(e.target.value)}
                   />
                 </Grid>
-                <Grid item md={4}>
+                <Grid item md={4} xs={12}>
                   <TextField
                     fullWidth
                     type="date"
@@ -246,7 +282,7 @@ const CreatePost2 = () => {
                     onChange={(e) => setStartAt(e.target.value)}
                   />
                 </Grid>
-                <Grid item md={4}>
+                <Grid item md={4} xs={12}>
                   <TextField
                     fullWidth
                     type="date"
@@ -256,7 +292,7 @@ const CreatePost2 = () => {
                     onChange={(e) => setEndAt(e.target.value)}
                   />
                 </Grid>
-                <Grid item md={12}>
+                <Grid item md={12} xs={12}>
                   <Box sx={{ display: "flex", gap: 2 }}>
                     <TextField
                       sx={{ flex: 1 }}
@@ -286,44 +322,26 @@ const CreatePost2 = () => {
                     </Card>
                   </Box>
                 </Grid>
-                <Grid item md={12}>
+                <Grid item md={12} xs={12}>
                   <TextField
-                    label="เนื้อหาคร่าวๆ"
+                    label="ไฮไลท์ทัวร์"
                     fullWidth
                     multiline
                     minRows={4}
-                    value={content}
-                    onChange={(e) => setContent(e.target.value)}
+                    value={highlight}
+                    onChange={(e) => setHighlight(e.target.value)}
                     variant="outlined"
                   />
                 </Grid>
-                <Grid item md={12}>
+                <Grid item md={12} xs={12}>
                   <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">
-                      ประเทศ
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={category}
-                      label="Age"
-                      onChange={(e) => setCategory(e.target.value)}
-                    >
-                      {countries.map((item) => (
-                        <MenuItem key={item.code} value={item.label}>
-                          {item.label}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                  {/* <FormControl fullWidth>
                     <InputLabel id="demo-multiple-checkbox-label">
                       ประเทศ
                     </InputLabel>
                     <Select
                       id="demo-multiple-checkbox"
                       multiple
-                      value={category}
+                      value={country}
                       onChange={handleChangeCountry}
                       input={<OutlinedInput label="ประเทศ" />}
                       renderValue={(selected) => selected.join(", ")}
@@ -332,33 +350,51 @@ const CreatePost2 = () => {
                       {countries.map((item, index) => (
                         <MenuItem key={index} value={item.label}>
                           <Checkbox
-                            checked={category.indexOf(item.label) > -1}
+                            checked={country.indexOf(item.label) > -1}
                           />
                           <ListItemText primary={item.label} />
                         </MenuItem>
                       ))}
                     </Select>
-                  </FormControl> */}
+                  </FormControl>
                 </Grid>
-                <Grid item md={4}>
+                <Grid item md={4} xs={12}>
                   <TextField
                     fullWidth
-                    label="จำนวนที่นั่ง"
+                    label="จำนวนที่นั่งลูกค้า"
                     variant="outlined"
-                    value={seats}
-                    onChange={(e) => setSeats(e.target.value)}
+                    value={seatsCl}
+                    onChange={(e) => setSeatsCl(e.target.value)}
                   />
                 </Grid>
-                <Grid item md={4}>
+                <Grid item md={4} xs={12}>
                   <TextField
                     fullWidth
-                    label="ค่านายหน้า(บาท)"
+                    label="จำนวนที่นั่งไกด์"
+                    variant="outlined"
+                    value={seatsGu}
+                    onChange={(e) => setSeatsGu(e.target.value)}
+                  />
+                </Grid>
+                <Grid item md={4} xs={12}>
+                  <TextField
+                    fullWidth
+                    label="ค่าคอมบริษัท"
                     variant="outlined"
                     value={commission}
                     onChange={(e) => setCommission(e.target.value)}
                   />
                 </Grid>
-                <Grid item md={12}>
+                <Grid item md={4} xs={12}>
+                  <TextField
+                    fullWidth
+                    label="ค่าคอมเซลล์"
+                    variant="outlined"
+                    value={comSales}
+                    onChange={(e) => setComSales(e.target.value)}
+                  />
+                </Grid>
+                <Grid item md={12} xs={12}>
                   <TextField
                     sx={{ flex: 1 }}
                     fullWidth
@@ -375,7 +411,24 @@ const CreatePost2 = () => {
                     onChange={(e) => uploadFile(e.target.files[0])}
                   />
                 </Grid>
-                <Grid item md={8}>
+                <Grid item md={12} xs={12}>
+                  <TextField
+                    sx={{ flex: 1 }}
+                    fullWidth
+                    id="input-with-icon-textfield"
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <PictureAsPdfRoundedIcon />
+                        </InputAdornment>
+                      ),
+                    }}
+                    type="file"
+                    label="Word file"
+                    onChange={(e) => uploadWordFile(e.target.files[0])}
+                  />
+                </Grid>
+                <Grid item md={8} xs={12}>
                   <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
                       <TableHead>
@@ -448,6 +501,19 @@ const CreatePost2 = () => {
                               label="ราคา"
                               value={priceE}
                               onChange={(e) => setPriceE(e.target.value)}
+                            />
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell component="th" scope="row">
+                            ไม่มีตั๋วเครื่องบิน (Join Land)
+                          </TableCell>
+                          <TableCell align="center">
+                            <TextField
+                              fullWidth
+                              label="ราคา"
+                              value={priceF}
+                              onChange={(e) => setPriceF(e.target.value)}
                             />
                           </TableCell>
                         </TableRow>

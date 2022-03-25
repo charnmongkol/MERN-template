@@ -77,21 +77,25 @@ export const listPosts = () => async (dispatch, getState) => {
 
 export const createPostAction =
   (
-    title,
-    content,
-    category,
-    code,
+    tourName,
+    tourCode,
+    highlight,
+    country,
     startAt,
     endAt,
     commission,
-    seats,
+    comSales,
+    seatsCl,
+    seatsGu,
     pdfFile,
+    wordFile,
     featuredImage,
     priceA,
     priceB,
     priceC,
     priceD,
-    priceE
+    priceE,
+    priceF
   ) =>
   async (dispatch, getState) => {
     try {
@@ -116,21 +120,25 @@ export const createPostAction =
       const { data } = await axios.post(
         `/api/posts/create`,
         {
-          title,
-          content,
-          category,
-          code,
+          tourName,
+          tourCode,
+          highlight,
+          country,
           startAt,
           endAt,
           commission,
-          seats,
+          comSales,
+          seatsCl,
+          seatsGu,
           pdfFile,
+          wordFile,
           featuredImage,
           priceA,
           priceB,
           priceC,
           priceD,
           priceE,
+          priceF,
         },
         config
       );
@@ -155,21 +163,25 @@ export const createPostAction =
 export const updatePostAction =
   (
     id,
-    title,
-    content,
-    category,
-    code,
+    tourName,
+    tourCode,
+    highlight,
+    country,
     startAt,
     endAt,
     commission,
-    seats,
+    comSales,
+    seatsCl,
+    seatsGu,
     pdfFile,
+    wordFile,
     featuredImage,
     priceA,
     priceB,
     priceC,
     priceD,
-    priceE
+    priceE,
+    priceF
   ) =>
   async (dispatch, getState) => {
     try {
@@ -191,21 +203,25 @@ export const updatePostAction =
       const { data } = await axios.put(
         `/api/posts/${id}`,
         {
-          title,
-          content,
-          category,
-          code,
+          tourName,
+          tourCode,
+          highlight,
+          country,
           startAt,
           endAt,
           commission,
-          seats,
+          comSales,
+          seatsCl,
+          seatsGu,
           pdfFile,
+          wordFile,
           featuredImage,
           priceA,
           priceB,
           priceC,
           priceD,
           priceE,
+          priceF,
         },
         config
       );

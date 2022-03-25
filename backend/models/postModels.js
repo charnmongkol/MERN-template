@@ -2,20 +2,20 @@ const mongoose = require("mongoose");
 
 const postSchema = mongoose.Schema(
   {
-    title: {
+    tourName: {
       type: String,
       required: true,
     },
-    code: {
+    tourCode: {
       type: String,
       required: true,
     },
-    content: {
+    highlight: {
       type: String,
       required: false,
     },
-    category: {
-      type: String,
+    country: {
+      type: [String],
       required: true,
     },
     startAt: {
@@ -27,14 +27,26 @@ const postSchema = mongoose.Schema(
       required: true,
     },
     commission: {
-      type: String,
+      type: Number,
       required: true,
     },
-    seats: {
-      type: String,
+    comSales: {
+      type: Number,
+      required: true,
+    },
+    seatsCl: {
+      type: Number,
+      required: true,
+    },
+    seatsGu: {
+      type: Number,
       required: true,
     },
     pdfFile: {
+      type: String,
+      required: false,
+    },
+    wordFile: {
       type: String,
       required: false,
     },
@@ -59,6 +71,10 @@ const postSchema = mongoose.Schema(
       required: true,
     },
     priceE: {
+      type: Number,
+      required: true,
+    },
+    priceF: {
       type: Number,
       required: true,
     },

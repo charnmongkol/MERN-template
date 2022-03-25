@@ -55,11 +55,11 @@ const AllPost = () => {
                   className="objectFit"
                 />
                 <Card.Body>
-                  <Card.Title>{post.title}</Card.Title>
+                  <Card.Title>{post.tourName}</Card.Title>
                   <Card.Text>
                     <span
                       dangerouslySetInnerHTML={{
-                        __html: post?.content.substring(0, 110) + "...",
+                        __html: post?.highlight.substring(0, 110) + "...",
                       }}
                     />
                   </Card.Text>

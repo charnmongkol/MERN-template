@@ -1,11 +1,10 @@
 import React from "react";
-import "./LandingPage.css";
 
 import Banner from "../../components/Banner/Banner";
 import AllPost from "../../components/AllPosts/AllPost";
-import { Container } from "@mui/material";
-import { Typography } from "@mui/material";
-import { Box } from "@mui/system";
+import Container from "@mui/material/Container";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/system/Box";
 
 const LandingPage = () => {
   // const navigate = useNavigate();
