@@ -166,14 +166,7 @@ export const allUsersForAdmin = () => async (dispatch, getState) => {
       userLogin: { userInfo },
     } = getState();
 
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
-
-    const { data } = await axios.get("/api/users/allUsers", config);
+    const { data } = await axios.get("/api/users/allUsers");
 
     dispatch({
       type: USER_ALL_SUCCESS,

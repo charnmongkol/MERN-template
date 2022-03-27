@@ -22,6 +22,7 @@ import CreatePostByCode from "./screens/CreatePost/CreatePostByCode";
 import MyPofile from "./screens/Agent/Dashboard/MyPofile";
 import MyBills from "./screens/Agent/Dashboard/MyBills";
 import Login from "./screens/Auth/Login";
+import AllAgents from "./screens/AllAgents/AllAgents";
 
 const theme = createTheme({
   palette: {
@@ -64,6 +65,8 @@ const App = () => {
 
           <Route path="/posts" element={<Posts />} />
           <Route path="/posts/:id" element={<SinglePost />} />
+
+          <Route path="/agents" element={<AllAgents />} />
 
           <Route path="*" element={<NotFound />} />
 

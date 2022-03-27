@@ -5,6 +5,7 @@ import AllPost from "../../components/AllPosts/AllPost";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/system/Box";
+import FloatingBox from "../../components/FloatingBox/FloatingBox";
 
 const LandingPage = () => {
   // const navigate = useNavigate();
@@ -24,6 +25,7 @@ const LandingPage = () => {
         </Box>
         <AllPost />
       </Container>
+      <FloatingBox />
     </>
   );
 };
