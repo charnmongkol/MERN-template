@@ -21,21 +21,10 @@ import { Card } from "@mui/material";
 import { Link } from "@mui/material";
 
 const Sidebar = () => {
-  const [cats, setCats] = useState([]);
-
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
   // console.log(userInfo);
-  const params = useParams();
-  useEffect(() => {
-    const fetching = async () => {
-      const { data } = await axios.get(`/api/posts/${params.id}`);
-      // console.log(data);
-      setCats(data.category);
-    };
 
-    fetching();
-  });
   return (
     <Box
       display={{
@@ -83,34 +72,6 @@ const Sidebar = () => {
         </CardContent>
       </Card>
     </Box>
-    // <div className="sidebar">
-    //   <div className="sidebarItem">
-    //     <span className="sidebarTitle">ABOUT ME</span>
-    //     <div className="logo-sidebar my-3">
-    //       <img src={userInfo.pic} className="img-fluid" alt={userInfo.name} />
-    //     </div>
-    //     <ul>
-    //       <li>{userInfo.name}</li>
-    //       <li>{userInfo.email}</li>
-    //       <li>{userInfo.phoneNumber}</li>
-    //     </ul>
-    //   </div>
-    //   <div className="sidebarItem">
-    //     <span className="sidebarTitle">CATEGORIES</span>
-    //     <ul className="sidebarList">
-    //       <Link to={`/?cat=${cats}`} className="link">
-    //         <li className="sidebarListItem">{cats}</li>
-    //       </Link>
-    //     </ul>
-    //   </div>
-    //   <div className="sidebarItem">
-    //     <span className="sidebarTitle">FOLLOW US</span>
-    //     <div className="sidebarSocial">
-    //       <a href={userInfo.website}>{userInfo.website}</a>
-
-    //     </div>
-    //   </div>
-    // </div>
   );
 };
 

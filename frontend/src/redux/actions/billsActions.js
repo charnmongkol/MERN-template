@@ -81,7 +81,16 @@ export const getMyBills = () => async (dispatch, getState) => {
 };
 
 export const createBillAction =
-  (totalAmount, quantityA, quantityB, quantityC, quantityD, quantityE, tour) =>
+  (
+    totalAmount,
+    quantityA,
+    quantityB,
+    quantityC,
+    quantityD,
+    quantityE,
+    quantityF,
+    tour
+  ) =>
   async (dispatch, getState) => {
     try {
       dispatch({
@@ -110,6 +119,7 @@ export const createBillAction =
           quantityC,
           quantityD,
           quantityE,
+          quantityF,
           tour,
         },
         config

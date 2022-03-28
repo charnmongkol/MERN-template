@@ -31,29 +31,32 @@ const TAX_RATE = 0.07;
 const Post = () => {
   const dispatch = useDispatch();
   const [postId, setPostId] = useState("");
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [category, setCategory] = useState("");
-  const [date, setDate] = useState("");
-  const [code, setCode] = useState("");
+  const [tourName, setTourName] = useState("");
+  const [tourCode, setTourCode] = useState("");
+  const [highlight, setHighlight] = useState("");
+  const [country, setCountry] = useState([]);
   const [startAt, setStartAt] = useState("");
   const [endAt, setEndAt] = useState("");
   const [commission, setCommission] = useState("");
-  const [seats, setSeats] = useState("");
+  const [comSales, setComSales] = useState("");
+  const [seatsCl, setSeatsCl] = useState("");
+  const [seatsGu, setSeatsGu] = useState("");
   const [pdfFile, setPdfFile] = useState("");
+  const [wordFile, setWordFile] = useState(" ");
   const [featuredImage, setFeaturedImage] = useState("");
   const [priceA, setPriceA] = useState("");
   const [priceB, setPriceB] = useState("");
   const [priceC, setPriceC] = useState("");
   const [priceD, setPriceD] = useState("");
   const [priceE, setPriceE] = useState("");
+  const [priceF, setPriceF] = useState("");
   const [quantityA, setQuantityA] = useState(0);
   const [quantityB, setQuantityB] = useState(0);
   const [quantityC, setQuantityC] = useState(0);
   const [quantityD, setQuantityD] = useState(0);
   const [quantityE, setQuantityE] = useState(0);
+  const [quantityF, setQuantityF] = useState(0);
 
-  console.log(quantityA);
   const [subTotal, setSubtotal] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
   const [tax, setTax] = useState(0);
@@ -72,29 +75,32 @@ const Post = () => {
         const { data } = await axios.get(`/api/posts/${params.id}`);
         // console.log(data);
         setPostId(data._id);
-        setTitle(data.title);
-        setContent(data.content);
-        setCategory(data.category);
-        setDate(data.updatedAt);
-        setCode(data.code);
+        setTourName(data.tourName);
+        setTourCode(data.tourCode);
+        setHighlight(data.highlight);
+        setCountry(data.country);
         setCommission(data.commission);
+        setComSales(data.comSales);
+        setSeatsCl(data.seatsCl);
+        setSeatsGu(data.seatsGu);
         setStartAt(data.startAt);
         setEndAt(data.endAt);
-        setSeats(data.seats);
         setFeaturedImage(data.featuredImage);
         setPdfFile(data.pdfFile);
+        setWordFile(data.wordFile);
         setPriceA(data.priceA);
         setPriceB(data.priceB);
         setPriceC(data.priceC);
         setPriceD(data.priceD);
         setPriceE(data.priceE);
+        setPriceF(data.priceF);
       };
 
       fetching();
     } else {
       history("/");
     }
-  }, [params.id, date, userInfo, history]);
+  }, [params.id, userInfo, history]);
 
   useEffect(() => {
     setSubtotal(
@@ -102,7 +108,8 @@ const Post = () => {
         priceRow(priceB, quantityB) +
         priceRow(priceC, quantityC) +
         priceRow(priceD, quantityD) +
-        priceRow(priceE, quantityE)
+        priceRow(priceE, quantityE) +
+        priceRow(priceF, quantityF)
     );
   }, [
     priceA,
@@ -115,6 +122,8 @@ const Post = () => {
     quantityD,
     priceE,
     quantityE,
+    priceF,
+    quantityF,
   ]);
 
   useEffect(() => {
@@ -136,18 +145,19 @@ const Post = () => {
         quantityC,
         quantityD,
         quantityE,
-        code
+        quantityF,
+        tourCode
       )
     );
 
-    navigate("/mybills");
+    navigate("/agent/dashboard");
   };
 
   return (
     <Card>
       <CardMedia
         component="img"
-        alt={title}
+        alt={tourName}
         height="400"
         image={featuredImage}
         sx={{ p: 2 }}
@@ -155,7 +165,7 @@ const Post = () => {
       <CardContent sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
         <Box>
           <Typography variant="h2" component="h2">
-            {title}
+            {tourName}
           </Typography>
         </Box>
         <Box>
@@ -174,7 +184,7 @@ const Post = () => {
                   <TableCell component="th" scope="row">
                     <LocationOnRoundedIcon />
                   </TableCell>
-                  <TableCell align="left">{category}</TableCell>
+                  <TableCell align="left">{country}</TableCell>
                 </TableRow>
                 <TableRow
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -193,7 +203,9 @@ const Post = () => {
                   <TableCell component="th" scope="row">
                     <ConfirmationNumberRoundedIcon />
                   </TableCell>
-                  <TableCell align="left">{seats}</TableCell>
+                  <TableCell align="left">
+                    {seatsCl} + {seatsGu}
+                  </TableCell>
                 </TableRow>
                 <TableRow
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -213,7 +225,11 @@ const Post = () => {
         </Box>
 
         <Box>
-          <img src={pdfFile.replace(".pdf", ".png")} alt={title} width="100%" />
+          <img
+            src={pdfFile.replace(".pdf", ".png")}
+            alt={tourName}
+            width="100%"
+          />
         </Box>
 
         <Box>
@@ -240,7 +256,7 @@ const Post = () => {
                     {" "}
                     <TextField
                       type="number"
-                      InputProps={{ inputProps: { max: seats, min: 0 } }}
+                      InputProps={{ inputProps: { max: seatsCl, min: 0 } }}
                       label="จำนวน"
                       InputLabelProps={{
                         shrink: true,
@@ -263,7 +279,7 @@ const Post = () => {
                     {" "}
                     <TextField
                       type="number"
-                      InputProps={{ inputProps: { max: seats, min: 0 } }}
+                      InputProps={{ inputProps: { max: seatsCl, min: 0 } }}
                       label="จำนวน"
                       InputLabelProps={{
                         shrink: true,
@@ -286,7 +302,7 @@ const Post = () => {
                     {" "}
                     <TextField
                       type="number"
-                      InputProps={{ inputProps: { max: seats, min: 0 } }}
+                      InputProps={{ inputProps: { max: seatsCl, min: 0 } }}
                       label="จำนวน"
                       InputLabelProps={{
                         shrink: true,
@@ -309,7 +325,7 @@ const Post = () => {
                     {" "}
                     <TextField
                       type="number"
-                      InputProps={{ inputProps: { max: seats, min: 0 } }}
+                      InputProps={{ inputProps: { max: seatsCl, min: 0 } }}
                       label="จำนวน"
                       InputLabelProps={{
                         shrink: true,
@@ -331,7 +347,7 @@ const Post = () => {
                   <TableCell align="center">
                     <TextField
                       type="number"
-                      InputProps={{ inputProps: { max: seats, min: 0 } }}
+                      InputProps={{ inputProps: { max: seatsCl, min: 0 } }}
                       label="จำนวน"
                       InputLabelProps={{
                         shrink: true,
@@ -341,6 +357,28 @@ const Post = () => {
                   </TableCell>
                   <TableCell align="center">
                     {priceRow(priceE, quantityE)}
+                  </TableCell>
+                </TableRow>
+                <TableRow
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    ไม่มีตั๋วเครื่องบิน (Join Land)
+                  </TableCell>
+                  <TableCell align="center">{priceF}</TableCell>
+                  <TableCell align="center">
+                    <TextField
+                      type="number"
+                      InputProps={{ inputProps: { max: seatsCl, min: 0 } }}
+                      label="จำนวน"
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      onChange={(e) => setQuantityE(e.target.value)}
+                    />
+                  </TableCell>
+                  <TableCell align="center">
+                    {priceRow(priceF, quantityF)}
                   </TableCell>
                 </TableRow>
 

@@ -47,7 +47,7 @@ const AllAgents = () => {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ backgroundColor: "#c8e4fb", py: 5 }}>
+    <Container maxWidth="lg" sx={{ py: 5 }}>
       <Box sx={{ flexGrow: 1, mt: "100px" }}>
         <Grid
           container
@@ -60,6 +60,14 @@ const AllAgents = () => {
                 variant="text"
                 onClick={() => filterResult(`${item.code}`)}
                 fullWidth
+                sx={{
+                  boxShadow: "none",
+                  backgroundColor: "none",
+                  borderRadius: "30px",
+                  "&:hover": {
+                    backgroundColor: "transparent",
+                  },
+                }}
               >
                 <Item>{item.zone}</Item>
               </Button>

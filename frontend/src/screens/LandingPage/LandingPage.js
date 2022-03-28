@@ -6,6 +6,7 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/system/Box";
 import FloatingBox from "../../components/FloatingBox/FloatingBox";
+import ToursSlider from "../../components/ToursSlider/ToursSlider";
 
 const LandingPage = () => {
   // const navigate = useNavigate();
@@ -19,12 +20,7 @@ const LandingPage = () => {
   return (
     <>
       <Banner />
-      <Container maxWidth="xl">
-        <Box paddingY={3} sx={{ textAlign: "center" }}>
-          <Typography variant="h2">โปรแกรมทัวร์ของเรา</Typography>
-        </Box>
-        <AllPost />
-      </Container>
+      <ToursSlider />
       <FloatingBox />
     </>
   );
