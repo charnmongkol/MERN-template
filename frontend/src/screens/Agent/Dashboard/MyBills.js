@@ -11,12 +11,24 @@ import TextField from "@mui/material/TextField";
 import PropTypes from "prop-types";
 import AgentLayout from "../../../components/Layout/AgentLayout";
 import { getMyBills } from "../../../redux/actions/billsActions";
+import moment from "moment";
+import Button from "@mui/material/Button";
 
 const columns = [
   { field: "_id", headerName: "Ref.", flex: 1 },
   { field: "tour", headerName: "ทัวร์", flex: 1 },
   { field: "totalAmount", headerName: "ยอดรวม", flex: 1 },
-  { field: "createdAt", headerName: "วันที่สร้าง", flex: 1 },
+  {
+    field: "createdAt",
+    type: "actions",
+    headerName: "วันที่สร้าง",
+    flex: 1,
+    getActions: ({ createdAt }) => [
+      <Button variant="text" color="warning">
+        {moment(createdAt).format("DD-MM-YYYY")}
+      </Button>,
+    ],
+  },
   { field: "status", headerName: "Status", flex: 1 },
 ];
 function escapeRegExp(value) {
@@ -110,6 +122,7 @@ const MyBills = () => {
       setDataTable(mybills);
     }
   }, [dispatch, mybills]);
+
   return (
     <AgentLayout title="คำสั่งจอง">
       <div style={{ width: "100%" }}>

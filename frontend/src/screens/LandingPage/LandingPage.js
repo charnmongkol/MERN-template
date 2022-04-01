@@ -1,27 +1,25 @@
-import React from "react";
-
+import React, { lazy, Suspense } from "react";
+import ResponsiveAppBar from "../../components/Header/AppBar";
 import Banner from "../../components/Banner/Banner";
-import AllPost from "../../components/AllPosts/AllPost";
-import Container from "@mui/material/Container";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/system/Box";
 import FloatingBox from "../../components/FloatingBox/FloatingBox";
-import ToursSlider from "../../components/ToursSlider/ToursSlider";
+
+const ToursSlider = lazy(() =>
+  import("../../components/ToursSlider/ToursSlider")
+);
+const Footer = lazy(() => import("../../components/Footer/Footer"));
 
 const LandingPage = () => {
-  // const navigate = useNavigate();
-  // useEffect(() => {
-  //   const userInfo = localStorage.getItem("userInfo");
-
-  //   if (userInfo) {
-  //     navigate("/myposts");
-  //   }
-  // }, [navigate]);
   return (
     <>
+      <ResponsiveAppBar />
       <Banner />
-      <ToursSlider />
+      <Suspense fallback={<div>Loading...</div>}>
+        <ToursSlider />
+      </Suspense>
       <FloatingBox />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Footer />
+      </Suspense>
     </>
   );
 };

@@ -53,7 +53,7 @@ const adminMenus = [
   {
     display: "คำสั่งจอง",
     icon: <ReceiptIcon />,
-    to: "/admin/mybills",
+    to: "/admin/allbills",
     cName: "nav-text",
     section: "user",
   },

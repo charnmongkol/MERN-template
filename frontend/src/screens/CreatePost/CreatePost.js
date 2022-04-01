@@ -1,34 +1,80 @@
 import React, { useEffect, useState } from "react";
-import { Card, Form, Button, Row, Col } from "react-bootstrap";
+
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { createPostAction } from "../../redux/actions/postsActions";
 import Loading from "../../components/Loading";
-import MainScreen from "../../components/MainScreen";
+
 import ErrorMessage from "../../components/ErrorMessage";
 import DashboardLayOut from "../../components/Layout/DashboardLayOut";
-// import ReactMarkdown from "react-markdown";
+
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
+
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import InputAdornment from "@mui/material/InputAdornment";
+import CardMedia from "@mui/material/CardMedia";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import ListItemText from "@mui/material/ListItemText";
+import Select from "@mui/material/Select";
+import Checkbox from "@mui/material/Checkbox";
+import PictureAsPdfRoundedIcon from "@mui/icons-material/PictureAsPdfRounded";
+import moment from "moment";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+
+import countries from "../../conf/countries.json";
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
 
 const CreatePost = () => {
   //create state for fields
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [category, setCategory] = useState("");
-  const [code, setCode] = useState("");
+  const [tourName, setTourName] = useState("");
+  const [tourCode, setTourCode] = useState("");
+  const [highlight, setHighlight] = useState("");
+  const [country, setCountry] = useState([]);
   const [startAt, setStartAt] = useState("");
   const [endAt, setEndAt] = useState("");
   const [commission, setCommission] = useState("");
-  const [seats, setSeats] = useState("");
+  const [comSales, setComSales] = useState("");
+  const [seatsCl, setSeatsCl] = useState("");
+  const [seatsGu, setSeatsGu] = useState("");
+  const [seatsAval, setSeatsAval] = useState(seatsCl);
   const [pdfFile, setPdfFile] = useState("");
+  const [wordFile, setWordFile] = useState(null);
   const [featuredImage, setFeaturedImage] = useState("");
   const [priceA, setPriceA] = useState("");
   const [priceB, setPriceB] = useState("");
   const [priceC, setPriceC] = useState("");
   const [priceD, setPriceD] = useState("");
   const [priceE, setPriceE] = useState("");
+  const [priceF, setPriceF] = useState("");
   const [picMessage, setPicMessage] = useState(null);
   const [fileMessage, setFileMessage] = useState(null);
 
+  console.log(seatsAval);
+  console.log(startAt, endAt, wordFile);
   //taking dispatch hook
   const dispatch = useDispatch();
 
@@ -37,17 +83,18 @@ const CreatePost = () => {
   //taking loading,error,post from inside of postCreate state
   const { loading, error, post } = postCreate;
 
-  // console.log(post);
-
   const resetHandler = () => {
-    setTitle("");
-    setCategory("");
-    setContent("");
-    setCode("");
+    setTourName("");
+    setTourCode("");
+    setHighlight("");
+    setCountry([[]]);
     setCommission("");
+    setComSales("");
+    setSeatsCl("");
+    setSeatsGu("");
     setEndAt("");
     setStartAt("");
-    setSeats("");
+    setWordFile("");
     setPdfFile("");
     setFeaturedImage("");
     setPriceA("");
@@ -55,52 +102,41 @@ const CreatePost = () => {
     setPriceC("");
     setPriceD("");
     setPriceE("");
+    setPriceF("");
   };
 
   const navigate = useNavigate();
 
   const submitHandler = (e) => {
     e.preventDefault();
-    if (
-      !title ||
-      !content ||
-      !category ||
-      !code ||
-      !startAt ||
-      !endAt ||
-      !commission ||
-      !seats ||
-      !pdfFile ||
-      !featuredImage ||
-      !priceA ||
-      !priceB ||
-      !priceC ||
-      !priceD ||
-      !priceE
-    )
-      return;
+    if (!tourName || !tourCode) return;
     dispatch(
       createPostAction(
-        title,
-        content,
-        category,
-        code,
+        tourName,
+        tourCode,
+        highlight,
+        country,
         startAt,
         endAt,
         commission,
-        seats,
+        comSales,
+        seatsCl,
+        seatsGu,
+        seatsAval,
         pdfFile,
+        wordFile,
         featuredImage,
         priceA,
         priceB,
         priceC,
         priceD,
-        priceE
+        priceE,
+        priceF
       )
     );
 
     resetHandler();
-    navigate("/myposts");
+    navigate("/admin/myposts");
   };
 
   const uploadFeaturedImage = (pics) => {
@@ -149,166 +185,339 @@ const CreatePost = () => {
           console.log(err);
         });
     } else {
-      return setFileMessage("Please select a PDF file.");
+      return setFileMessage("โปรดเลือก pdf ไฟล์");
     }
   };
 
-  useEffect(() => {}, []);
+  const uploadWordFile = (docx) => {
+    const data = new FormData();
+    data.append("file", docx);
+    data.append("upload_preset", "topoftheworld");
+    data.append("cloud_name", "duby6v8jo");
+
+    fetch("https://api.cloudinary.com/v1_1/duby6v8jo/raw/upload", {
+      method: "post",
+      body: data,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setWordFile(data.url);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    setSeatsAval(seatsCl);
+  }, [seatsCl]);
+
+  const defaultValue = {
+    today: moment().format("YYYY-MM-DD"),
+  };
+
+  const handleChangeCountry = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setCountry(
+      // On autofill we get a stringified value.
+      typeof value === "string" ? value.split(",") : value
+    );
+  };
+
   return (
     <DashboardLayOut title="เพิ่มโปรแกรมทัวร์">
-      <Card>
-        <Card.Body>
-          <Form onSubmit={submitHandler} className="d-flex flex-column gap-3">
-            {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
-            <Form.Group controlId="title">
-              <Form.Label>ชื่อโปรแกรม</Form.Label>
-              <Form.Control
-                type="text"
-                value={title}
-                placeholder="ชื่อโปรแกรม"
-                onChange={(e) => setTitle(e.target.value)}
-              />
-            </Form.Group>
-
-            <Form.Group controlId="code">
-              <Form.Label>รหัสโปรแกรม</Form.Label>
-              <Form.Control
-                type="text"
-                value={code}
-                placeholder="รหัสโปรแกรม"
-                onChange={(e) => setCode(e.target.value)}
-              />
-            </Form.Group>
-
-            <Row xs={1} md={2}>
-              <div>
-                {picMessage && (
-                  <ErrorMessage variant="danger">{picMessage}</ErrorMessage>
-                )}
-                <div className="previewImageBox">
-                  <img src={featuredImage} className="img-preview m-auto" />
-                </div>
-                <Form.Group controlId="featuredImage">
-                  <Form.Label>รูปหน้าปก</Form.Label>
-                  <Form.Control
-                    type="file"
-                    label="รูปหน้าปก"
-                    onChange={(e) => uploadFeaturedImage(e.target.files[0])}
+      <form autoComplete="off" onSubmit={submitHandler}>
+        <Card sx={{ minWidth: 275 }}>
+          <CardContent>
+            <Box sx={{ width: "100%" }}>
+              <Grid
+                container
+                rowSpacing={4}
+                columnSpacing={{ xs: 1, sm: 2, md: 4 }}
+              >
+                <Grid item md={8} xs={12}>
+                  <TextField
+                    fullWidth
+                    label="ชื่อโปรแกรมทัวร์"
+                    variant="outlined"
+                    value={tourName}
+                    onChange={(e) => setTourName(e.target.value)}
                   />
-                </Form.Group>
-              </div>
-              <div>
-                {fileMessage && (
-                  <ErrorMessage variant="danger">{fileMessage}</ErrorMessage>
-                )}
-                <div className="previewImageBox">
-                  <img
-                    src={pdfFile.replace(".pdf", ".png")}
-                    className="img-preview m-auto"
+                </Grid>
+                <Grid item md={4} xs={12}>
+                  <TextField
+                    fullWidth
+                    label="รหัสโปรแกรม"
+                    variant="outlined"
+                    value={tourCode}
+                    onChange={(e) => setTourCode(e.target.value)}
                   />
-                </div>
-                <Form.Group controlId="pdfFile">
-                  <Form.Label>PDF File</Form.Label>
-                  <Form.Control
+                </Grid>
+                <Grid item md={4} xs={12}>
+                  <TextField
+                    fullWidth
+                    type="date"
+                    label="วันออกเดินทาง"
+                    variant="outlined"
+                    defaultValue={defaultValue.today}
+                    onChange={(e) => setStartAt(e.target.value)}
+                  />
+                </Grid>
+                <Grid item md={4} xs={12}>
+                  <TextField
+                    fullWidth
+                    type="date"
+                    label="วันกลับ"
+                    variant="outlined"
+                    defaultValue={defaultValue.today}
+                    onChange={(e) => setEndAt(e.target.value)}
+                  />
+                </Grid>
+                <Grid item md={12} xs={12}>
+                  <Box sx={{ display: "flex", gap: 2 }}>
+                    <TextField
+                      sx={{ flex: 1 }}
+                      fullWidth
+                      id="input-with-icon-textfield"
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <AddPhotoAlternateIcon />
+                          </InputAdornment>
+                        ),
+                      }}
+                      type="file"
+                      label="รูปหน้าปก"
+                      onChange={(e) => uploadFeaturedImage(e.target.files[0])}
+                    />
+                    <Card variant="outlined" sx={{ flex: 1 }}>
+                      {featuredImage && (
+                        <CardMedia
+                          component="img"
+                          height="400px"
+                          image={featuredImage}
+                          alt="Image preview"
+                          sx={{ objectFit: "cover" }}
+                        />
+                      )}
+                    </Card>
+                  </Box>
+                </Grid>
+                <Grid item md={12} xs={12}>
+                  <TextField
+                    label="ไฮไลท์ทัวร์"
+                    fullWidth
+                    multiline
+                    minRows={4}
+                    value={highlight}
+                    onChange={(e) => setHighlight(e.target.value)}
+                    variant="outlined"
+                  />
+                </Grid>
+                <Grid item md={12} xs={12}>
+                  <FormControl fullWidth>
+                    <InputLabel id="demo-multiple-checkbox-label">
+                      ประเทศ
+                    </InputLabel>
+                    <Select
+                      id="demo-multiple-checkbox"
+                      multiple
+                      value={country}
+                      onChange={handleChangeCountry}
+                      input={<OutlinedInput label="ประเทศ" />}
+                      renderValue={(selected) => selected.join(", ")}
+                      MenuProps={MenuProps}
+                    >
+                      {countries.map((item, index) => (
+                        <MenuItem key={index} value={item.label}>
+                          <Checkbox
+                            checked={country.indexOf(item.label) > -1}
+                          />
+                          <ListItemText primary={item.label} />
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item md={4} xs={12}>
+                  <TextField
+                    fullWidth
+                    label="จำนวนที่นั่งลูกค้า"
+                    variant="outlined"
+                    value={seatsCl}
+                    onChange={(e) => setSeatsCl(e.target.value)}
+                  />
+                </Grid>
+                <Grid item md={4} xs={12}>
+                  <TextField
+                    fullWidth
+                    label="จำนวนที่นั่งไกด์"
+                    variant="outlined"
+                    value={seatsGu}
+                    onChange={(e) => setSeatsGu(e.target.value)}
+                  />
+                </Grid>
+                <Grid item md={4} xs={12}>
+                  <TextField
+                    fullWidth
+                    label="ค่าคอมบริษัท"
+                    variant="outlined"
+                    value={commission}
+                    onChange={(e) => setCommission(e.target.value)}
+                  />
+                </Grid>
+                <Grid item md={4} xs={12}>
+                  <TextField
+                    fullWidth
+                    label="ค่าคอมเซลล์"
+                    variant="outlined"
+                    value={comSales}
+                    onChange={(e) => setComSales(e.target.value)}
+                  />
+                </Grid>
+                <Grid item md={12} xs={12}>
+                  <TextField
+                    sx={{ flex: 1 }}
+                    fullWidth
+                    id="input-with-icon-textfield"
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <PictureAsPdfRoundedIcon />
+                        </InputAdornment>
+                      ),
+                    }}
                     type="file"
-                    label="Upload PDF file"
+                    label="PDF ไฟล์"
                     onChange={(e) => uploadFile(e.target.files[0])}
                   />
-                </Form.Group>
-              </div>
-            </Row>
-
-            <Row xs={1} md={2}>
-              <Form.Group controlId="startAt">
-                <Form.Label>วันที่ออกเดินทาง</Form.Label>
-                <Form.Control
-                  type="date"
-                  value={startAt}
-                  placeholder="วันที่ออกเดินทาง"
-                  onChange={(e) => setStartAt(e.target.value)}
-                />
-              </Form.Group>
-
-              <Form.Group controlId="endAt">
-                <Form.Label>วันที่กลับ</Form.Label>
-                <Form.Control
-                  type="date"
-                  value={endAt}
-                  placeholder="วันที่กลับ"
-                  onChange={(e) => setEndAt(e.target.value)}
-                />
-              </Form.Group>
-            </Row>
-
-            <Form.Group controlId="content">
-              <Form.Label>รายละเอียดคร่าวๆ</Form.Label>
-              <Form.Control
-                type="textarea"
-                value={content}
-                placeholder="รายละเอียดคร่าวๆ"
-                row={4}
-                onChange={(e) => setContent(e.target.value)}
-              />
-            </Form.Group>
-
-            {/* {content && (
-              <Card>
-                <Card.Header>Post Preview</Card.Header>
-                <Card.Body>
-                  <ReactMarkdown>{content}</ReactMarkdown>
-                </Card.Body>
-              </Card>
-            )} */}
-
-            <Form.Group controlId="category">
-              <Form.Label>Category</Form.Label>
-              <Form.Control
-                type="category"
-                value={category}
-                placeholder="Enter the category"
-                onChange={(e) => setCategory(e.target.value)}
-              />
-            </Form.Group>
-
-            <Form.Group controlId="seats">
-              <Form.Label>จำนวนที่นั่ง</Form.Label>
-              <Form.Control
-                type="text"
-                value={seats}
-                placeholder=""
-                onChange={(e) => setSeats(e.target.value)}
-              />
-            </Form.Group>
-
-            <Form.Group controlId="commission">
-              <Form.Label>ค่าคอม</Form.Label>
-              <Form.Control
-                type="text"
-                value={commission}
-                placeholder=""
-                onChange={(e) => setCommission(e.target.value)}
-              />
-            </Form.Group>
-
-            <Row xs={1} md={2}>
-              {loading && <Loading size={50} />}
-              <Col></Col>
-              <Col className="text-end">
-                <Button type="submit" variant="primary" className="mx-3">
-                  Create Note
-                </Button>
-                <Button onClick={resetHandler} variant="danger">
-                  Reset Feilds
-                </Button>
-              </Col>
-            </Row>
-          </Form>
-        </Card.Body>
-
-        <Card.Footer className="text-muted">
-          Creating on - {new Date().toLocaleDateString()}
-        </Card.Footer>
-      </Card>
+                </Grid>
+                <Grid item md={12} xs={12}>
+                  <TextField
+                    sx={{ flex: 1 }}
+                    fullWidth
+                    id="input-with-icon-textfield"
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <PictureAsPdfRoundedIcon />
+                        </InputAdornment>
+                      ),
+                    }}
+                    type="file"
+                    label="Word file"
+                    onChange={(e) => uploadWordFile(e.target.files[0])}
+                  />
+                </Grid>
+                <Grid item md={12} xs={12}>
+                  <TableContainer component={Paper}>
+                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>ประเภท</TableCell>
+                          <TableCell align="center">ราคา&nbsp;(บาท)</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        <TableRow>
+                          <TableCell component="th" scope="row">
+                            ผู้ใหญ่พัก 2 ท่าน
+                          </TableCell>
+                          <TableCell align="center">
+                            <TextField
+                              fullWidth
+                              label="ราคา"
+                              value={priceA}
+                              onChange={(e) => setPriceA(e.target.value)}
+                            />
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell component="th" scope="row">
+                            เด็กอายุ 2-12 ปี พักกับผู้ใหญ่ 2 ท่าน (เสริมเตียง)
+                          </TableCell>
+                          <TableCell align="center">
+                            <TextField
+                              fullWidth
+                              label="ราคา"
+                              value={priceB}
+                              onChange={(e) => setPriceB(e.target.value)}
+                            />
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell component="th" scope="row">
+                            เด็กอายุ 2-12 ปี พักกับผู้ใหญ่ 2 ท่าน
+                            (ไม่เสริมเตียง)
+                          </TableCell>
+                          <TableCell align="center">
+                            <TextField
+                              fullWidth
+                              label="ราคา"
+                              value={priceC}
+                              onChange={(e) => setPriceC(e.target.value)}
+                            />
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell component="th" scope="row">
+                            พักเดีี่ยว
+                          </TableCell>
+                          <TableCell align="center">
+                            <TextField
+                              fullWidth
+                              label="ราคา"
+                              value={priceD}
+                              onChange={(e) => setPriceD(e.target.value)}
+                            />
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell component="th" scope="row">
+                            เด็กทารก (Infant)
+                          </TableCell>
+                          <TableCell align="center">
+                            <TextField
+                              fullWidth
+                              label="ราคา"
+                              value={priceE}
+                              onChange={(e) => setPriceE(e.target.value)}
+                            />
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell component="th" scope="row">
+                            ไม่มีตั๋วเครื่องบิน (Join Land)
+                          </TableCell>
+                          <TableCell align="center">
+                            <TextField
+                              fullWidth
+                              label="ราคา"
+                              value={priceF}
+                              onChange={(e) => setPriceF(e.target.value)}
+                            />
+                          </TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </Grid>
+              </Grid>
+            </Box>
+          </CardContent>
+          <CardActions>
+            <Button color="success" variant="contained" type="submit">
+              Create Note
+            </Button>
+            <Button onClick={resetHandler} color="error" variant="outlined">
+              Reset Feilds
+            </Button>
+          </CardActions>
+        </Card>
+      </form>
     </DashboardLayOut>
   );
 };

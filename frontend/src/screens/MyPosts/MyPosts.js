@@ -145,20 +145,41 @@ const MyPosts = () => {
     }
   }, [dispatch, posts]);
 
-  console.log("posts", posts);
-  console.log("dataTable", dataTable);
-  console.log("rows", rows);
+  // console.log("posts", posts);
+  // console.log("dataTable", dataTable);
+  // console.log("rows", rows);
 
   const editPostList = (id) => (e) => {
     e.stopPropagation();
-    navigate(`/editpost/${id}`);
+    navigate(`/admin/editpost/${id}`);
   };
   const columns = [
     { field: "_id", headerName: "No.", flex: 0.5 },
     { field: "tourName", headerName: "ทัวร์", flex: 1 },
     { field: "tourCode", headerName: "รหัส", flex: 1 },
-    { field: "country", headerName: "ประเทศ", flex: 1 },
-    { field: "startAt", headerName: "", flex: 1 },
+    // { field: "country", headerName: "ประเทศ", flex: 1 },
+    {
+      field: "startAt",
+      type: "actions",
+      headerName: "วันไป",
+      flex: 0.7,
+      getActions: (params) => [
+        <Button variant="text" color="warning">
+          {moment(params.row.startAt).format("DD-MM-YYYY")}
+        </Button>,
+      ],
+    },
+    {
+      field: "endAt",
+      type: "actions",
+      headerName: "วันกลับ",
+      flex: 0.7,
+      getActions: (params) => [
+        <Button variant="text" color="warning">
+          {moment(params.row.endAt).format("DD-MM-YYYY")}
+        </Button>,
+      ],
+    },
     { field: "endAt", headerName: "", flex: 1 },
     { field: "seatsCl", headerName: "", flex: 0.5 },
     {
@@ -179,7 +200,7 @@ const MyPosts = () => {
     <DashboardLayOut title={`${userInfo.name} Posts`}>
       <Box sx={{ my: 1, display: "flex", gap: 1 }}>
         <Button
-          href="/createpost"
+          href="/admin/createpost"
           variant="outlined"
           color="primary"
           startIcon={<AddCircleRoundedIcon />}
@@ -187,7 +208,7 @@ const MyPosts = () => {
           เพิ่มทัวร์ใหม่
         </Button>
         <Button
-          href="/createpostbycode"
+          href="/admin/createpostbycode"
           variant="outlined"
           color="primary"
           startIcon={<AddCircleRoundedIcon />}

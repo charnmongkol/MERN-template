@@ -17,7 +17,7 @@ const billSchema = mongoose.Schema(
     },
     status: {
       type: String,
-      default: "pending",
+      enum: ["pending", "approved", "cancled"],
     },
     quantityA: {
       type: Number,
@@ -36,6 +36,10 @@ const billSchema = mongoose.Schema(
       default: 0,
     },
     quantityE: {
+      type: Number,
+      default: 0,
+    },
+    quantityF: {
       type: Number,
       default: 0,
     },

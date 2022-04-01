@@ -41,7 +41,6 @@ const ButtonIconLeft = styled(IconButton)`
 `;
 
 const Slide = styled(Box)`
-  height: 100vh;
   opacity: 0;
   transition-duration: 1s ease;
   &.active {
@@ -53,7 +52,7 @@ const Slide = styled(Box)`
 
 const Image = styled.img`
   width: 100%;
-  height: 450px;
+  height: 100%;
   object-fit: cover;
 `;
 

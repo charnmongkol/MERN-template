@@ -6,6 +6,8 @@ const {
   updatePost,
   deletePost,
   getAllPosts,
+  getTourByCode,
+  updateSeat,
 } = require("../controllers/postControllers");
 const { protect } = require("../middlewares/authMiddleware");
 
@@ -22,4 +24,6 @@ router
   .put(protect, updatePost)
   .delete(protect, deletePost);
 
+router.route("/tours/:tourCode").get(getTourByCode);
+router.route("/updateSeats/:id").put(protect, updateSeat);
 module.exports = router;

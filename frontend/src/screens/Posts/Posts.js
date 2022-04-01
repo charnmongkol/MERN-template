@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, lazy, Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
 import { getAllPosts } from "../../redux/actions/postsActions";
 import moment from "moment";
-import "./Posts.css";
+import ResponsiveAppBar from "../../components/Header/AppBar";
 import Loading from "../../components/Loading";
 
 import { Container } from "@mui/material";
@@ -22,6 +21,8 @@ import { Autocomplete } from "@mui/material";
 import { TextField } from "@mui/material";
 import { Button } from "@mui/material";
 import Tours from "../../components/TourCard/Tours";
+
+const Footer = lazy(() => import("../../components/Footer/Footer"));
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
@@ -53,6 +54,7 @@ const Posts = () => {
 
   return (
     <Container maxWidth="lg">
+      <ResponsiveAppBar />
       {loading && (
         <>
           <Box
@@ -67,13 +69,13 @@ const Posts = () => {
           <Box />
         </>
       )}
-      <Container maxWidth="lg">
-        <Box height="80px"></Box>
-        <Box sx={{ typography: "h1", fontSize: "3rem", textAlign: "center" }}>
-          โปรแกรมทัวร์
-        </Box>
 
-        {/* <Box sx={{ display: "flex", justifyContent: "center", my: 3 }}>
+      <Box height="100px"></Box>
+      <Box sx={{ typography: "h1", fontSize: "3rem", textAlign: "center" }}>
+        โปรแกรมทัวร์
+      </Box>
+
+      {/* <Box sx={{ display: "flex", justifyContent: "center", my: 3 }}>
           <Paper elevation={3}>
             <Autocomplete
               id="country-select-demo"
@@ -125,16 +127,18 @@ const Posts = () => {
           </Paper>
         </Box> */}
 
-        <Box>
-          <Tours alltours={allposts} country={country} sort={sort} />
-        </Box>
+      <Box>
+        <Tours alltours={allposts} country={country} sort={sort} />
+      </Box>
 
-        <Box sx={{ my: 3, display: "flex", justifyContent: "center" }}>
-          <Paper elevation={1} sx={{ p: 3 }}>
-            <Paginate />
-          </Paper>
-        </Box>
-      </Container>
+      {/* <Box sx={{ my: 3, display: "flex", justifyContent: "center" }}>
+        <Paper elevation={1} sx={{ p: 3 }}>
+          <Paginate />
+        </Paper>
+      </Box> */}
+      <Suspense fallback={<div>Loading...</div>}>
+        <Footer />
+      </Suspense>
     </Container>
   );
 };

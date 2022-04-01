@@ -1,13 +1,12 @@
 import axios from "axios";
 import moment from "moment";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, lazy, Suspense } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import "./Post.css";
-
 import { useDispatch, useSelector } from "react-redux";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
+import Chip from "@mui/material/Chip";
 import Box from "@mui/system/Box";
 import Typography from "@mui/material/Typography";
 import Table from "@mui/material/Table";
@@ -21,10 +20,17 @@ import DateRangeRoundedIcon from "@mui/icons-material/DateRangeRounded";
 import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
 import ConfirmationNumberRoundedIcon from "@mui/icons-material/ConfirmationNumberRounded";
 import PictureAsPdfRoundedIcon from "@mui/icons-material/PictureAsPdfRounded";
+import UploadFileRoundedIcon from "@mui/icons-material/UploadFileRounded";
+import ControlPointDuplicateRoundedIcon from "@mui/icons-material/ControlPointDuplicateRounded";
+import DeveloperModeRoundedIcon from "@mui/icons-material/DeveloperModeRounded";
 import Link from "@mui/material/Link";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { createBillAction } from "../../redux/actions/billsActions";
+import Loading from "../Loading";
+import { seatUpdateAction } from "../../redux/actions/postsActions";
+
+const TourCode = lazy(() => import("./TourCode"));
 
 const TAX_RATE = 0.07;
 
@@ -41,8 +47,9 @@ const Post = () => {
   const [comSales, setComSales] = useState("");
   const [seatsCl, setSeatsCl] = useState("");
   const [seatsGu, setSeatsGu] = useState("");
+  const [seatsAval, setSeatsAval] = useState("");
   const [pdfFile, setPdfFile] = useState("");
-  const [wordFile, setWordFile] = useState(" ");
+  const [wordFile, setWordFile] = useState("");
   const [featuredImage, setFeaturedImage] = useState("");
   const [priceA, setPriceA] = useState("");
   const [priceB, setPriceB] = useState("");
@@ -50,22 +57,27 @@ const Post = () => {
   const [priceD, setPriceD] = useState("");
   const [priceE, setPriceE] = useState("");
   const [priceF, setPriceF] = useState("");
-  const [quantityA, setQuantityA] = useState(0);
-  const [quantityB, setQuantityB] = useState(0);
-  const [quantityC, setQuantityC] = useState(0);
-  const [quantityD, setQuantityD] = useState(0);
-  const [quantityE, setQuantityE] = useState(0);
-  const [quantityF, setQuantityF] = useState(0);
 
-  const [subTotal, setSubtotal] = useState(0);
-  const [totalAmount, setTotalAmount] = useState(0);
-  const [tax, setTax] = useState(0);
+  const [seats, setSeats] = useState({
+    quantityA: 0,
+    quantityB: 0,
+    quantityC: 0,
+    quantityD: 0,
+    quantityE: 0,
+    quantityF: 0,
+  });
+
+  const [totalSeats, setTotalSeats] = useState(0);
+  console.log("seatsAval", seatsAval);
+  console.log("seats", seats);
+  const [subTotal, setSubtotal] = useState("0");
+  const [totalAmount, setTotalAmount] = useState("0");
+  // const [tax, setTax] = useState(0);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
   const params = useParams();
-  // const dispatch = useDispatch();
   const history = useNavigate();
 
   //get data
@@ -83,6 +95,7 @@ const Post = () => {
         setComSales(data.comSales);
         setSeatsCl(data.seatsCl);
         setSeatsGu(data.seatsGu);
+        setSeatsAval(data.seatsAval);
         setStartAt(data.startAt);
         setEndAt(data.endAt);
         setFeaturedImage(data.featuredImage);
@@ -104,32 +117,59 @@ const Post = () => {
 
   useEffect(() => {
     setSubtotal(
-      priceRow(priceA, quantityA) +
-        priceRow(priceB, quantityB) +
-        priceRow(priceC, quantityC) +
-        priceRow(priceD, quantityD) +
-        priceRow(priceE, quantityE) +
-        priceRow(priceF, quantityF)
+      priceRow(priceA, seats.quantityA) +
+        priceRow(priceB, seats.quantityB) +
+        priceRow(priceC, seats.quantityC) +
+        priceRow(priceD, seats.quantityD) +
+        priceRow(priceE, seats.quantityE) +
+        priceRow(priceF, seats.quantityF)
     );
+    if (totalSeats !== 0) {
+      setSeatsAval(seatsAval - totalSeats);
+    }
   }, [
     priceA,
-    quantityA,
+    seats.quantityA,
     priceB,
-    quantityB,
+    seats.quantityB,
     priceC,
-    quantityC,
+    seats.quantityC,
     priceD,
-    quantityD,
+    seats.quantityD,
     priceE,
-    quantityE,
+    seats.quantityE,
     priceF,
-    quantityF,
+    seats.quantityF,
   ]);
 
   useEffect(() => {
-    setTax(TAX_RATE * subTotal);
-    setTotalAmount(tax + subTotal);
-  }, [subTotal, tax]);
+    // setTax(TAX_RATE * subTotal);
+    setTotalAmount(subTotal);
+  }, [subTotal]);
+
+  const calc_total = (newValues) => {
+    const newTotal =
+      parseInt(newValues.quantityA) +
+      parseInt(newValues.quantityB) +
+      parseInt(newValues.quantityC) +
+      parseInt(newValues.quantityD) +
+      parseInt(newValues.quantityE) +
+      parseInt(newValues.quantityF);
+    setTotalSeats(newTotal);
+  };
+
+  const total_handler = (e) => {
+    let name = e.target.name;
+    let value = e.target.value;
+    const newValues = {
+      ...seats,
+      [name]: value,
+    };
+    setSeats(newValues);
+
+    // Calling the method to sum the value
+    calc_total(newValues);
+  };
 
   const navigate = useNavigate();
 
@@ -140,15 +180,18 @@ const Post = () => {
     dispatch(
       createBillAction(
         totalAmount,
-        quantityA,
-        quantityB,
-        quantityC,
-        quantityD,
-        quantityE,
-        quantityF,
+        seats.quantityA,
+        seats.quantityB,
+        seats.quantityC,
+        seats.quantityD,
+        seats.quantityE,
+        seats.quantityF,
         tourCode
       )
     );
+    if (seatsAval) {
+      dispatch(seatUpdateAction(postId, seatsAval));
+    }
 
     navigate("/agent/dashboard");
   };
@@ -169,9 +212,14 @@ const Post = () => {
           </Typography>
         </Box>
         <Box>
+          <Typography variant="body1" gutterBottom>
+            {highlight}
+          </Typography>
+        </Box>
+        <Box>
           <TableContainer component={Paper}>
             <Table aria-label="simple table" size="">
-              <TableHead sx={{ backgroundColor: "#4dabf5" }}>
+              <TableHead sx={{ backgroundColor: "#002855" }}>
                 <TableRow>
                   <TableCell align="center">&nbsp;</TableCell>
                   <TableCell align="center">&nbsp;</TableCell>
@@ -182,7 +230,15 @@ const Post = () => {
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                    <LocationOnRoundedIcon />
+                    <DeveloperModeRoundedIcon /> รหัสโปรแกรม
+                  </TableCell>
+                  <TableCell align="left">{tourCode}</TableCell>
+                </TableRow>
+                <TableRow
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    <LocationOnRoundedIcon /> ประเทศ
                   </TableCell>
                   <TableCell align="left">{country}</TableCell>
                 </TableRow>
@@ -190,7 +246,7 @@ const Post = () => {
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                    <DateRangeRoundedIcon />
+                    <DateRangeRoundedIcon /> Period
                   </TableCell>
                   <TableCell align="left">
                     {moment(startAt).format("dddd DD-MM-YYYY")} -{" "}
@@ -201,7 +257,7 @@ const Post = () => {
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                    <ConfirmationNumberRoundedIcon />
+                    <ConfirmationNumberRoundedIcon /> จำนวนที่นั่ง
                   </TableCell>
                   <TableCell align="left">
                     {seatsCl} + {seatsGu}
@@ -211,12 +267,47 @@ const Post = () => {
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                    <PictureAsPdfRoundedIcon />
+                    <ConfirmationNumberRoundedIcon /> จำนวนที่นั่งคงเหลือ
+                  </TableCell>
+                  <TableCell align="left">
+                    <Chip
+                      label={seatsAval === 0 ? "เต็ม" : seatsAval}
+                      color={seatsAval === 0 ? "danger" : "success"}
+                    />
+                  </TableCell>
+                </TableRow>
+                <TableRow
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    <PictureAsPdfRoundedIcon /> PDF file
                   </TableCell>
                   <TableCell align="left">
                     <Link href={pdfFile} target="_blank" download>
                       download
                     </Link>
+                  </TableCell>
+                </TableRow>
+                <TableRow
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    <UploadFileRoundedIcon /> WORD file
+                  </TableCell>
+                  <TableCell align="left">
+                    <Link href={wordFile} target="_blank" download>
+                      download
+                    </Link>
+                  </TableCell>
+                </TableRow>
+                <TableRow
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    <ControlPointDuplicateRoundedIcon /> ค่าคอม
+                  </TableCell>
+                  <TableCell align="left">
+                    {commission} + {comSales}
                   </TableCell>
                 </TableRow>
               </TableBody>
@@ -225,22 +316,32 @@ const Post = () => {
         </Box>
 
         <Box>
-          <img
-            src={pdfFile.replace(".pdf", ".png")}
-            alt={tourName}
-            width="100%"
-          />
+          {pdfFile && (
+            <img
+              src={pdfFile.replace(".pdf", ".png")}
+              alt={tourName}
+              width="100%"
+            />
+          )}
         </Box>
 
         <Box>
           <TableContainer component={Paper}>
             <Table aria-label="simple table" size="">
-              <TableHead sx={{ backgroundColor: "#4dabf5" }}>
+              <TableHead sx={{ backgroundColor: "#002855" }}>
                 <TableRow>
-                  <TableCell align="center">ลักษณะห้องพัก</TableCell>
-                  <TableCell align="center">ราคา</TableCell>
-                  <TableCell align="center">จำนวน</TableCell>
-                  <TableCell align="center">ราคมรวม</TableCell>
+                  <TableCell align="center" sx={{ color: "white" }}>
+                    ลักษณะห้องพัก
+                  </TableCell>
+                  <TableCell align="center" sx={{ color: "white" }}>
+                    ราคา
+                  </TableCell>
+                  <TableCell align="center" sx={{ color: "white" }}>
+                    จำนวน
+                  </TableCell>
+                  <TableCell align="center" sx={{ color: "white" }}>
+                    ราคมรวม
+                  </TableCell>
                 </TableRow>
               </TableHead>
 
@@ -261,11 +362,12 @@ const Post = () => {
                       InputLabelProps={{
                         shrink: true,
                       }}
-                      onChange={(e) => setQuantityA(e.target.value)}
+                      name="quantityA"
+                      onChange={total_handler}
                     />
                   </TableCell>
                   <TableCell align="center">
-                    {priceRow(priceA, quantityA)}
+                    {priceRow(priceA, seats.quantityA)}
                   </TableCell>
                 </TableRow>
                 <TableRow
@@ -284,11 +386,12 @@ const Post = () => {
                       InputLabelProps={{
                         shrink: true,
                       }}
-                      onChange={(e) => setQuantityB(e.target.value)}
+                      name="quantityB"
+                      onChange={total_handler}
                     />
                   </TableCell>
                   <TableCell align="center">
-                    {priceRow(priceB, quantityB)}
+                    {priceRow(priceB, seats.quantityB)}
                   </TableCell>
                 </TableRow>
                 <TableRow
@@ -307,11 +410,12 @@ const Post = () => {
                       InputLabelProps={{
                         shrink: true,
                       }}
-                      onChange={(e) => setQuantityC(e.target.value)}
+                      name="quantityC"
+                      onChange={total_handler}
                     />
                   </TableCell>
                   <TableCell align="center">
-                    {priceRow(priceC, quantityC)}
+                    {priceRow(priceC, seats.quantityC)}
                   </TableCell>
                 </TableRow>
                 <TableRow
@@ -330,11 +434,12 @@ const Post = () => {
                       InputLabelProps={{
                         shrink: true,
                       }}
-                      onChange={(e) => setQuantityD(e.target.value)}
+                      name="quantityD"
+                      onChange={total_handler}
                     />
                   </TableCell>
                   <TableCell align="center">
-                    {priceRow(priceD, quantityD)}
+                    {priceRow(priceD, seats.quantityD)}
                   </TableCell>
                 </TableRow>
                 <TableRow
@@ -352,11 +457,12 @@ const Post = () => {
                       InputLabelProps={{
                         shrink: true,
                       }}
-                      onChange={(e) => setQuantityE(e.target.value)}
+                      name="quantityE"
+                      onChange={total_handler}
                     />
                   </TableCell>
                   <TableCell align="center">
-                    {priceRow(priceE, quantityE)}
+                    {priceRow(priceE, seats.quantityE)}
                   </TableCell>
                 </TableRow>
                 <TableRow
@@ -374,11 +480,12 @@ const Post = () => {
                       InputLabelProps={{
                         shrink: true,
                       }}
-                      onChange={(e) => setQuantityE(e.target.value)}
+                      name="quantityF"
+                      onChange={total_handler}
                     />
                   </TableCell>
                   <TableCell align="center">
-                    {priceRow(priceF, quantityF)}
+                    {priceRow(priceF, seats.quantityF)}
                   </TableCell>
                 </TableRow>
 
@@ -412,6 +519,11 @@ const Post = () => {
               </TableBody>
             </Table>
           </TableContainer>
+        </Box>
+        <Box>
+          <Suspense fallback={<Loading />}>
+            <TourCode tourCode={tourCode} />
+          </Suspense>
         </Box>
       </CardContent>
     </Card>

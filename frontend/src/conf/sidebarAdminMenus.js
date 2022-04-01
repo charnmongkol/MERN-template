@@ -19,7 +19,7 @@ const sidebarNavItems = [
   {
     display: "คำสั่งจอง",
     icon: <ReceiptIcon />,
-    to: "/mybills",
+    to: "/admin/allbills",
     cName: "nav-text",
     section: "user",
   },

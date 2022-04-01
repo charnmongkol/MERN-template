@@ -12,8 +12,7 @@ import FormHelperText from "@mui/material/FormHelperText";
 import Input from "../../components/Controls/Input";
 import Select from "../../components/Controls/Select";
 import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState, lazy, Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { register } from "../../redux/actions/userActions";
@@ -21,6 +20,9 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import ButtonGenerator from "../../components/Controls/Button";
 import Button from "@mui/material/Button";
+import ResponsiveAppBar from "../../components/Header/AppBar";
+
+const Footer = lazy(() => import("../../components/Footer/Footer"));
 
 const Registration = () => {
   const history = useNavigate();
@@ -46,7 +48,7 @@ const Registration = () => {
   const [message, setMessage] = useState(null);
   const [picMessage, setPicMessage] = useState(null);
 
-  console.log(zone);
+  // console.log(zone);
 
   const dispatch = useDispatch();
 
@@ -174,6 +176,7 @@ const Registration = () => {
 
   return (
     <Container maxWidth="lg">
+      <ResponsiveAppBar />
       <Paper elevation={10} sx={{ mt: "100px", flexGrow: 1, p: 4 }}>
         <form onSubmit={submitHandler}>
           <Grid container spacing={2}>
@@ -356,6 +359,9 @@ const Registration = () => {
           </Grid>
         </form>
       </Paper>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Footer />
+      </Suspense>
     </Container>
   );
 };

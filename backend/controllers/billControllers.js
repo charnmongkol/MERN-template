@@ -12,6 +12,16 @@ const getMyBills = asyncHandler(async (req, res) => {
   res.json(myBills);
 });
 
+const getBillById = asyncHandler(async (req, res) => {
+  const bill = await Bill.findById(req.params.id);
+
+  if (bill) {
+    res.json(bill);
+  } else {
+    res.status(404).json({ message: "Bill is not found" });
+  }
+});
+
 const createBill = asyncHandler(async (req, res) => {
   const {
     totalAmount,
@@ -20,6 +30,7 @@ const createBill = asyncHandler(async (req, res) => {
     quantityC,
     quantityD,
     quantityE,
+    quantityF,
     status,
     tour,
   } = req.body;
@@ -37,6 +48,7 @@ const createBill = asyncHandler(async (req, res) => {
       quantityC,
       quantityD,
       quantityE,
+      quantityF,
     });
 
     const createBill = await newbill.save();
@@ -45,4 +57,22 @@ const createBill = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { getAllBills, getMyBills, createBill };
+const updateStatusBill = asyncHandler(async (req, res) => {
+  const { status } = req.body;
+  const bill = await Bill.findById(req.params.id);
+
+  if (bill) {
+    bill.status = status;
+
+    const updatedBill = await bill.save();
+    res.json(updatedBill);
+  }
+});
+
+module.exports = {
+  getAllBills,
+  getMyBills,
+  getBillById,
+  createBill,
+  updateStatusBill,
+};

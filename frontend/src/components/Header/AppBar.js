@@ -56,7 +56,7 @@ const ResponsiveAppBar = () => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  console.log(userInfo);
+  // console.log(userInfo);
   const logoutHandler = () => {
     dispatch(logout());
     navigate("/");

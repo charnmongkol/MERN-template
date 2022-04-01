@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DashboardLayOut from "../../components/Layout/DashboardLayOut";
-import { getMyBills } from "../../redux/actions/billsActions";
+import { getAllBills, getBillById } from "../../redux/actions/billsActions";
 import { DataGrid } from "@mui/x-data-grid";
 import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
@@ -11,14 +11,10 @@ import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";
 import PropTypes from "prop-types";
+import EditRoundedIcon from "@mui/icons-material/EditRounded";
+import DataDialog from "../../components/Dialog/DataDialog";
+import Button from "@mui/material/Button";
 
-const columns = [
-  { field: "_id", headerName: "Ref.", flex: 1 },
-  { field: "tour", headerName: "ทัวร์", flex: 1 },
-  { field: "totalAmount", headerName: "ยอดรวม", flex: 1 },
-  { field: "createdAt", headerName: "วันที่สร้าง", flex: 1 },
-  { field: "status", headerName: "Status", flex: 1 },
-];
 function escapeRegExp(value) {
   return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 }
@@ -79,11 +75,66 @@ const Bill = () => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  const myBills = useSelector((state) => state.myBills);
-  const { mybills, loading: loadingMyBills } = myBills;
+  const allBills = useSelector((state) => state.allBills);
+  const { allbills, loading: loadingMyBills } = allBills;
   const [dataTable, setDataTable] = useState([]);
-  // console.log(mybills);
+  // console.log(allbills);
   // console.log("dataTable", dataTable);
+
+  const singleBill = useSelector((state) => state.bill);
+  const { loading, error, bill } = singleBill;
+
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = async (id) => {
+    console.log(id);
+    dispatch(getBillById(id));
+    setOpen(true);
+  };
+
+  const columns = [
+    { field: "_id", headerName: "Ref.", flex: 1 },
+    { field: "tour", headerName: "ทัวร์", flex: 1 },
+    { field: "totalAmount", headerName: "ยอดรวม", flex: 1 },
+    { field: "createdAt", headerName: "วันที่สร้าง", flex: 1 },
+    {
+      field: "status",
+      headerName: "Status",
+      type: "actions",
+      flex: 1,
+      getActions: (params) => [
+        <Button
+          variant="text"
+          color={
+            params.row.status === "pending"
+              ? "warning"
+              : params.row.status === "approved"
+              ? "success"
+              : "error"
+          }
+        >
+          {params.row.status}
+        </Button>,
+      ],
+    },
+    {
+      field: "actions",
+      type: "actions",
+      headerName: "แก้ไข",
+      flex: 0.5,
+      getActions: ({ id }) => [
+        <IconButton
+          color="primary"
+          aria-label="upload picture"
+          component="span"
+          onClick={() => handleOpen(id)}
+        >
+          <EditRoundedIcon />
+        </IconButton>,
+      ],
+    },
+  ];
+
   const [searchText, setSearchText] = useState("");
   const [rows, setRows] = useState(dataTable);
   const requestSearch = (searchValue) => {
@@ -97,19 +148,21 @@ const Bill = () => {
     setRows(filteredRows);
   };
   useEffect(() => {
-    setRows(dataTable);
-  }, [dataTable]);
+    if (userInfo) {
+      dispatch(getAllBills());
+    }
+  }, [userInfo, dispatch, open]);
+  useEffect(() => {
+    if (allbills) {
+      setDataTable(allbills);
+    }
+  }, [dispatch, allbills]);
 
   useEffect(() => {
-    if (userInfo) {
-      dispatch(getMyBills());
-    }
-  }, [userInfo, dispatch]);
-  useEffect(() => {
-    if (mybills) {
-      setDataTable(mybills);
-    }
-  }, [dispatch, mybills]);
+    setRows(dataTable);
+  }, [dataTable, dispatch]);
+
+  console.log(rows);
   return (
     <DashboardLayOut title="คำสั่งจอง">
       <div style={{ width: "100%" }}>
@@ -129,6 +182,7 @@ const Bill = () => {
           }}
         />
       </div>
+      <DataDialog open={open} setOpen={setOpen} data={singleBill} />
     </DashboardLayOut>
   );
 };

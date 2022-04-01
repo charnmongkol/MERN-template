@@ -14,6 +14,12 @@ import {
   POSTS_ALL_REQUEST,
   POSTS_ALL_SUCCESS,
   POSTS_ALL_FAIL,
+  POSTS_BYCODE_REQUEST,
+  POSTS_BYCODE_SUCCESS,
+  POSTS_BYCODE_FAILED,
+  POSTS_UPDATESEAT_REQUEST,
+  POSTS_UPDATESEAT_SUCCESS,
+  POSTS_UPDATESEAT_FAILED,
 } from "../constants/postsConstants";
 
 export const allPostsReducer = (state = { allposts: [] }, action) => {
@@ -43,6 +49,19 @@ export const postListReducer = (state = { posts: [] }, action) => {
 };
 //add this reducer into store.js (state)
 
+export const postsByCodeReducer = (state = { tours: [] }, action) => {
+  switch (action.type) {
+    case POSTS_BYCODE_REQUEST:
+      return { loading: true };
+    case POSTS_BYCODE_SUCCESS:
+      return { loading: false, tours: action.payload };
+    case POSTS_BYCODE_FAILED:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
 export const postCreateReducer = (state = {}, action) => {
   switch (action.type) {
     case POSTS_CREATE_REQUEST:
@@ -63,6 +82,19 @@ export const postUpdateReducer = (state = {}, action) => {
     case POSTS_UPDATE_SUCCESS:
       return { loading: false, success: true };
     case POSTS_UPDATE_FAIL:
+      return { loading: false, error: action.payload, success: false };
+    default:
+      return state;
+  }
+};
+
+export const updateSeatReducer = (state = {}, action) => {
+  switch (action.type) {
+    case POSTS_UPDATESEAT_REQUEST:
+      return { loading: true };
+    case POSTS_UPDATESEAT_SUCCESS:
+      return { loading: false, success: true };
+    case POSTS_UPDATESEAT_FAILED:
       return { loading: false, error: action.payload, success: false };
     default:
       return state;

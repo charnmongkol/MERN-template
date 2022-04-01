@@ -3,6 +3,9 @@ import {
   POSTS_ALL_FAIL,
   POSTS_ALL_REQUEST,
   POSTS_ALL_SUCCESS,
+  POSTS_BYCODE_FAILED,
+  POSTS_BYCODE_REQUEST,
+  POSTS_BYCODE_SUCCESS,
   POSTS_CREATE_REQUEST,
   POSTS_CREATE_SUCCESS,
   POSTS_DELETE_FAIL,
@@ -11,6 +14,8 @@ import {
   POSTS_LIST_FAIL,
   POSTS_LIST_REQUEST,
   POSTS_LIST_SUCCESS,
+  POSTS_UPDATESEAT_REQUEST,
+  POSTS_UPDATESEAT_SUCCESS,
   POSTS_UPDATE_FAIL,
   POSTS_UPDATE_REQUEST,
   POSTS_UPDATE_SUCCESS,
@@ -75,6 +80,30 @@ export const listPosts = () => async (dispatch, getState) => {
   }
 };
 
+export const getPostsByCode = (tourCode) => async (dispatch) => {
+  try {
+    dispatch({
+      type: POSTS_BYCODE_REQUEST,
+    });
+    const { data } = await axios.get(`/api/posts/tours/${tourCode}`);
+
+    dispatch({
+      type: POSTS_BYCODE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+
+    dispatch({
+      type: POSTS_BYCODE_FAILED,
+      payload: message,
+    });
+  }
+};
+
 export const createPostAction =
   (
     tourName,
@@ -87,6 +116,7 @@ export const createPostAction =
     comSales,
     seatsCl,
     seatsGu,
+    seatsAval,
     pdfFile,
     wordFile,
     featuredImage,
@@ -130,6 +160,7 @@ export const createPostAction =
           comSales,
           seatsCl,
           seatsGu,
+          seatsAval,
           pdfFile,
           wordFile,
           featuredImage,
@@ -173,6 +204,7 @@ export const updatePostAction =
     comSales,
     seatsCl,
     seatsGu,
+    seatsAval,
     pdfFile,
     wordFile,
     featuredImage,
@@ -213,6 +245,7 @@ export const updatePostAction =
           comSales,
           seatsCl,
           seatsGu,
+          seatsAval,
           pdfFile,
           wordFile,
           featuredImage,
@@ -228,7 +261,46 @@ export const updatePostAction =
 
       dispatch({
         type: POSTS_UPDATE_SUCCESS,
-        pauload: data,
+        payload: data,
+      });
+    } catch (error) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+
+      dispatch({
+        type: POSTS_UPDATE_FAIL,
+        payload: message,
+      });
+    }
+  };
+
+export const seatUpdateAction =
+  (id, seatsAval) => async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: POSTS_UPDATESEAT_REQUEST,
+      });
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+      const { data } = await axios.put(
+        `/api/posts/updateSeats/${id}`,
+        { seatsAval },
+        config
+      );
+
+      dispatch({
+        type: POSTS_UPDATESEAT_SUCCESS,
+        payload: data,
       });
     } catch (error) {
       const message =

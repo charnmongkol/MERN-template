@@ -42,6 +42,10 @@ const postSchema = mongoose.Schema(
       type: Number,
       required: true,
     },
+    seatsAval: {
+      type: Number,
+      required: true,
+    },
     pdfFile: {
       type: String,
       required: false,
@@ -56,27 +60,27 @@ const postSchema = mongoose.Schema(
     },
     priceA: {
       type: Number,
-      required: true,
+      default: 0,
     },
     priceB: {
       type: Number,
-      required: true,
+      default: 0,
     },
     priceC: {
       type: Number,
-      required: true,
+      default: 0,
     },
     priceD: {
       type: Number,
-      required: true,
+      default: 0,
     },
     priceE: {
       type: Number,
-      required: true,
+      default: 0,
     },
     priceF: {
       type: Number,
-      required: true,
+      default: 0,
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,

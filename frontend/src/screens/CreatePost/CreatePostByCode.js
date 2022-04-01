@@ -5,7 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import DashboardLayOut from "../../components/Layout/DashboardLayOut";
 import axios from "axios";
-import { createPostAction, listPosts } from "../../redux/actions/postsActions";
+import {
+  createPostAction,
+  getAllPosts,
+} from "../../redux/actions/postsActions";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -44,6 +47,7 @@ const CreatePostByCode = () => {
   const [comSales, setComSales] = useState("");
   const [seatsCl, setSeatsCl] = useState("");
   const [seatsGu, setSeatsGu] = useState("");
+  const [seatsAval, setSeatsAval] = useState(seatsCl);
   const [pdfFile, setPdfFile] = useState("");
   const [wordFile, setWordFile] = useState("");
   const [featuredImage, setFeaturedImage] = useState("");
@@ -57,15 +61,16 @@ const CreatePostByCode = () => {
   const [fileMessage, setFileMessage] = useState(null);
   const [tourID, setTourID] = useState("");
 
+  console.log("pdfFile", wordFile);
   const [inputs, setInputs] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const allPosts = useSelector((state) => state?.allPosts);
   const { loading: lodingAllposts, allposts } = allPosts;
-
+  console.log(allposts);
   useEffect(() => {
-    dispatch(listPosts());
+    dispatch(getAllPosts());
   }, [dispatch]);
 
   useEffect(() => {
@@ -89,6 +94,7 @@ const CreatePostByCode = () => {
       setComSales(data.comSales);
       setSeatsCl(data.seatsCl);
       setSeatsGu(data.seatsGu);
+      setSeatsAval(data.seatsAval);
       setStartAt(data.startAt);
       setEndAt(data.endAt);
       setFeaturedImage(data.featuredImage);
@@ -107,28 +113,7 @@ const CreatePostByCode = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    if (
-      !tourName ||
-      !tourCode ||
-      !highlight ||
-      !country ||
-      !startAt ||
-      !endAt ||
-      !commission ||
-      !comSales ||
-      !seatsCl ||
-      !seatsGu ||
-      !pdfFile ||
-      !wordFile ||
-      !featuredImage ||
-      !priceA ||
-      !priceB ||
-      !priceC ||
-      !priceD ||
-      !priceE ||
-      !priceF
-    )
-      return;
+    if (!tourName) return;
     dispatch(
       createPostAction(
         tourName,
@@ -141,6 +126,7 @@ const CreatePostByCode = () => {
         comSales,
         seatsCl,
         seatsGu,
+        seatsAval,
         pdfFile,
         wordFile,
         featuredImage,
@@ -153,8 +139,13 @@ const CreatePostByCode = () => {
       )
     );
 
-    navigate("/myposts");
+    navigate("/admin/myposts");
   };
+
+  useEffect(() => {
+    setSeatsAval(seatsCl);
+  }, [seatsCl]);
+  console.log(seatsAval);
 
   const uploadFeaturedImage = (pics) => {
     if (pics.type === "image/jpeg" || pics.type === "image/png") {

@@ -1,9 +1,7 @@
-import React from "react";
+import React, { useEffect, useState, lazy, Suspense } from "react";
 import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../redux/actions/userActions";
 import Input from "../../components/Controls/Input";
@@ -19,6 +17,9 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Typography from "@mui/material/Typography";
 import ErrorMessage from "../../components/ErrorMessage";
+import ResponsiveAppBar from "../../components/Header/AppBar";
+
+const Footer = lazy(() => import("../../components/Footer/Footer"));
 
 const Login = () => {
   const history = useNavigate();
@@ -70,6 +71,7 @@ const Login = () => {
 
   return (
     <Container maxWidth="lg">
+      <ResponsiveAppBar />
       <Paper
         elevation={10}
         sx={{
@@ -149,6 +151,9 @@ const Login = () => {
           </Typography>
         </Box>
       </Paper>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Footer />
+      </Suspense>
     </Container>
   );
 };

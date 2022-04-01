@@ -46,6 +46,7 @@ const createPost = asyncHandler(async (req, res) => {
     comSales,
     seatsCl,
     seatsGu,
+    seatsAval,
     pdfFile,
     wordFile,
     featuredImage,
@@ -57,27 +58,7 @@ const createPost = asyncHandler(async (req, res) => {
     priceF,
   } = req.body;
 
-  if (
-    !tourName ||
-    !tourCode ||
-    !highlight ||
-    !country ||
-    !startAt ||
-    !endAt ||
-    !commission ||
-    !comSales ||
-    !seatsCl ||
-    !seatsGu ||
-    !pdfFile ||
-    !wordFile ||
-    !featuredImage ||
-    !priceA ||
-    !priceB ||
-    !priceC ||
-    !priceD ||
-    !priceE ||
-    !priceF
-  ) {
+  if (!tourName || !tourCode) {
     res.status(400);
     throw new Error("please fill all the feilds");
   } else {
@@ -93,6 +74,7 @@ const createPost = asyncHandler(async (req, res) => {
       comSales,
       seatsCl,
       seatsGu,
+      seatsAval,
       pdfFile,
       wordFile,
       featuredImage,
@@ -120,6 +102,16 @@ const getPostById = asyncHandler(async (req, res) => {
     res.json(post);
   } else {
     res.status(404).json({ message: "Post is not found!" });
+  }
+});
+
+const getTourByCode = asyncHandler(async (req, res) => {
+  const posts = await Post.find({ tourCode: req.params.tourCode });
+
+  if (posts) {
+    res.json(posts);
+  } else {
+    res.status(404).json({ message: "this code is not found!" });
   }
 });
 
@@ -179,6 +171,17 @@ const updatePost = asyncHandler(async (req, res) => {
   }
 });
 
+const updateSeat = asyncHandler(async (req, res) => {
+  const { seatsAval } = req.body;
+  const post = await Post.findById(req.params.id);
+
+  if (post) {
+    post.seatsAval = seatsAval;
+    const updateTourSeat = await post.save();
+    res.json(updateTourSeat);
+  }
+});
+
 const deletePost = asyncHandler(async (req, res) => {
   const post = await Post.findById(req.params.id);
 
@@ -201,6 +204,8 @@ module.exports = {
   getPosts,
   createPost,
   getPostById,
+  getTourByCode,
   updatePost,
+  updateSeat,
   deletePost,
 };
