@@ -508,7 +508,7 @@ const CreatePost = () => {
               </Grid>
             </Box>
           </CardContent>
-          <CardActions>
+          <CardActions sx={{ justifyContent: "flex-end" }}>
             <Button color="success" variant="contained" type="submit">
               Create Note
             </Button>

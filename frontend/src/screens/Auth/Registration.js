@@ -352,7 +352,7 @@ const Registration = () => {
             </Grid>
 
             <Grid item xs={12} md={12}>
-              <Button color="success" variant="contained" type="submit">
+              <Button color="primary" variant="contained" type="submit">
                 สมัคร
               </Button>
             </Grid>

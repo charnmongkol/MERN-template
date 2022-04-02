@@ -1,16 +1,17 @@
 import { Box } from "@mui/material";
 import { Container } from "@mui/material";
 import React from "react";
-import bg from "../../assets/images/manuel-cosentino-n--CMLApjfI-unsplash.jpg";
+import bg from "../../assets/logos/Banner1.jpeg";
 
 const Banner = () => {
   return (
-    <Container disableGutters={true} maxWidth={false} sx={{ mt: "64px" }}>
+    <Container disableGutters={true} maxWidth={false} sx={{ mt: "80px" }}>
       <Box
         sx={{
           backgroundImage: `url(${bg})`,
           backgroundSize: "cover",
-          height: "93vh",
+          backgroundRepeat: "no-repeat",
+          height: "90vh",
         }}
       ></Box>
     </Container>

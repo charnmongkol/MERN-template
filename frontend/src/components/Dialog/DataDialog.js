@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 import PropTypes from "prop-types";
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
@@ -21,12 +23,9 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { singleUser } from "../../redux/actions/userActions";
-import { useState } from "react";
 import Chip from "@mui/material/Chip";
 import { billUpdateStatus } from "../../redux/actions/billsActions";
+import { singleUser } from "../../redux/actions/userActions";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -71,10 +70,18 @@ const DataDialog = ({ open, setOpen, data }) => {
   const handleClose = () => setOpen(false);
 
   const [status, setStatus] = useState("");
+  const [userId, setUserId] = useState(data.bill?.agent);
 
-  const singleUser = useSelector((state) => state.singleUser);
-  const { user } = singleUser;
+  const agent = useSelector((state) => state.singleUser);
+  const { user } = agent;
 
+  useEffect(() => {
+    if (data.bill?.agent && open === true) {
+      dispatch(singleUser(data.bill?.agent));
+    }
+  }, [data.bill?.agent]);
+
+  console.log(data);
   // console.log(data);
   const handleSubmit = () => {
     dispatch(billUpdateStatus(data.bill?._id, status));
@@ -95,10 +102,13 @@ const DataDialog = ({ open, setOpen, data }) => {
           {data.bill?.tour}
         </BootstrapDialogTitle>
         <DialogContent dividers>
-          {data.bill && (
+          {data.bill && user && (
             <Box>
-              <Typography variant="body1" gutterBottom>
-                Agent: {data.bill?.agent}
+              <Typography variant="subtitle1" gutterBottom>
+                Agent: {user.name}
+              </Typography>
+              <Typography variant="subtitle2" gutterBottom>
+                หมายเลขใบอณุญาต: {user.licenseNumber}
               </Typography>
               <TableContainer component={Paper}>
                 <Table aria-label="simple table" size="">

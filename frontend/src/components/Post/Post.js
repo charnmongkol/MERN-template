@@ -16,6 +16,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+
 import DateRangeRoundedIcon from "@mui/icons-material/DateRangeRounded";
 import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
 import ConfirmationNumberRoundedIcon from "@mui/icons-material/ConfirmationNumberRounded";
@@ -116,16 +117,31 @@ const Post = () => {
   }, [params.id, userInfo, history]);
 
   useEffect(() => {
-    setSubtotal(
-      priceRow(priceA, seats.quantityA) +
-        priceRow(priceB, seats.quantityB) +
-        priceRow(priceC, seats.quantityC) +
-        priceRow(priceD, seats.quantityD) +
-        priceRow(priceE, seats.quantityE) +
-        priceRow(priceF, seats.quantityF)
-    );
-    if (totalSeats !== 0) {
-      setSeatsAval(seatsAval - totalSeats);
+    if (
+      priceA ||
+      seats.quantityA ||
+      priceB ||
+      seats.quantityB ||
+      priceC ||
+      seats.quantityC ||
+      priceD ||
+      seats.quantityD ||
+      priceE ||
+      seats.quantityE ||
+      priceF ||
+      seats.quantityF
+    ) {
+      setSubtotal(
+        priceRow(priceA, seats.quantityA) +
+          priceRow(priceB, seats.quantityB) +
+          priceRow(priceC, seats.quantityC) +
+          priceRow(priceD, seats.quantityD) +
+          priceRow(priceE, seats.quantityE) +
+          priceRow(priceF, seats.quantityF)
+      );
+      if (totalSeats !== 0) {
+        setSeatsAval(seatsAval - totalSeats);
+      }
     }
   }, [
     priceA,
@@ -144,7 +160,9 @@ const Post = () => {
 
   useEffect(() => {
     // setTax(TAX_RATE * subTotal);
-    setTotalAmount(subTotal);
+    if (subTotal) {
+      setTotalAmount(subTotal);
+    }
   }, [subTotal]);
 
   const calc_total = (newValues) => {
@@ -198,16 +216,10 @@ const Post = () => {
 
   return (
     <Card>
-      <CardMedia
-        component="img"
-        alt={tourName}
-        height="400"
-        image={featuredImage}
-        sx={{ p: 2 }}
-      />
+      <CardMedia component="img" alt={tourName} image={featuredImage} />
       <CardContent sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
         <Box>
-          <Typography variant="h2" component="h2">
+          <Typography variant="h4" component="h2">
             {tourName}
           </Typography>
         </Box>
@@ -340,7 +352,7 @@ const Post = () => {
                     จำนวน
                   </TableCell>
                   <TableCell align="center" sx={{ color: "white" }}>
-                    ราคมรวม
+                    ราคารวม
                   </TableCell>
                 </TableRow>
               </TableHead>
@@ -521,6 +533,9 @@ const Post = () => {
           </TableContainer>
         </Box>
         <Box>
+          <Typography variant="h4" gutterBottom component="div">
+            Periodอื่นๆ
+          </Typography>
           <Suspense fallback={<Loading />}>
             <TourCode tourCode={tourCode} />
           </Suspense>

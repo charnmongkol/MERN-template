@@ -1,6 +1,4 @@
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState, lazy, Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DashboardLayOut from "../../components/Layout/DashboardLayOut";
 import { getAllBills, getBillById } from "../../redux/actions/billsActions";
@@ -12,8 +10,9 @@ import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";
 import PropTypes from "prop-types";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
-import DataDialog from "../../components/Dialog/DataDialog";
 import Button from "@mui/material/Button";
+
+const DataDialog = lazy(() => import("../../components/Dialog/DataDialog"));
 
 function escapeRegExp(value) {
   return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
@@ -87,13 +86,14 @@ const Bill = () => {
   const [open, setOpen] = useState(false);
 
   const handleOpen = async (id) => {
-    console.log(id);
+    // console.log(id);
     dispatch(getBillById(id));
+
     setOpen(true);
   };
 
   const columns = [
-    { field: "_id", headerName: "Ref.", flex: 1 },
+    { field: "refNumber", headerName: "Ref.", flex: 1 },
     { field: "tour", headerName: "ทัวร์", flex: 1 },
     { field: "totalAmount", headerName: "ยอดรวม", flex: 1 },
     { field: "createdAt", headerName: "วันที่สร้าง", flex: 1 },
@@ -122,12 +122,12 @@ const Bill = () => {
       type: "actions",
       headerName: "แก้ไข",
       flex: 0.5,
-      getActions: ({ id }) => [
+      getActions: (params) => [
         <IconButton
           color="primary"
           aria-label="upload picture"
           component="span"
-          onClick={() => handleOpen(id)}
+          onClick={() => handleOpen(params.row._id, params.row._agent)}
         >
           <EditRoundedIcon />
         </IconButton>,
@@ -151,7 +151,7 @@ const Bill = () => {
     if (userInfo) {
       dispatch(getAllBills());
     }
-  }, [userInfo, dispatch, open]);
+  }, [userInfo, dispatch]);
   useEffect(() => {
     if (allbills) {
       setDataTable(allbills);
@@ -162,7 +162,6 @@ const Bill = () => {
     setRows(dataTable);
   }, [dataTable, dispatch]);
 
-  console.log(rows);
   return (
     <DashboardLayOut title="คำสั่งจอง">
       <div style={{ width: "100%" }}>
@@ -170,7 +169,7 @@ const Bill = () => {
           rows={loadingMyBills ? [] : rows}
           columns={columns}
           pageSize={10}
-          getRowId={(row) => row._id}
+          getRowId={(row) => row.refNumber}
           autoHeight
           components={{ Toolbar: QuickSearchToolbar }}
           componentsProps={{
@@ -182,7 +181,9 @@ const Bill = () => {
           }}
         />
       </div>
-      <DataDialog open={open} setOpen={setOpen} data={singleBill} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <DataDialog open={open} setOpen={setOpen} data={singleBill} />
+      </Suspense>
     </DashboardLayOut>
   );
 };

@@ -12,11 +12,9 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import Logo from "../../assets/logos/Logo Navy Blue BG-01.jpg";
-import LogoNoBg from "../../assets/logos/Logo Navy Blue PNG.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/actions/userActions";
-import { useEffect } from "react";
 import { useState } from "react";
 import styled from "@emotion/styled";
 

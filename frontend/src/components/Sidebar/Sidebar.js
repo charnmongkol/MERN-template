@@ -1,12 +1,12 @@
-import { CardMedia } from "@mui/material";
-import { List } from "@mui/material";
-import { Typography } from "@mui/material";
-import { CardContent } from "@mui/material";
-import { ListItem } from "@mui/material";
-import { ListItemIcon } from "@mui/material";
-import { ListItemButton } from "@mui/material";
+import CardMedia from "@mui/material/CardMedia";
+import List from "@mui/material/List";
+import Typography from "@mui/material/Typography";
+import CardContent from "@mui/material/CardContent";
+import ListItem from "@mui/material/ListItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-import { Box } from "@mui/material";
+import Box from "@mui/material/Box";
 import InboxIcon from "@mui/icons-material/Inbox";
 import DraftsIcon from "@mui/icons-material/Drafts";
 import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
@@ -17,8 +17,8 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import "./Sidebar.css";
-import { Card } from "@mui/material";
-import { Link } from "@mui/material";
+import Card from "@mui/material/Card";
+import Link from "@mui/material/Link";
 
 const Sidebar = () => {
   const userLogin = useSelector((state) => state.userLogin);
@@ -39,7 +39,6 @@ const Sidebar = () => {
           alt={userInfo.name}
           height="300"
           image={userInfo.pic}
-          sx={{ p: 2 }}
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h5">

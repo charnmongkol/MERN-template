@@ -1,4 +1,4 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import styled from "@emotion/styled";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
@@ -11,7 +11,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { allUsersForAdmin } from "../../redux/actions/userActions";
 import { useState } from "react";
-import AgentCard from "../../components/AgentCard/AgentCard";
+import ResponsiveAppBar from "../../components/Header/AppBar";
+
+const AgentCard = lazy(() => import("../../components/AgentCard/AgentCard"));
+const Footer = lazy(() => import("../../components/Footer/Footer"));
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -36,7 +39,9 @@ const AllAgents = () => {
   const [agents, setAgents] = useState("");
 
   useEffect(() => {
-    setAgents(allUsers);
+    if (allUsers) {
+      setAgents(allUsers);
+    }
   }, [allUsers]);
 
   const filterResult = (zoneCode) => {
@@ -47,7 +52,8 @@ const AllAgents = () => {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ py: 5 }}>
+    <Container maxWidth="xl" sx={{ py: 5 }}>
+      <ResponsiveAppBar />
       <Box sx={{ flexGrow: 1, mt: "100px" }}>
         <Grid
           container
@@ -77,8 +83,13 @@ const AllAgents = () => {
       </Box>
       <Divider light sx={{ my: 5 }} />
       <Box sx={{ flexGrow: 1 }}>
-        <AgentCard agents={agents} />
+        <Suspense fallback={<div>Loading...</div>}>
+          <AgentCard agents={agents} />
+        </Suspense>
       </Box>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Footer />
+      </Suspense>
     </Container>
   );
 };

@@ -1,14 +1,20 @@
 import moment from "moment";
 import React, { useEffect, useState } from "react";
-import { Button, Col, Form, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { updateProfile } from "../../redux/actions/userActions";
 import ErrorMessage from "../../components/ErrorMessage";
 import Loading from "../../components/Loading";
-import MainScreen from "../../components/MainScreen";
-import "./ProfilePage.css";
+
 import DashboardLayOut from "../../components/Layout/DashboardLayOut";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+// import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 
 const ProfilePage = () => {
   const [name, setName] = useState("");
@@ -20,6 +26,8 @@ const ProfilePage = () => {
   const [address, setAddress] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [website, setWebsite] = useState("");
+  const [licensePic, setLicensePic] = useState("");
+  const [zone, setZone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [picMessage, setPicMessage] = useState(null);
@@ -49,6 +57,8 @@ const ProfilePage = () => {
       setAddress(userInfo.address);
       setPhoneNumber(userInfo.phoneNumber);
       setWebsite(userInfo.website);
+      setLicensePic(userInfo.licensePic);
+      setZone(userInfo.setZone);
     }
   }, [navigate, userInfo]);
   //image uploading to Cloudinary
@@ -95,151 +105,140 @@ const ProfilePage = () => {
         phoneNumber,
         website,
         pic,
+        licensePic,
       })
     );
   };
 
   return (
     <DashboardLayOut title="จัดการโปรไฟล์">
-      <div>
-        <Row className="profileContainer">
-          <Col md={6}>
-            <Form onSubmit={submitHandler}>
-              {loading && <Loading />}
-              {success && (
-                <ErrorMessage variant="success">แก้ไขข้อมูลสำเร็จ</ErrorMessage>
-              )}
-              {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
-              <Form.Group className="mb-3" controlId="name">
-                <Form.Label>ชื่อธุรกิจนำเที่ยว</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="ชื่อธุรกิจนำเที่ยว"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label>อีเมล์</Form.Label>
-                <Form.Control
-                  type="email"
-                  placeholder="อีเมล์"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="formBasicPassword">
-                <Form.Label>รหัสผ่าน</Form.Label>
-                <Form.Control
-                  type="password"
-                  placeholder="รหัสผ่าน"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  autoComplete="on"
-                />
-              </Form.Group>
-
-              <Form.Group className="mb-3" controlId="confirmPassword">
-                <Form.Label>ยืนยันรหัสผ่าน</Form.Label>
-                <Form.Control
-                  type="password"
-                  placeholder="ยืนยันรหัสผ่าน"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  autoComplete="on"
-                />
-              </Form.Group>
-
-              <Form.Group className="mb-3" controlId="lisenceNumber">
-                <Form.Label>เลขที่ใบอนุญาต</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="เลขที่ใบอนุญาต"
-                  value={licenseNumber}
-                  onChange={(e) => setLicenseNumber(e.target.value)}
-                />
-              </Form.Group>
-
-              <Form.Group className="mb-3" controlId="licenseStart">
-                <Form.Label>วันที่ออกใบอนุญาต</Form.Label>
-                <Form.Control
-                  type="date"
-                  placeholder="วันที่ออกใบอนุญาต"
-                  value={moment(licenseStart).format("YYYY-MM-DD")}
-                  onChange={(e) => setLicenseStart(e.target.value)}
-                />
-              </Form.Group>
-
-              <Form.Group className="mb-3" controlId="licenseEnd">
-                <Form.Label>วันที่หมดอายุใบอนุญาต</Form.Label>
-                <Form.Control
-                  type="date"
-                  placeholder="วันที่หมดอายุใบอนุญาต"
-                  value={moment(licenseEnd).format("YYYY-MM-DD")}
-                  onChange={(e) => setLicenseEnd(e.target.value)}
-                />
-              </Form.Group>
-
-              <Form.Group className="mb-3" controlId="address">
-                <Form.Label>ที่อยู่บริษัท</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="ชื่อธุรกิจนำเที่ยว"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                />
-              </Form.Group>
-
-              <Form.Group className="mb-3" controlId="phoneNumber">
-                <Form.Label>เบอร์โทร</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="เบอร์โทร"
-                  value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                />
-              </Form.Group>
-
-              <Form.Group className="mb-3" controlId="website">
-                <Form.Label>ลิ้งเว็บไซต์</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="ลิ้งเว็บไซต์"
-                  value={website}
-                  onChange={(e) => setWebsite(e.target.value)}
-                />
-              </Form.Group>
-              {picMessage && (
-                <ErrorMessage variant="danger">{picMessage}</ErrorMessage>
-              )}
-              <Form.Group controlId="pic">
-                <Form.Label>รูปโลโก้บริษัท</Form.Label>
-                <Form.Control
-                  type="file"
-                  label="Upload Logo"
-                  onChange={(e) => postDetails(e.target.files[0])}
-                />
-              </Form.Group>
-              <Button type="submit" variant="success" className="mt-3">
-                Update
-              </Button>
-
-              {success && (
-                <ErrorMessage variant="success">แก้ไขข้อมูลสำเร็จ</ErrorMessage>
-              )}
-            </Form>
-          </Col>
-          <Col
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <img src={pic} alt={name} className="profilePic" />
-          </Col>
-        </Row>
-      </div>
+      <form autoComplete="off" onSubmit={submitHandler}>
+        <Card>
+          <CardContent>
+            <Box sx={{ width: "100%" }}>
+              <Grid
+                container
+                rowSpacing={4}
+                columnSpacing={{ xs: 1, sm: 2, md: 4 }}
+              >
+                <Grid item md={6} xs={12} textAlign="center">
+                  <img
+                    src={pic}
+                    alt={name}
+                    className="profilePic"
+                    width={200}
+                    height={200}
+                  />
+                </Grid>
+                <Grid item md={6} xs={12} textAlign="center">
+                  <img
+                    src={licensePic}
+                    alt={name}
+                    className="profilePic"
+                    width={200}
+                    height={200}
+                  />
+                </Grid>
+                <Grid item md={12} xs={12}>
+                  {loading && <Loading />}
+                  {success && (
+                    <ErrorMessage variant="success">
+                      แก้ไขข้อมูลสำเร็จ
+                    </ErrorMessage>
+                  )}
+                </Grid>
+                <Grid item md={12} xs={12}>
+                  <TextField
+                    fullWidth
+                    label="ชื่อบริษัท"
+                    variant="outlined"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                </Grid>
+                <Grid item md={6} xs={12}>
+                  <TextField
+                    fullWidth
+                    label="อีเมลล์"
+                    variant="outlined"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </Grid>
+                <Grid item md={6} xs={12}>
+                  <TextField
+                    fullWidth
+                    label="เบอร์โทรศัพท์"
+                    variant="outlined"
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                  />
+                </Grid>
+                <Grid item md={12} xs={12}>
+                  <TextField
+                    fullWidth
+                    label="เลขที่ใบอนุญาต"
+                    variant="outlined"
+                    value={licenseNumber}
+                    onChange={(e) => setLicenseNumber(e.target.value)}
+                  />
+                </Grid>
+                <Grid item md={6} xs={12}>
+                  <TextField
+                    fullWidth
+                    label="วันที่ออกใบอนุญาต"
+                    variant="outlined"
+                    value={licenseStart}
+                    onChange={(e) => setLicenseStart(e.target.value)}
+                  />
+                </Grid>
+                <Grid item md={6} xs={12}>
+                  <TextField
+                    fullWidth
+                    label="วันที่ใบอนุญาตหมดอายุ"
+                    variant="outlined"
+                    value={licenseEnd}
+                    onChange={(e) => setLicenseEnd(e.target.value)}
+                  />
+                </Grid>
+                <Grid item md={12} xs={12}>
+                  <TextField
+                    fullWidth
+                    label="ลิ้งเว็บไซต์"
+                    variant="outlined"
+                    value={website}
+                    onChange={(e) => setWebsite(e.target.value)}
+                  />
+                </Grid>
+                <Grid item md={6} xs={12}>
+                  <TextField
+                    type="file"
+                    label="อัพโหลดรุปโลโก้ใหม่"
+                    onChange={(e) => postDetails(e.target.files[0])}
+                    fullWidth
+                    variant="outlined"
+                    InputLabelProps={{ shrink: true }}
+                  />
+                </Grid>
+                <Grid item md={6} xs={12}>
+                  <TextField
+                    type="file"
+                    label="อัพโลหดรูปใบอนุญาตนำเที่ยว"
+                    fullWidth
+                    variant="outlined"
+                    InputLabelProps={{ shrink: true }}
+                  />
+                </Grid>
+              </Grid>
+            </Box>
+          </CardContent>
+          <CardActions sx={{ justifyContent: "flex-end" }}>
+            <Button color="success" variant="contained" type="submit">
+              บันทึก
+            </Button>
+          </CardActions>
+        </Card>
+      </form>
     </DashboardLayOut>
   );
 };

@@ -31,7 +31,7 @@ const AgentCard = ({ agents }) => {
     >
       {agents &&
         agents.map((agent, index) => (
-          <Grid item xs={12} sm={12} md={3}>
+          <Grid item xs={12} sm={12} md={3} key={index}>
             <Card sx={{ borderRadius: "12px", backgroundColor: "#e8f4fd" }}>
               <CardHeader title={<CardTitle>{agent.name}</CardTitle>} />
 

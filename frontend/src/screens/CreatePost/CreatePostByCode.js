@@ -534,7 +534,7 @@ const CreatePostByCode = () => {
                 </Grid>
               </Box>
             </CardContent>
-            <CardActions>
+            <CardActions sx={{ justifyContent: "flex-end" }}>
               <Button color="success" variant="contained" type="submit">
                 บันทึก
               </Button>

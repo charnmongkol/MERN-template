@@ -15,7 +15,7 @@ import moment from "moment";
 import Button from "@mui/material/Button";
 
 const columns = [
-  { field: "_id", headerName: "Ref.", flex: 1 },
+  { field: "refNumber", headerName: "Ref.", flex: 1 },
   { field: "tour", headerName: "ทัวร์", flex: 1 },
   { field: "totalAmount", headerName: "ยอดรวม", flex: 1 },
   {
@@ -130,7 +130,7 @@ const MyBills = () => {
           rows={loadingMyBills ? [] : rows}
           columns={columns}
           pageSize={10}
-          getRowId={(row) => row._id}
+          getRowId={(row) => row.refNumber}
           autoHeight
           components={{ Toolbar: QuickSearchToolbar }}
           componentsProps={{

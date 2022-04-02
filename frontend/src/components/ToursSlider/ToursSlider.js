@@ -7,9 +7,11 @@ import ArrowCircleRightRoundedIcon from "@mui/icons-material/ArrowCircleRightRou
 import { useState } from "react";
 import { getAllPosts } from "../../redux/actions/postsActions";
 import styled from "@emotion/styled";
-import { style } from "@mui/system";
-import { IconButton } from "@mui/material";
-import { Container } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import Container from "@mui/material/Container";
+import Card from "@mui/material/Card";
+import CardMedia from "@mui/material/CardMedia";
+import { Link } from "react-router-dom";
 
 const Slider = styled(Container)`
   position: relative;
@@ -40,7 +42,7 @@ const ButtonIconLeft = styled(IconButton)`
   user-select: none;
 `;
 
-const Slide = styled(Box)`
+const Slide = styled(Card)`
   opacity: 0;
   transition-duration: 1s ease;
   &.active {
@@ -48,11 +50,12 @@ const Slide = styled(Box)`
     transition-duration: 1s;
     transform: scale(1.08);
   }
+  text-align: center;
 `;
 
-const Image = styled.img`
+const Image = styled(CardMedia)`
   width: 100%;
-  height: 100%;
+  height: 400px;
   object-fit: cover;
 `;
 
@@ -73,7 +76,7 @@ const ToursSlider = () => {
     e.preventDefault();
     setCurrent(current === 0 ? length - 1 : current - 1);
   };
-  console.log(allposts);
+  // console.log(allposts);
   const nextSlide = (e) => {
     e.preventDefault();
     setCurrent(current === length - 1 ? 0 : current + 1);
@@ -84,7 +87,7 @@ const ToursSlider = () => {
   }
 
   return (
-    <Slider maxWidth={false} className="slider">
+    <Slider maxWidth="md" className="slider">
       <ButtonIconLeft onClick={prevSlide}>
         <ArrowCircleLeftRoundedIcon />
       </ButtonIconLeft>
@@ -96,7 +99,13 @@ const ToursSlider = () => {
           return (
             <Slide key={index} className={index === current ? "active" : ""}>
               {index === current && (
-                <Image src={item.featuredImage} alt={item.country} />
+                <Link to={`/posts/${item._id}`}>
+                  <Image
+                    src={item.featuredImage}
+                    alt={item.country}
+                    component="img"
+                  />
+                </Link>
               )}
             </Slide>
           );

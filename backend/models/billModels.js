@@ -7,6 +7,9 @@ const billSchema = mongoose.Schema(
       required: true,
       ref: "User",
     },
+    refNumber: {
+      type: Number,
+    },
     tour: {
       type: String,
       required: true,
@@ -18,6 +21,7 @@ const billSchema = mongoose.Schema(
     status: {
       type: String,
       enum: ["pending", "approved", "cancled"],
+      default: "pending",
     },
     quantityA: {
       type: Number,
@@ -47,6 +51,14 @@ const billSchema = mongoose.Schema(
   { timestamps: true }
 );
 
+billSchema.pre("save", function (next) {
+  const docs = this;
+  mongoose.model("Bill", billSchema).countDocuments(function (error, counter) {
+    if (error) return next(error);
+    docs.refNumber = counter + 1;
+    next();
+  });
+});
 const Bill = mongoose.model("Bill", billSchema);
 
 module.exports = Bill;
