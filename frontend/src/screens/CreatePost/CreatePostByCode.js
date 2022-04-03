@@ -61,14 +61,14 @@ const CreatePostByCode = () => {
   const [fileMessage, setFileMessage] = useState(null);
   const [tourID, setTourID] = useState("");
 
-  console.log("pdfFile", wordFile);
+  // console.log("pdfFile", wordFile);
   const [inputs, setInputs] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const allPosts = useSelector((state) => state?.allPosts);
   const { loading: lodingAllposts, allposts } = allPosts;
-  console.log(allposts);
+  // console.log(allposts);
   useEffect(() => {
     dispatch(getAllPosts());
   }, [dispatch]);
@@ -145,7 +145,7 @@ const CreatePostByCode = () => {
   useEffect(() => {
     setSeatsAval(seatsCl);
   }, [seatsCl]);
-  console.log(seatsAval);
+  // console.log(seatsAval);
 
   const uploadFeaturedImage = (pics) => {
     if (pics.type === "image/jpeg" || pics.type === "image/png") {

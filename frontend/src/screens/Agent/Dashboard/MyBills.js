@@ -109,7 +109,9 @@ const MyBills = () => {
     setRows(filteredRows);
   };
   useEffect(() => {
-    setRows(dataTable);
+    if (dataTable) {
+      setRows(dataTable);
+    }
   }, [dataTable]);
 
   useEffect(() => {

@@ -13,7 +13,7 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
-
+import FormHelperText from "@mui/material/FormHelperText";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
@@ -73,8 +73,7 @@ const CreatePost = () => {
   const [picMessage, setPicMessage] = useState(null);
   const [fileMessage, setFileMessage] = useState(null);
 
-  console.log(seatsAval);
-  console.log(startAt, endAt, wordFile);
+  // console.log(wordFile);
   //taking dispatch hook
   const dispatch = useDispatch();
 
@@ -202,7 +201,7 @@ const CreatePost = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        setWordFile(data.url);
+        setWordFile(data.url.toString());
       })
       .catch((err) => {
         console.log(err);
@@ -290,9 +289,10 @@ const CreatePost = () => {
                         ),
                       }}
                       type="file"
-                      label="รูปหน้าปก"
+                      label="รูปหน้าปก ไม่เกิน 1000KB / 1MB"
                       onChange={(e) => uploadFeaturedImage(e.target.files[0])}
                     />
+
                     <Card variant="outlined" sx={{ flex: 1 }}>
                       {featuredImage && (
                         <CardMedia
@@ -394,6 +394,9 @@ const CreatePost = () => {
                     label="PDF ไฟล์"
                     onChange={(e) => uploadFile(e.target.files[0])}
                   />
+                  <FormHelperText id="filled-weight-helper-text">
+                    ไฟล์ .pdf ไม่เกิน 10MB
+                  </FormHelperText>
                 </Grid>
                 <Grid item md={12} xs={12}>
                   <TextField
@@ -411,6 +414,9 @@ const CreatePost = () => {
                     label="Word file"
                     onChange={(e) => uploadWordFile(e.target.files[0])}
                   />
+                  <FormHelperText id="filled-weight-helper-text">
+                    ไฟล์ word.docx ไม่เกิน 10MB
+                  </FormHelperText>
                 </Grid>
                 <Grid item md={12} xs={12}>
                   <TableContainer component={Paper}>

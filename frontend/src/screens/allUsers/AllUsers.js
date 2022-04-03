@@ -24,7 +24,7 @@ const AllUsers = () => {
   const [show, setShow] = useState(false);
 
   const handleShow = async (id) => {
-    console.log(id);
+    // console.log(id);
     dispatch(singleUser(id));
     setShow(true);
   };

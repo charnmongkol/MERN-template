@@ -118,8 +118,9 @@ const EditPost = () => {
       setPriceE(data.priceE);
       setPriceF(data.priceF);
     };
-
-    fetching();
+    if (params.id) {
+      fetching();
+    }
   }, [params.id]);
 
   const resetHandler = () => {

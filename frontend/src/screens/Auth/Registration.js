@@ -77,21 +77,21 @@ const Registration = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log("sub");
-    console.log(
-      name,
-      email,
-      password.password,
-      licenseNumber,
-      licenseStart,
-      licenseEnd,
-      address,
-      phoneNumber,
-      website,
-      pic,
-      licensePic,
-      zone
-    );
+    // console.log("sub");
+    // console.log(
+    //   name,
+    //   email,
+    //   password.password,
+    //   licenseNumber,
+    //   licenseStart,
+    //   licenseEnd,
+    //   address,
+    //   phoneNumber,
+    //   website,
+    //   pic,
+    //   licensePic,
+    //   zone
+    // );
     if (password.password !== confirmpassword) {
       setMessage("Password do not match");
     } else {
@@ -305,7 +305,7 @@ const Registration = () => {
                 </Typography>
                 <Input
                   type="file"
-                  label="โลโก้บริษัท"
+                  label="โลโก้บริษัท ไม่เกิน500KB"
                   onChange={(e) => postDetails(e.target.files[0])}
                   InputLabelProps={{ shrink: true }}
                 />
@@ -331,7 +331,7 @@ const Registration = () => {
                 </Typography>
                 <Input
                   type="file"
-                  label="โลโก้บริษัท"
+                  label="รูปใบอนุญาต ไม่เกิน500KB"
                   onChange={(e) => licenseUpload(e.target.files[0])}
                   InputLabelProps={{ shrink: true }}
                 />

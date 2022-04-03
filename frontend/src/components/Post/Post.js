@@ -69,8 +69,8 @@ const Post = () => {
   });
 
   const [totalSeats, setTotalSeats] = useState(0);
-  console.log("seatsAval", seatsAval);
-  console.log("seats", seats);
+  // console.log("seatsAval", seatsAval);
+  // console.log("seats", seats);
   const [subTotal, setSubtotal] = useState("0");
   const [totalAmount, setTotalAmount] = useState("0");
   // const [tax, setTax] = useState(0);
