@@ -11,6 +11,7 @@ import {
   BILL_ID_SUCCESS,
   BILL_STATUS_FAIL,
   BILL_STATUS_REQUEST,
+  BILL_STATUS_SUCCESS,
   MY_BILLS_FAIL,
   MY_BILLS_REQUEST,
   MY_BILLS_SUCCESS,
@@ -201,6 +202,11 @@ export const billUpdateStatus = (id, status) => async (dispatch, getState) => {
       { status },
       config
     );
+
+    dispatch({
+      type: BILL_STATUS_SUCCESS,
+      payload: data,
+    });
   } catch (error) {
     const message =
       error.response && error.response.data.message

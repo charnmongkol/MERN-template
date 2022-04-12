@@ -3,7 +3,7 @@ import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../redux/actions/userActions";
+import { login, logout } from "../../redux/actions/userActions";
 import Input from "../../components/Controls/Input";
 import FormControl from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
@@ -18,6 +18,8 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Typography from "@mui/material/Typography";
 import ErrorMessage from "../../components/ErrorMessage";
 import ResponsiveAppBar from "../../components/Header/AppBar";
+import Notification from "../../components/Notification/Notification";
+import NotiPopup from "../../components/Modal/NotiPopup";
 
 const Footer = lazy(() => import("../../components/Footer/Footer"));
 
@@ -27,6 +29,12 @@ const Login = () => {
   const [password, setPassword] = useState({
     password: "",
     showPassword: false,
+  });
+  const [popup, setPopup] = useState({
+    openPopup: false,
+    setOpenPopup: "",
+    title: "",
+    children: "",
   });
 
   //hook to call useActions
@@ -53,20 +61,27 @@ const Login = () => {
   //route to page if user login success
   useEffect(() => {
     if (userInfo) {
-      history("/");
+      if (userInfo.status === true) {
+        history("/");
+      } else if (userInfo.status === false) {
+        dispatch(logout());
+        setPopup({
+          openPopup: true,
+          setOpenPopup: "",
+          title: "warning",
+          children: "รอการอนุมัติบัญชีของคุณ",
+        });
+      }
     }
-    // if (userInfo.isAdmin === true) {
-    //   history("/myposts");
-    // } else if (userInfo.status === false) {
-    //   history("/");
-    // }
-  }, [history, userInfo]);
+  }, [history, userInfo, dispatch]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
 
     //do action from Actions using Dispatch()
-    dispatch(login(email, password.password));
+    if (email && password.password) {
+      dispatch(login(email, password.password));
+    }
   };
 
   return (
@@ -151,6 +166,7 @@ const Login = () => {
           </Typography>
         </Box>
       </Paper>
+      <NotiPopup popup={popup} setPopup={setPopup} />
       <Suspense fallback={<div>Loading...</div>}>
         <Footer />
       </Suspense>

@@ -91,7 +91,7 @@ const EditPost = () => {
     if (window.confirm("Are you sure?")) {
       dispatch(deletePostAction(id));
     }
-    navigate("/myposts");
+    navigate("/admin/myposts");
   };
 
   useEffect(() => {
@@ -195,7 +195,7 @@ const EditPost = () => {
     );
 
     resetHandler();
-    navigate("/myposts");
+    navigate("/admin/myposts");
   };
 
   const uploadFeaturedImage = (pics) => {

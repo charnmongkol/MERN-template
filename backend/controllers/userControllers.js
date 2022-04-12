@@ -137,6 +137,18 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
+const updateStatusUser = asyncHandler(async (req, res) => {
+  const { status } = req.body;
+  const user = await User.findById(req.params.id);
+
+  if (user) {
+    user.status = status;
+
+    const updateStatus = await user.save();
+    res.json(updateStatus);
+  }
+});
+
 const getUsersforAdmin = asyncHandler(async (req, res) => {
   const allUsers = await User.find({});
 
@@ -157,6 +169,7 @@ module.exports = {
   registerUser,
   authUser,
   updateUserProfile,
+  updateStatusUser,
   getUsersforAdmin,
   getUserByName,
 };

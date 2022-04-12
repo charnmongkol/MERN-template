@@ -186,18 +186,20 @@ const ProfilePage = () => {
                 <Grid item md={6} xs={12}>
                   <TextField
                     fullWidth
+                    type="date"
                     label="วันที่ออกใบอนุญาต"
                     variant="outlined"
-                    value={licenseStart}
+                    value={moment(licenseStart).format("YYYY-MM-DD")}
                     onChange={(e) => setLicenseStart(e.target.value)}
                   />
                 </Grid>
                 <Grid item md={6} xs={12}>
                   <TextField
                     fullWidth
+                    type="date"
                     label="วันที่ใบอนุญาตหมดอายุ"
                     variant="outlined"
-                    value={licenseEnd}
+                    value={moment(licenseEnd).format("YYYY-MM-DD")}
                     onChange={(e) => setLicenseEnd(e.target.value)}
                   />
                 </Grid>

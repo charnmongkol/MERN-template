@@ -21,7 +21,10 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import ButtonGenerator from "../../components/Controls/Button";
 import Button from "@mui/material/Button";
 import ResponsiveAppBar from "../../components/Header/AppBar";
+import ErrorMessage from "../../components/ErrorMessage";
+// import NotiPopup from "../../components/Modal/NotiPopup";
 
+const NotiPopup = lazy(() => import("../../components/Modal/NotiPopup"));
 const Footer = lazy(() => import("../../components/Footer/Footer"));
 
 const Registration = () => {
@@ -48,12 +51,35 @@ const Registration = () => {
   const [message, setMessage] = useState(null);
   const [picMessage, setPicMessage] = useState(null);
 
-  // console.log(zone);
+  const [popup, setPopup] = useState({
+    openPopup: false,
+    setOpenPopup: "",
+    title: "",
+    children: "",
+  });
 
   const dispatch = useDispatch();
 
   const userRegistration = useSelector((state) => state.userRegistration);
-  const { loading, error, userInfo } = userRegistration;
+  const { loading, error, success } = userRegistration;
+
+  const resetHandler = () => {
+    setEmail("");
+    setName("");
+    setLicenseNumber("");
+    setLicenseStart("");
+    setLicenseEnd("");
+    setAddress("");
+    setPhoneNumber("");
+    setWebsite("");
+    setLicensePic("");
+    setZone("");
+    setPassword({
+      password: "",
+      showPassword: false,
+    });
+    setConfirmPassword("");
+  };
 
   //password
   const handleChange = (prop) => (event) => {
@@ -70,30 +96,21 @@ const Registration = () => {
   };
 
   useEffect(() => {
-    if (userInfo) {
-      history("/myposts");
+    if (success === true) {
+      setPopup({
+        openPopup: true,
+        setOpenPopup: "",
+        title: "success",
+        children:
+          "สมัครบัญชีเรียบร้อย คุณจะเข้าใช้งานได้หลังจากผ่านการพิจารณาจากทางบริษัท",
+      });
     }
-  }, [history, userInfo]);
+  }, [success]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    // console.log("sub");
-    // console.log(
-    //   name,
-    //   email,
-    //   password.password,
-    //   licenseNumber,
-    //   licenseStart,
-    //   licenseEnd,
-    //   address,
-    //   phoneNumber,
-    //   website,
-    //   pic,
-    //   licensePic,
-    //   zone
-    // );
     if (password.password !== confirmpassword) {
-      setMessage("Password do not match");
+      setMessage("Password ไม่ตรงกัน");
     } else {
       dispatch(
         register(
@@ -111,6 +128,9 @@ const Registration = () => {
           zone
         )
       );
+    }
+    if (success) {
+      resetHandler();
     }
   };
 
@@ -186,8 +206,18 @@ const Registration = () => {
               </Typography>
             </Grid>
             <Grid item xs={12} md={12}>
+              {success && (
+                <ErrorMessage variant="success">
+                  สมัครบัญชีสำเร็จ รอการอนุมัติจากทางบริษัท
+                </ErrorMessage>
+              )}
+            </Grid>
+            <Grid item xs={12} md={12}>
+              {error && <ErrorMessage variant="error">{error}</ErrorMessage>}
+            </Grid>
+            <Grid item xs={12} md={12}>
               <Input
-                label="ชื่อ"
+                label="ชื่อบริษัท"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
@@ -281,7 +311,7 @@ const Registration = () => {
             </Grid>
             <Grid item xs={12} md={12}>
               <Input
-                label="ที่อยู่บริษัท"
+                label="ที่อยู่บริษัท(ภาษาไทย)"
                 type="textarea"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
@@ -352,13 +382,21 @@ const Registration = () => {
             </Grid>
 
             <Grid item xs={12} md={12}>
-              <Button color="primary" variant="contained" type="submit">
+              <Button
+                color="primary"
+                variant="contained"
+                type="submit"
+                disabled={!pic}
+              >
                 สมัคร
               </Button>
             </Grid>
           </Grid>
         </form>
       </Paper>
+      <Suspense fallback={<div>Loading...</div>}>
+        <NotiPopup popup={popup} setPopup={setPopup} />
+      </Suspense>
       <Suspense fallback={<div>Loading...</div>}>
         <Footer />
       </Suspense>

@@ -15,6 +15,9 @@ import {
   USER_SINGLE_REQUEST,
   USER_SINGLE_SUCCESS,
   USER_SINGLE_FAIL,
+  USER_STATUS_REQUEST,
+  USER_STATUS_SUCCESS,
+  USER_STATUS_FAIL,
 } from "../constants/userConstants";
 
 export const userLoginReducer = (state = {}, action) => {
@@ -38,9 +41,9 @@ export const userRegistrationReducer = (state = {}, action) => {
     case USER_REGISTRATION_REQUEST:
       return { loading: true };
     case USER_REGISTRATION_SUCCESS:
-      return { loading: false, userInfo: action.payload };
+      return { loading: false, userInfo: action.payload, success: true };
     case USER_REGISTRATION_FAIL:
-      return { loading: false, error: action.payload };
+      return { loading: false, error: action.payload, success: false };
     default:
       return state;
   }
@@ -80,6 +83,19 @@ export const reviewUserRededucer = (state = {}, action) => {
       return { loading: false, user: action.payload };
     case USER_SINGLE_FAIL:
       return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const updateStatusUserReducer = (state = {}, action) => {
+  switch (action.type) {
+    case USER_STATUS_REQUEST:
+      return { loading: true };
+    case USER_STATUS_SUCCESS:
+      return { loading: false, success: true };
+    case USER_STATUS_FAIL:
+      return { loading: false, error: action.payload, success: false };
     default:
       return state;
   }

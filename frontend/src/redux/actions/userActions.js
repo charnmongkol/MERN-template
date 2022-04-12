@@ -12,6 +12,9 @@ import {
   USER_SINGLE_FAIL,
   USER_SINGLE_REQUEST,
   USER_SINGLE_SUCCESS,
+  USER_STATUS_FAIL,
+  USER_STATUS_REQUEST,
+  USER_STATUS_SUCCESS,
   USER_UPDATE_FAIL,
   USER_UPDATE_REQUEST,
   USER_UPDATE_SUCCESS,
@@ -31,7 +34,7 @@ export const login = (email, password) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      "/api/users/login",
+      "http://localhost:5001/api/users/login",
       {
         email,
         password,
@@ -88,7 +91,7 @@ export const register =
       };
 
       const { data } = await axios.post(
-        "/api/users",
+        "http://localhost:5001/api/users",
         {
           name,
           email,
@@ -107,9 +110,9 @@ export const register =
       );
 
       dispatch({ type: USER_REGISTRATION_SUCCESS, payload: data });
-      dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
+      // dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
 
-      localStorage.setItem("userInfo", JSON.stringify(data));
+      // localStorage.setItem("userInfo", JSON.stringify(data));
     } catch (error) {
       dispatch({
         type: USER_REGISTRATION_FAIL,
@@ -137,7 +140,11 @@ export const updateProfile = (user) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.post("/api/users/profile", user, config);
+    const { data } = await axios.post(
+      "http://localhost:5001/api/users/profile",
+      user,
+      config
+    );
 
     dispatch({ type: USER_UPDATE_SUCCESS, payload: data });
     dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
@@ -155,18 +162,53 @@ export const updateProfile = (user) => async (dispatch, getState) => {
 };
 //go to create a page for user profile
 
+export const updateStatusUser = (id, status) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: USER_STATUS_REQUEST,
+    });
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    const { data } = await axios.put(
+      `/api/users/updatestatus/${id}`,
+      { status },
+      config
+    );
+
+    dispatch({
+      type: USER_STATUS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+
+    dispatch({
+      type: USER_STATUS_FAIL,
+      payload: message,
+    });
+  }
+};
+
 export const allUsersForAdmin = () => async (dispatch, getState) => {
   try {
     dispatch({
       type: USER_ALL_REQUEST,
     });
 
-    //taking out user login from state
-    const {
-      userLogin: { userInfo },
-    } = getState();
-
-    const { data } = await axios.get("/api/users/allUsers");
+    const { data } = await axios.get(
+      "http://localhost:5001/api/users/allUsers"
+    );
 
     dispatch({
       type: USER_ALL_SUCCESS,
@@ -201,7 +243,10 @@ export const singleUser = (id) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`/api/users/${id}`, config);
+    const { data } = await axios.get(
+      `http://localhost:5001/api/users/${id}`,
+      config
+    );
 
     dispatch({
       type: USER_SINGLE_SUCCESS,

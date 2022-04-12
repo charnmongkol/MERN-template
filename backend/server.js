@@ -7,11 +7,18 @@ const billRoutes = require("./routes/billRoutes");
 
 const { errorHandler, notFound } = require("./middlewares/errorMiddleware");
 const path = require("path");
+const cors = require("cors");
 
 const app = express();
 dotenv.config();
 connectDB();
 app.use(express.json());
+
+const corsOptions = {
+  origin: "http://localhost:3000",
+  credentials: true,
+};
+app.use(cors(corsOptions));
 
 app.get("/", (req, res) => {
   res.send("API is runnung...");
@@ -24,19 +31,19 @@ app.use("/api/bills", billRoutes);
 
 //------------  deployment  ---------------\\
 
-__dirname = path.resolve();
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../frontend/build")));
+// __dirname = path.resolve();
+// if (process.env.NODE_ENV === "production") {
+//   app.use(express.static(path.join(__dirname, "../frontend/build")));
 
-  app.get("*", (req, res) =>
-    //send first page of our app
-    res.sendFile(path.resolve(__dirname, "../frontend/build/index.html"))
-  );
-} else {
-  app.get("/", (req, res) => {
-    res.send("API is running...");
-  });
-}
+//   app.get("*", (req, res) =>
+//     //send first page of our app
+//     res.sendFile(path.resolve(__dirname, "../frontend/build/index.html"))
+//   );
+// } else {
+//   app.get("/", (req, res) => {
+//     res.send("API is running...");
+//   });
+// }
 
 //------------  deployment  ---------------\\
 

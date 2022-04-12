@@ -182,8 +182,7 @@ const MyPosts = () => {
         </Button>,
       ],
     },
-    { field: "endAt", headerName: "", flex: 1 },
-    { field: "seatsCl", headerName: "", flex: 0.5 },
+    { field: "seatsCl", headerName: "ที่นั่่ง", flex: 0.5 },
     {
       field: "actions",
       type: "actions",

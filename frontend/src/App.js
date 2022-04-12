@@ -3,6 +3,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import Layout from "./components/layout";
+import Agents from "./screens/Admin/Agents";
 const CreatePost = lazy(() => import("./screens/CreatePost/CreatePost"));
 
 const AllUsers = lazy(() => import("./screens/allUsers/AllUsers"));
@@ -58,7 +59,7 @@ const App = () => {
               element={<CreatePostByCode />}
             />
             <Route path="/admin/editpost/:id" element={<EditPost />} />
-            <Route path="/admin/all-users" element={<AllUsers />} />
+            <Route path="/admin/all-users" element={<Agents />} />
             <Route path="/admin/allbills" element={<Bill />} />
 
             <Route path="/posts" element={<Posts />} />

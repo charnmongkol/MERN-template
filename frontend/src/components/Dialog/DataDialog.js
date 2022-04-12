@@ -81,8 +81,8 @@ const DataDialog = ({ open, setOpen, data }) => {
     }
   }, [data.bill?.agent]);
 
-  console.log(data);
   // console.log(data);
+
   const handleSubmit = () => {
     dispatch(billUpdateStatus(data.bill?._id, status));
     handleClose();
@@ -227,7 +227,7 @@ const DataDialog = ({ open, setOpen, data }) => {
 
         <DialogActions>
           <Button autoFocus onClick={handleSubmit}>
-            Save changes
+            บันทึก
           </Button>
         </DialogActions>
       </BootstrapDialog>

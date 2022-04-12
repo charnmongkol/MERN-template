@@ -13,9 +13,9 @@ const LandingPage = () => {
     <>
       <ResponsiveAppBar />
       <Banner />
-      <Suspense fallback={<div>Loading...</div>}>
+      {/* <Suspense fallback={<div>Loading...</div>}>
         <ToursSlider />
-      </Suspense>
+      </Suspense> */}
       <FloatingBox />
       <Suspense fallback={<div>Loading...</div>}>
         <Footer />

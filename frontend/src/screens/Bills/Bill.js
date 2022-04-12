@@ -11,6 +11,7 @@ import TextField from "@mui/material/TextField";
 import PropTypes from "prop-types";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import Button from "@mui/material/Button";
+import moment from "moment";
 
 const DataDialog = lazy(() => import("../../components/Dialog/DataDialog"));
 
@@ -93,10 +94,42 @@ const Bill = () => {
   };
 
   const columns = [
-    { field: "refNumber", headerName: "Ref.", flex: 1 },
+    { field: "refNumber", headerName: "Ref.", flex: 0.2 },
+    {
+      field: "createdAt",
+      headerName: "วันที่สร้าง",
+      flex: 0.6,
+      type: "actions",
+      getActions: (params) => [
+        <Button variant="text" color="warning">
+          {moment(params.row.createdAt).format("DD-MM-YYYY")}
+        </Button>,
+      ],
+    },
+    // {
+    //   field: "expiredDate",
+    //   type: "actions",
+    //   headerName: "วันหมดอายุ",
+    //   flex: 0.5,
+    //   getActions: (params) => [
+    //     <Button variant="text" color="warning">
+    //       {moment(params.row.createdAt).format("DD-MM-YYYY")}
+    //     </Button>,
+    //   ],
+    // },
     { field: "tour", headerName: "ทัวร์", flex: 1 },
-    { field: "totalAmount", headerName: "ยอดรวม", flex: 1 },
-    { field: "createdAt", headerName: "วันที่สร้าง", flex: 1 },
+    { field: "tourCode", headerName: "รหัสทัวร์", flex: 0.5 },
+    {
+      field: "startAt",
+      type: "actions",
+      headerName: "วันที่เดินทาง",
+      flex: 0.6,
+      getActions: (params) => [
+        <Button variant="text" color="primary">
+          {moment(params.row.startAt).format("DD-MM-YYYY")}
+        </Button>,
+      ],
+    },
     {
       field: "status",
       headerName: "Status",
