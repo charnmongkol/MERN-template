@@ -19,7 +19,6 @@ const Image = styled.img`
 `;
 
 const TourCard = ({ data }) => {
-  // console.log(data.country);
   return (
     <Grid item xs={12} md={6} lg={4} key={data._id}>
       <Paper elevation={3} style={{ borderRadius: 10 }}>
@@ -68,9 +67,18 @@ const TourCard = ({ data }) => {
             href={data.pdfFile}
             target="_blank"
             download
-            underline="hover"
+            underline="none"
           >
             PDF file
+          </Link>
+          <Link
+            color="info"
+            href={data.wordFile}
+            target="_blank"
+            download
+            underline="none"
+          >
+            Word file
           </Link>
         </Box>
       </Paper>

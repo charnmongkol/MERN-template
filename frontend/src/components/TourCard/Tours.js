@@ -1,8 +1,10 @@
 import { Grid } from "@mui/material";
 import React from "react";
+import { lazy } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import TourCard from "./TourCard";
+// import TourCard from "./TourCard";
+const TourCard = lazy(() => import("./TourCard"));
 
 const Tours = ({ alltours, country, sort }) => {
   // console.log("all", alltours, country, sort);
@@ -31,7 +33,9 @@ const Tours = ({ alltours, country, sort }) => {
   return (
     <Grid container spacing={4}>
       {alltours &&
-        alltours.map((tour, index) => <TourCard data={tour} key={index} />)}
+        alltours
+          .reverse()
+          .map((tour, index) => <TourCard data={tour} key={index} />)}
       {/* {alltours &&
         alltours
           .filter((i) => i.category === country)
