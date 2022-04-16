@@ -12,7 +12,8 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import Logo from "../../assets/logos/Logo Navy Blue BG-01.jpg";
-import { Link, useNavigate } from "react-router-dom";
+import Link from "@mui/material/Link";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/actions/userActions";
 import { useState } from "react";
@@ -95,7 +96,7 @@ const ResponsiveAppBar = () => {
       <Container maxWidth="lg">
         <Toolbar disableGutters>
           <Box sx={{ mr: 2, display: { xs: "none", md: "flex" } }}>
-            <Link to="/">
+            <Link href="/">
               <img
                 src={Logo}
                 alt="Top of the world"
@@ -139,7 +140,7 @@ const ResponsiveAppBar = () => {
               }}
             >
               <MenuItem onClick={handleCloseNavMenu}>
-                <Link to="/posts">
+                <Link href="/posts" underline="none">
                   <Typography variant="h6" textAlign="center">
                     โปรแกรมทัวร์
                   </Typography>
@@ -148,7 +149,7 @@ const ResponsiveAppBar = () => {
             </Menu>
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <Link to="/">
+            <Link href="/" underline="none">
               <img
                 src={Logo}
                 alt="Top of the world"
@@ -200,12 +201,12 @@ const ResponsiveAppBar = () => {
                   {userInfo.isAdmin == false ? (
                     <Box>
                       <MenuItem onClick={handleCloseUserMenu}>
-                        <Link to="/agent/dashboard">
+                        <Button variant="text" href="/agent/dashboard">
                           <Typography textAlign="center">Dashboard</Typography>
-                        </Link>
+                        </Button>
                       </MenuItem>
                       <MenuItem onClick={handleCloseUserMenu}>
-                        <Button onClick={logoutHandler}>
+                        <Button variant="text" onClick={logoutHandler}>
                           <Typography textAlign="center">ออกจากระบบ</Typography>
                         </Button>
                       </MenuItem>
@@ -213,12 +214,12 @@ const ResponsiveAppBar = () => {
                   ) : (
                     <Box>
                       <MenuItem onClick={handleCloseUserMenu}>
-                        <Link to="/admin/myposts">
+                        <Button variant="text" href="/admin/myposts">
                           <Typography textAlign="center">Dashboardd</Typography>
-                        </Link>
+                        </Button>
                       </MenuItem>
                       <MenuItem onClick={handleCloseUserMenu}>
-                        <Button onClick={logoutHandler}>
+                        <Button variant="text" onClick={logoutHandler}>
                           <Typography textAlign="center">ออกจากระบบ</Typography>
                         </Button>
                       </MenuItem>

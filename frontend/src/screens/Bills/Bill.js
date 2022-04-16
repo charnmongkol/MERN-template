@@ -101,22 +101,22 @@ const Bill = () => {
       flex: 0.6,
       type: "actions",
       getActions: (params) => [
-        <Button variant="text" color="warning">
-          {moment(params.row.createdAt).format("DD-MM-YYYY")}
+        <Button variant="text" color="primary">
+          {moment(params.row.createdAt).calendar()}
         </Button>,
       ],
     },
-    // {
-    //   field: "expiredDate",
-    //   type: "actions",
-    //   headerName: "วันหมดอายุ",
-    //   flex: 0.5,
-    //   getActions: (params) => [
-    //     <Button variant="text" color="warning">
-    //       {moment(params.row.createdAt).format("DD-MM-YYYY")}
-    //     </Button>,
-    //   ],
-    // },
+    {
+      field: "expiredDate",
+      type: "actions",
+      headerName: "วันหมดอายุ",
+      flex: 0.5,
+      getActions: (params) => [
+        <Button variant="text" color="warning">
+          {moment().add(30, "days").calendar(params.row.createdAt)}
+        </Button>,
+      ],
+    },
     { field: "tour", headerName: "ทัวร์", flex: 1 },
     { field: "tourCode", headerName: "รหัสทัวร์", flex: 0.5 },
     {
@@ -126,7 +126,7 @@ const Bill = () => {
       flex: 0.6,
       getActions: (params) => [
         <Button variant="text" color="primary">
-          {moment(params.row.startAt).format("DD-MM-YYYY")}
+          {moment(params.row.startAt).calendar()}
         </Button>,
       ],
     },

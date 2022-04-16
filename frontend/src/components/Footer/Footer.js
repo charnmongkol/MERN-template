@@ -10,7 +10,7 @@ const Footer = () => {
     <Container maxWidth="lg" sx={{ height: "30%", py: { xs: "100px", md: 5 } }}>
       <Grid container spacing={2} sx={{ alignItems: "center" }}>
         <Grid item xs={12} md={8}>
-          <Paper>
+          <Paper sx={{ textAlign: "center" }}>
             <img
               src={LogoNoBg}
               width="200"

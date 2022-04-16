@@ -16,7 +16,6 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import "./Sidebar.css";
 import Card from "@mui/material/Card";
 import Link from "@mui/material/Link";
 
@@ -33,43 +32,51 @@ const Sidebar = () => {
         flexDirection: "column",
       }}
     >
-      <Card sx={{ maxWidth: "100%" }}>
-        <CardMedia
-          component="img"
-          alt={userInfo.name}
-          height="300"
-          image={userInfo.pic}
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h5">
-            {userInfo.name}
-          </Typography>
-          <List>
-            <ListItem disablePadding sx={{ py: 1 }}>
-              <ListItemIcon sx={{ minWidth: "24px" }}>
-                <EmailRoundedIcon />
-              </ListItemIcon>
-              <ListItemText secondary={userInfo.email} />
-            </ListItem>
-            <ListItem disablePadding sx={{ py: 1 }}>
-              <ListItemIcon sx={{ minWidth: "24px" }}>
-                <PhoneEnabledRoundedIcon />
-              </ListItemIcon>
-              <ListItemText secondary={userInfo.phoneNumber} />
-            </ListItem>
-            <ListItem disablePadding>
-              <ListItemButton sx={{ px: 0 }}>
+      {userInfo ? (
+        <Card sx={{ maxWidth: "100%" }}>
+          <CardMedia
+            component="img"
+            alt={userInfo.name}
+            height="300"
+            image={userInfo.pic}
+          />
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="h5">
+              {userInfo.name}
+            </Typography>
+            <List>
+              <ListItem disablePadding sx={{ py: 1 }}>
                 <ListItemIcon sx={{ minWidth: "24px" }}>
-                  <WebRoundedIcon />
+                  <EmailRoundedIcon />
                 </ListItemIcon>
-                <Link href={userInfo.website} underline="hover" target="_blank">
-                  <ListItemText secondary={userInfo.website} />
-                </Link>
-              </ListItemButton>
-            </ListItem>
-          </List>
-        </CardContent>
-      </Card>
+                <ListItemText secondary={userInfo.email} />
+              </ListItem>
+              <ListItem disablePadding sx={{ py: 1 }}>
+                <ListItemIcon sx={{ minWidth: "24px" }}>
+                  <PhoneEnabledRoundedIcon />
+                </ListItemIcon>
+                <ListItemText secondary={userInfo.phoneNumber} />
+              </ListItem>
+              <ListItem disablePadding>
+                <ListItemButton sx={{ px: 0 }}>
+                  <ListItemIcon sx={{ minWidth: "24px" }}>
+                    <WebRoundedIcon />
+                  </ListItemIcon>
+                  <Link
+                    href={userInfo.website}
+                    underline="hover"
+                    target="_blank"
+                  >
+                    <ListItemText secondary={userInfo.website} />
+                  </Link>
+                </ListItemButton>
+              </ListItem>
+            </List>
+          </CardContent>
+        </Card>
+      ) : (
+        <Card sx={{ maxWidth: "100%" }}></Card>
+      )}
     </Box>
   );
 };

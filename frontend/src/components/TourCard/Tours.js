@@ -6,7 +6,7 @@ import TourCard from "./TourCard";
 
 const Tours = ({ alltours, country, sort }) => {
   // console.log("all", alltours, country, sort);
-  console.log("filter", country);
+  // console.log("filter", country);
   // useEffect(() => {
   //   country &&
   //     setFilterTours(

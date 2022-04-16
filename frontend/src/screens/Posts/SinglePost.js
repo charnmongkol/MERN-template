@@ -18,12 +18,6 @@ const SinglePost = () => {
               <Post />
             </Suspense>
           </Grid>
-
-          <Grid item md={12} xs={12} lg={3}>
-            <Suspense fallback={<div>Loading...</div>}>
-              <Sidebar />
-            </Suspense>
-          </Grid>
         </Grid>
       </Paper>
       <Suspense fallback={<div>Loading...</div>}>

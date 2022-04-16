@@ -9,9 +9,9 @@ const Banner = () => {
       <Box
         sx={{
           backgroundImage: `url(${bg})`,
-          backgroundSize: "cover",
+          backgroundSize: { md: "cover", xs: "contain" },
           backgroundRepeat: "no-repeat",
-          height: "90vh",
+          height: { md: "90vh", xs: "212px" },
         }}
       ></Box>
     </Container>
