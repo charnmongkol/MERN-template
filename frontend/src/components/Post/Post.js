@@ -307,7 +307,7 @@ const Post = () => {
                     <UploadFileRoundedIcon /> WORD file
                   </TableCell>
                   <TableCell align="left">
-                    <Link href={wordFile} target="_blank" download>
+                    <Link href={wordFile} underline="hover">
                       download
                     </Link>
                   </TableCell>
@@ -329,11 +329,11 @@ const Post = () => {
 
         <Box>
           {pdfFile && (
-            <img
-              src={pdfFile.replace(".pdf", ".png")}
-              alt={tourName}
+            <iframe
+              src={`${pdfFile}#toolbar=0`}
               width="100%"
-            />
+              height="700px"
+            ></iframe>
           )}
         </Box>
 

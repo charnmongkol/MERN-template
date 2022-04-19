@@ -6,7 +6,6 @@ import Layout from "./components/layout";
 import Agents from "./screens/Admin/Agents";
 const CreatePost = lazy(() => import("./screens/CreatePost/CreatePost"));
 
-const AllUsers = lazy(() => import("./screens/allUsers/AllUsers"));
 const EditPost = lazy(() => import("./screens/EditPost/EditPost"));
 const LandingPage = lazy(() => import("./screens/LandingPage/LandingPage"));
 const MyPostsPage = lazy(() => import("./screens/MyPosts/MyPosts"));

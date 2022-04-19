@@ -2,7 +2,6 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import React from "react";
 import styled from "@emotion/styled";
 import moment from "moment";
@@ -35,8 +34,8 @@ const TourCard = ({ data }) => {
         <Box sx={{ px: 2, display: "flex", alignItems: "center" }}>
           <AccessTimeIcon />
           <Typography component="p" variant="body2" marginLeft={0.5}>
-            {moment(data.startAt).format("YYYY-MM-DD")} -{" "}
-            {moment(data.endAt).format("YYYY-MM-DD")}
+            {moment(data.startAt).format("LL")} -{" "}
+            {moment(data.endAt).format("LL")}
           </Typography>
         </Box>
         <Box
@@ -71,13 +70,7 @@ const TourCard = ({ data }) => {
           >
             PDF file
           </Link>
-          <Link
-            color="info"
-            href={data.wordFile}
-            target="_blank"
-            download
-            underline="none"
-          >
+          <Link color="info" href={data.wordFile} download underline="none">
             Word file
           </Link>
         </Box>

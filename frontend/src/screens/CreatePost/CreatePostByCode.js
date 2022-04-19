@@ -77,7 +77,7 @@ const CreatePostByCode = () => {
     if (allposts) {
       setInputs(allposts);
     }
-  });
+  }, [allposts]);
   const postCreate = useSelector((state) => state.postCreate);
   //taking loading,error,post from inside of postCreate state
   const { loading: loadingCreating, error, post } = postCreate;
@@ -108,7 +108,9 @@ const CreatePostByCode = () => {
       setPriceF(data.priceF);
     };
 
-    fetching();
+    if (tourID) {
+      fetching();
+    }
   }, [tourID]);
 
   const submitHandler = (e) => {
@@ -217,27 +219,33 @@ const CreatePostByCode = () => {
       });
   };
 
-  console.log(
-    tourName,
-    tourCode,
-    highlight,
-    country,
-    startAt,
-    endAt,
-    commission,
-    comSales,
-    seatsCl,
-    seatsGu,
-    pdfFile,
-    wordFile,
-    featuredImage,
-    priceA,
-    priceB,
-    priceC,
-    priceD,
-    priceE,
-    priceF
+  // console.log(
+  //   tourName,
+  //   tourCode,
+  //   highlight,
+  //   country,
+  //   startAt,
+  //   endAt,
+  //   commission,
+  //   comSales,
+  //   seatsCl,
+  //   seatsGu,
+  //   pdfFile,
+  //   wordFile,
+  //   featuredImage,
+  //   priceA,
+  //   priceB,
+  //   priceC,
+  //   priceD,
+  //   priceE,
+  //   priceF
+  // );
+
+  const tourCodeOptions = inputs.filter(
+    (ele, ind) =>
+      ind === inputs.findIndex((elem) => elem.tourCode === ele.tourCode)
   );
+
   return (
     <DashboardLayOut title="เพิ่มโปรแกรมทัวร์">
       <Box marginY={2}>
@@ -252,8 +260,8 @@ const CreatePostByCode = () => {
             label="รหัสโปรแกรมทัวร์"
             onChange={(e) => setTourID(e.target.value)}
           >
-            {inputs.map((item) => (
-              <MenuItem key={item._id} value={item._id}>
+            {tourCodeOptions.map((item, index) => (
+              <MenuItem key={index} value={item._id}>
                 {item.tourCode}
               </MenuItem>
             ))}

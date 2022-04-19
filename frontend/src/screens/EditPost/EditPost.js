@@ -149,26 +149,7 @@ const EditPost = () => {
   const updateHandler = (e) => {
     e.preventDefault();
 
-    if (
-      !tourName ||
-      !tourCode ||
-      !highlight ||
-      !country ||
-      !startAt ||
-      !endAt ||
-      !commission ||
-      !comSales ||
-      !seatsCl ||
-      !seatsGu ||
-      !featuredImage ||
-      !priceA ||
-      !priceB ||
-      !priceC ||
-      !priceD ||
-      !priceE ||
-      !priceF
-    )
-      return;
+    if (!tourName || !tourCode) return;
     dispatch(
       updatePostAction(
         params.id,
