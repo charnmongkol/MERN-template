@@ -193,7 +193,7 @@ const EditPost = () => {
         .then((res) => res.json())
         .then((data) => {
           console.log(data);
-          setFeaturedImage(data.url.toString());
+          setFeaturedImage(data.secure_url.toString());
         })
         .catch((err) => {
           console.log(err);
@@ -219,7 +219,7 @@ const EditPost = () => {
         .then((res) => res.json())
         .then((data) => {
           console.log(data);
-          setPdfFile(data.url.toString());
+          setPdfFile(data.secure_url.toString());
         })
         .catch((err) => {
           console.log(err);
@@ -242,7 +242,7 @@ const EditPost = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        setWordFile(data.url.toString());
+        setWordFile(data.secure_url.toString());
       })
       .catch((err) => {
         console.log(err);

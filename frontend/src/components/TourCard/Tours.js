@@ -1,10 +1,5 @@
 import React, { lazy, useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
 // import TourCard from "./TourCard";
 const TourCard = lazy(() => import("./TourCard"));
 
@@ -12,7 +7,7 @@ const Tours = ({ alltours }) => {
   const [data, setData] = useState("");
   const [sortType, setSortType] = useState("country");
 
-  console.log("data", sortType);
+  console.log("data", alltours);
 
   useEffect(() => {
     const sortArray = (type) => {
@@ -34,9 +29,9 @@ const Tours = ({ alltours }) => {
   }, [sortType]);
 
   const byCountry = (a, b) => {
-    if (a.country > b.country) {
+    if (a.country[0] < b.country[0]) {
       return 1;
-    } else if (b.country > a.country) {
+    } else if (b.country[0] < a.country[0]) {
       return -1;
     } else {
       return 0;
@@ -58,9 +53,8 @@ const Tours = ({ alltours }) => {
     <Grid container spacing={4}>
       {alltours &&
         alltours
-          .sort(byCountry)
           .sort(byStartDate)
-          .sort(byName)
+          .sort(byCountry)
           .map((tour, index) => <TourCard data={tour} key={index} />)}
     </Grid>
   );

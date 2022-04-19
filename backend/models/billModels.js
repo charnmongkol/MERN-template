@@ -10,8 +10,16 @@ const billSchema = mongoose.Schema(
     refNumber: {
       type: Number,
     },
-    tour: {
+    tourCode: {
       type: String,
+      required: true,
+    },
+    tourName: {
+      type: String,
+      required: true,
+    },
+    startAt: {
+      type: Date,
       required: true,
     },
     totalAmount: {

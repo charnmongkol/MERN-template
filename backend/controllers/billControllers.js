@@ -32,16 +32,20 @@ const createBill = asyncHandler(async (req, res) => {
     quantityE,
     quantityF,
     status,
-    tour,
+    tourName,
+    tourCode,
+    startAt,
   } = req.body;
 
-  if (!totalAmount || !tour) {
+  if (!totalAmount || !tourCode) {
     res.status(400);
     throw new Error("please fill all the fields");
   } else {
     const newbill = new Bill({
       agent: req.user._id,
-      tour,
+      tourName,
+      tourCode,
+      startAt,
       totalAmount,
       quantityA,
       quantityB,

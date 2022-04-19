@@ -93,16 +93,47 @@ const Bill = () => {
     setOpen(true);
   };
 
+  const [searchText, setSearchText] = useState("");
+  const [rows, setRows] = useState(dataTable);
+  const [tourName, setTourName] = useState("");
+  const [startAt, setStartAt] = useState("");
+  const requestSearch = (searchValue) => {
+    setSearchText(searchValue);
+    const searchRegex = new RegExp(escapeRegExp(searchValue), "i");
+    const filteredRows = dataTable.filter((row) => {
+      return Object.keys(row).some((field) => {
+        return searchRegex.test(row[field].toString());
+      });
+    });
+    setRows(filteredRows);
+  };
+  useEffect(() => {
+    if (userInfo) {
+      dispatch(getAllBills());
+    }
+  }, [userInfo, dispatch]);
+  useEffect(() => {
+    if (allbills) {
+      setDataTable(allbills);
+    }
+  }, [dispatch, allbills]);
+
+  useEffect(() => {
+    setRows(dataTable);
+  }, [dataTable, dispatch]);
+
+  console.log(dataTable.map((i) => i.tour));
+
   const columns = [
     { field: "refNumber", headerName: "Ref.", flex: 0.2 },
     {
       field: "createdAt",
       headerName: "วันที่สร้าง",
-      flex: 0.6,
+      flex: 0.5,
       type: "actions",
       getActions: (params) => [
         <Button variant="text" color="primary">
-          {moment(params.row.createdAt).calendar()}
+          {moment(params.row.createdAt).format("MM/DD/YYYY")}
         </Button>,
       ],
     },
@@ -117,7 +148,7 @@ const Bill = () => {
         </Button>,
       ],
     },
-    { field: "tour", headerName: "ทัวร์", flex: 1 },
+    { field: "tourName", headerName: "ทัวร์", flex: 1 },
     { field: "tourCode", headerName: "รหัสทัวร์", flex: 0.5 },
     {
       field: "startAt",
@@ -167,33 +198,6 @@ const Bill = () => {
       ],
     },
   ];
-
-  const [searchText, setSearchText] = useState("");
-  const [rows, setRows] = useState(dataTable);
-  const requestSearch = (searchValue) => {
-    setSearchText(searchValue);
-    const searchRegex = new RegExp(escapeRegExp(searchValue), "i");
-    const filteredRows = dataTable.filter((row) => {
-      return Object.keys(row).some((field) => {
-        return searchRegex.test(row[field].toString());
-      });
-    });
-    setRows(filteredRows);
-  };
-  useEffect(() => {
-    if (userInfo) {
-      dispatch(getAllBills());
-    }
-  }, [userInfo, dispatch]);
-  useEffect(() => {
-    if (allbills) {
-      setDataTable(allbills);
-    }
-  }, [dispatch, allbills]);
-
-  useEffect(() => {
-    setRows(dataTable);
-  }, [dataTable, dispatch]);
 
   return (
     <DashboardLayOut title="คำสั่งจอง">

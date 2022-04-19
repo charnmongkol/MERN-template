@@ -82,7 +82,7 @@ const MyPofile = () => {
         .then((res) => res.json())
         .then((data) => {
           console.log(data);
-          setPic(data.url.toString());
+          setPic(data.secure_url.toString());
         })
         .catch((err) => {
           console.log(err);

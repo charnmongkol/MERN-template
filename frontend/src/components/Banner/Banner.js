@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import { Container } from "@mui/material";
 import React from "react";
-import bg from "../../assets/logos/Banner1.jpeg";
+import bg from "../../assets/logos/Banner1.jpg";
 
 const Banner = () => {
   return (
@@ -9,9 +9,10 @@ const Banner = () => {
       <Box
         sx={{
           backgroundImage: `url(${bg})`,
-          backgroundSize: { md: "cover", xs: "contain" },
+          backgroundSize: { md: "contain", sm: "cover", xs: "contain" },
+          backgroundPosition: "center center",
           backgroundRepeat: "no-repeat",
-          height: { md: "90vh", xs: "212px" },
+          height: { md: "90vh", sm: "60vh", xs: "400px" },
         }}
       ></Box>
     </Container>

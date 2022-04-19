@@ -95,7 +95,9 @@ export const createBillAction =
     quantityD,
     quantityE,
     quantityF,
-    tour
+    tourName,
+    tourCode,
+    startAt
   ) =>
   async (dispatch, getState) => {
     try {
@@ -126,7 +128,9 @@ export const createBillAction =
           quantityD,
           quantityE,
           quantityF,
-          tour,
+          tourName,
+          tourCode,
+          startAt,
         },
         config
       );

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getPostsByCode } from "../../redux/actions/postsActions";
-import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+import { DataGrid } from "@mui/x-data-grid";
 import Chip from "@mui/material/Chip";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import moment from "moment";
 import Button from "@mui/material/Button";
 
@@ -38,6 +38,11 @@ const TourCode = ({ tourCode }) => {
     e.preventDefault();
     navigation(`/posts/${id}`);
   };
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
   const columns = [
     { field: "tourCode", headerName: "รหัส", flex: 0.7 },
     { field: "tourName", headerName: "ทัวร์", flex: 0.7 },
@@ -67,7 +72,7 @@ const TourCode = ({ tourCode }) => {
     {
       field: "seatsAval",
       type: "actions",
-      headerName: "ที่นั่ง",
+      headerName: "Available",
       flex: 0.3,
       getActions: (params) => [
         <Button

@@ -204,7 +204,9 @@ const Post = () => {
         seats.quantityD,
         seats.quantityE,
         seats.quantityF,
-        tourCode
+        tourName,
+        tourCode,
+        startAt
       )
     );
     if (seatsAval) {
@@ -218,17 +220,15 @@ const Post = () => {
     <Card>
       <CardMedia component="img" alt={tourName} image={featuredImage} />
       <CardContent sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-        <Box>
-          <Typography variant="h4" component="h2">
+        <Box sx={{ textAlign: "center", py: 4 }}>
+          <Typography variant="h4" component="h2" gutterBottom>
             {tourName}
           </Typography>
-        </Box>
-        <Box>
           <Typography variant="body1" gutterBottom>
             {highlight}
           </Typography>
         </Box>
-        <Box>
+        <Box sx={{ width: { md: "50%", xs: "100%" }, mx: "auto" }}>
           <TableContainer component={Paper}>
             <Table aria-label="simple table" size="">
               <TableHead sx={{ backgroundColor: "#002855" }}>
@@ -327,7 +327,7 @@ const Post = () => {
           </TableContainer>
         </Box>
 
-        <Box>
+        <Box sx={{ width: { md: "70%", xs: "100%" }, mx: "auto" }}>
           {pdfFile && (
             <iframe
               src={`${pdfFile}#toolbar=0`}

@@ -13,7 +13,7 @@ const SinglePost = () => {
       <ResponsiveAppBar />
       <Paper elevation={0} sx={{ mt: "100px", p: 1 }}>
         <Grid container rowSpacing={2}>
-          <Grid item md={12} xs={12} lg={9}>
+          <Grid item md={12} xs={12} lg={12}>
             <Suspense fallback={<div>Loading...</div>}>
               <Post />
             </Suspense>

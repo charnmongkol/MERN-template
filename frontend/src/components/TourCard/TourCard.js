@@ -70,7 +70,12 @@ const TourCard = ({ data }) => {
           >
             PDF file
           </Link>
-          <Link color="info" href={data.wordFile} download underline="none">
+          <Link
+            color="info"
+            href={data.wordFile}
+            target="_blank"
+            underline="none"
+          >
             Word file
           </Link>
         </Box>

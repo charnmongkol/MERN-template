@@ -155,7 +155,7 @@ const Registration = () => {
         .then((res) => res.json())
         .then((data) => {
           console.log(data);
-          setPic(data.url.toString());
+          setPic(data.secure_url.toString());
         })
         .catch((err) => {
           console.log(err);
@@ -184,7 +184,7 @@ const Registration = () => {
         .then((res) => res.json())
         .then((data) => {
           console.log(data);
-          setLicensePic(data.url.toString());
+          setLicensePic(data.secure_url.toString());
         })
         .catch((err) => {
           console.log(err);
