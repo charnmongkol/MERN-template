@@ -13,38 +13,28 @@ const SearchBox = styled(Box)`
 `;
 
 const Tours = ({ alltours }) => {
-  const [data, setData] = useState("");
-  const [sortType, setSortType] = useState("country");
-
   const [query, setQuery] = useState("");
-
-  const keys = ["country", "tourName", "startAt"];
   const searching = (data) => {
-    return data.filter((item) => item.country[0].toLowerCase().includes(query));
+    return data.filter(
+      (ele, ind) =>
+        ind === alltours.findIndex((elem) => elem.tourCode === ele.tourCode) &&
+        (ele.country[0].toLowerCase().includes(query) ||
+          ele.tourName.toLowerCase().includes(query))
+    );
+
+    // ind === alltours.findIndex((elem) => elem.tourCode === ele.tourCode) ||
     // return data.filter((item) => item.startAt.toLowerCase().includes(query));
     // return data.filter((item) =>
     //   keys.some((key) => item[key].toLowerCase().includes(query))
     // );
   };
 
+  const [posts, setPosts] = useState([]);
   useEffect(() => {
-    const sortArray = (type) => {
-      const types = {
-        country: "country",
-        tourName: "tourName",
-        startAt: "startAt",
-        endAt: "endAt",
-      };
-      const sortProperty = types[type];
-      const sorted = [...alltours].sort(
-        (a, b) => a[sortProperty] - b[sortProperty]
-      );
-      console.log(sorted);
-      setData(sorted);
-    };
-
-    sortArray(sortType);
-  }, [sortType]);
+    if (alltours) {
+      setPosts(alltours);
+    }
+  }, [alltours]);
 
   const byCountry = (a, b) => {
     if (a.country[0] > b.country[0]) {
@@ -69,23 +59,30 @@ const Tours = ({ alltours }) => {
   };
   return (
     <Grid container spacing={4}>
-      <Grid item xs={12} md={12} lg={12} justifyContent="center">
+      <Grid
+        item
+        xs={12}
+        md={12}
+        lg={12}
+        justifyContent="center"
+        marginBottom={3}
+      >
         <SearchBox sx={{ width: { md: "50%", sm: "100%" } }}>
           <TextField
             id="outlined-basic"
-            label="ค้นหาประเทศที่อยากไป"
+            label="ค้นหา"
             variant="outlined"
             fullWidth
             onChange={(e) => setQuery(e.target.value.toLocaleLowerCase())}
           />
         </SearchBox>
       </Grid>
-      {alltours &&
-        searching(alltours)
+      {posts &&
+        searching(posts)
           .sort(byName)
           .sort(byStartDate)
           .sort(byCountry)
-          .map((tour, index) => <TourCard data={tour} key={index} />)}
+          .map((tour, index) => <TourCard data={tour} index={index} />)}
     </Grid>
   );
 };

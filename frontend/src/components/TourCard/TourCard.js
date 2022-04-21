@@ -1,14 +1,15 @@
+import React from "react";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import React from "react";
 import styled from "@emotion/styled";
-import moment from "moment";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import Link from "@mui/material/Link";
 import Chip from "@mui/material/Chip";
 import Avatar from "@mui/material/Avatar";
+import { lazy } from "react";
+
+const PeriodBox = lazy(() => import("./PeriodBox"));
 
 const Image = styled.img`
   width: 100%;
@@ -17,10 +18,10 @@ const Image = styled.img`
   border-radius: 10px 10px 0 0;
 `;
 
-const TourCard = ({ data }) => {
+const TourCard = ({ data, index }) => {
   return (
-    <Grid item xs={12} md={6} lg={4} key={data._id}>
-      <Paper elevation={10} style={{ borderRadius: 10 }}>
+    <Grid item xs={12} md={6} lg={4} key={index}>
+      <Paper elevation={10} style={{ borderRadius: 10 }} key={data._id}>
         <Link href={`/posts/${data._id}`}>
           <Image src={data.featuredImage} alt={data.title} />
         </Link>
@@ -31,13 +32,8 @@ const TourCard = ({ data }) => {
             </Typography>
           </Box>
         </Link>
-        <Box sx={{ px: 2, display: "flex", alignItems: "center" }}>
-          <AccessTimeIcon />
-          <Typography component="p" variant="body2" marginLeft={0.5}>
-            {moment(data.startAt).format("LL")} -{" "}
-            {moment(data.endAt).format("LL")}
-          </Typography>
-        </Box>
+
+        <PeriodBox code={data.tourCode} />
         <Box
           sx={{ px: 2, display: "flex", alignItems: "center", gap: 1 }}
           marginTop={3}
