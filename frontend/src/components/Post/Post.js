@@ -364,7 +364,9 @@ const Post = () => {
                   <TableCell component="th" scope="row">
                     ผู้ใหญ่พัก 2 ท่าน
                   </TableCell>
-                  <TableCell align="center">{priceA}</TableCell>
+                  <TableCell align="center">
+                    {priceA.toLocaleString()}
+                  </TableCell>
                   <TableCell align="center">
                     {" "}
                     <TextField
@@ -379,7 +381,7 @@ const Post = () => {
                     />
                   </TableCell>
                   <TableCell align="center">
-                    {priceRow(priceA, seats.quantityA)}
+                    {priceRow(priceA, seats.quantityA).toLocaleString()}
                   </TableCell>
                 </TableRow>
                 <TableRow
@@ -388,7 +390,9 @@ const Post = () => {
                   <TableCell component="th" scope="row">
                     เด็กอายุ 2-12 ปี พักกับผู้ใหญ่ 2 ท่าน (เสริมเตียง)
                   </TableCell>
-                  <TableCell align="center">{priceB}</TableCell>
+                  <TableCell align="center">
+                    {priceB.toLocaleString()}
+                  </TableCell>
                   <TableCell align="center">
                     {" "}
                     <TextField
@@ -403,7 +407,7 @@ const Post = () => {
                     />
                   </TableCell>
                   <TableCell align="center">
-                    {priceRow(priceB, seats.quantityB)}
+                    {priceRow(priceB, seats.quantityB).toLocaleString()}
                   </TableCell>
                 </TableRow>
                 <TableRow
@@ -412,7 +416,9 @@ const Post = () => {
                   <TableCell component="th" scope="row">
                     เด็กอายุ 2-12 ปี พักกับผู้ใหญ่ 2 ท่าน (ไม่เสริมเตียง)
                   </TableCell>
-                  <TableCell align="center">{priceC}</TableCell>
+                  <TableCell align="center">
+                    {priceC.toLocaleString()}
+                  </TableCell>
                   <TableCell align="center">
                     {" "}
                     <TextField
@@ -427,7 +433,7 @@ const Post = () => {
                     />
                   </TableCell>
                   <TableCell align="center">
-                    {priceRow(priceC, seats.quantityC)}
+                    {priceRow(priceC, seats.quantityC).toLocaleString()}
                   </TableCell>
                 </TableRow>
                 <TableRow
@@ -436,7 +442,9 @@ const Post = () => {
                   <TableCell component="th" scope="row">
                     พักเดี่ยว
                   </TableCell>
-                  <TableCell align="center">{priceD}</TableCell>
+                  <TableCell align="center">
+                    {priceD.toLocaleString()}
+                  </TableCell>
                   <TableCell align="center">
                     {" "}
                     <TextField
@@ -451,7 +459,7 @@ const Post = () => {
                     />
                   </TableCell>
                   <TableCell align="center">
-                    {priceRow(priceD, seats.quantityD)}
+                    {priceRow(priceD, seats.quantityD).toLocaleString()}
                   </TableCell>
                 </TableRow>
                 <TableRow
@@ -460,7 +468,9 @@ const Post = () => {
                   <TableCell component="th" scope="row">
                     เด็กทารก ( Infant)
                   </TableCell>
-                  <TableCell align="center">{priceE}</TableCell>
+                  <TableCell align="center">
+                    {priceE.toLocaleString()}
+                  </TableCell>
                   <TableCell align="center">
                     <TextField
                       type="number"
@@ -474,7 +484,7 @@ const Post = () => {
                     />
                   </TableCell>
                   <TableCell align="center">
-                    {priceRow(priceE, seats.quantityE)}
+                    {priceRow(priceE, seats.quantityE).toLocaleString()}
                   </TableCell>
                 </TableRow>
                 <TableRow
@@ -483,7 +493,9 @@ const Post = () => {
                   <TableCell component="th" scope="row">
                     ไม่มีตั๋วเครื่องบิน (Join Land)
                   </TableCell>
-                  <TableCell align="center">{priceF}</TableCell>
+                  <TableCell align="center">
+                    {priceF.toLocaleString()}
+                  </TableCell>
                   <TableCell align="center">
                     <TextField
                       type="number"
@@ -497,15 +509,15 @@ const Post = () => {
                     />
                   </TableCell>
                   <TableCell align="center">
-                    {priceRow(priceF, seats.quantityF)}
+                    {priceRow(priceF, seats.quantityF).toLocaleString()}
                   </TableCell>
                 </TableRow>
 
-                <TableRow>
+                {/* <TableRow>
                   <TableCell rowSpan={3} />
                   <TableCell colSpan={2}>Subtotal</TableCell>
                   <TableCell align="right">{subTotal}</TableCell>
-                </TableRow>
+                </TableRow> */}
                 {/* <TableRow>
                   <TableCell>Tax</TableCell>
                   <TableCell align="right">{`${(TAX_RATE * 100).toFixed(
@@ -514,8 +526,10 @@ const Post = () => {
                   <TableCell align="right">{tax.toFixed(2)}</TableCell>
                 </TableRow> */}
                 <TableRow>
-                  <TableCell colSpan={2}>Total</TableCell>
-                  <TableCell align="right">{totalAmount}</TableCell>
+                  <TableCell colSpan={3}>Total</TableCell>
+                  <TableCell align="right">
+                    {totalAmount.toLocaleString()}
+                  </TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell colSpan={4} align="right">

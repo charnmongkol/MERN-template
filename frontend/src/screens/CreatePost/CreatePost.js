@@ -226,6 +226,29 @@ const CreatePost = () => {
     );
   };
 
+  const addCommas = (num) =>
+    num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  const removeNonNumeric = (num) => num.toString().replace(/[^0-9]/g, "");
+
+  const handleCommaNumberA = (e) => {
+    setPriceA(addCommas(removeNonNumeric(e.target.value)));
+  };
+  const handleCommaNumberB = (e) => {
+    setPriceB(addCommas(removeNonNumeric(e.target.value)));
+  };
+  const handleCommaNumberC = (e) => {
+    setPriceC(addCommas(removeNonNumeric(e.target.value)));
+  };
+  const handleCommaNumberD = (e) => {
+    setPriceD(addCommas(removeNonNumeric(e.target.value)));
+  };
+  const handleCommaNumberE = (e) => {
+    setPriceE(addCommas(removeNonNumeric(e.target.value)));
+  };
+  const handleCommaNumberF = (e) => {
+    setPriceF(addCommas(removeNonNumeric(e.target.value)));
+  };
+  console.log(priceA, priceB, priceC, priceD, priceE, priceF);
   return (
     <DashboardLayOut title="เพิ่มโปรแกรมทัวร์">
       <form autoComplete="off" onSubmit={submitHandler}>
@@ -434,10 +457,12 @@ const CreatePost = () => {
                           </TableCell>
                           <TableCell align="center">
                             <TextField
+                              type="text"
+                              name="priceA"
                               fullWidth
                               label="ราคา"
                               value={priceA}
-                              onChange={(e) => setPriceA(e.target.value)}
+                              onChange={handleCommaNumberA}
                             />
                           </TableCell>
                         </TableRow>
@@ -450,7 +475,7 @@ const CreatePost = () => {
                               fullWidth
                               label="ราคา"
                               value={priceB}
-                              onChange={(e) => setPriceB(e.target.value)}
+                              onChange={handleCommaNumberB}
                             />
                           </TableCell>
                         </TableRow>
@@ -464,7 +489,7 @@ const CreatePost = () => {
                               fullWidth
                               label="ราคา"
                               value={priceC}
-                              onChange={(e) => setPriceC(e.target.value)}
+                              onChange={handleCommaNumberC}
                             />
                           </TableCell>
                         </TableRow>
@@ -477,7 +502,7 @@ const CreatePost = () => {
                               fullWidth
                               label="ราคา"
                               value={priceD}
-                              onChange={(e) => setPriceD(e.target.value)}
+                              onChange={handleCommaNumberD}
                             />
                           </TableCell>
                         </TableRow>
@@ -490,7 +515,7 @@ const CreatePost = () => {
                               fullWidth
                               label="ราคา"
                               value={priceE}
-                              onChange={(e) => setPriceE(e.target.value)}
+                              onChange={handleCommaNumberE}
                             />
                           </TableCell>
                         </TableRow>
@@ -503,7 +528,7 @@ const CreatePost = () => {
                               fullWidth
                               label="ราคา"
                               value={priceF}
-                              onChange={(e) => setPriceF(e.target.value)}
+                              onChange={handleCommaNumberF}
                             />
                           </TableCell>
                         </TableRow>

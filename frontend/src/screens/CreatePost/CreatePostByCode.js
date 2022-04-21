@@ -446,7 +446,7 @@ const CreatePostByCode = () => {
                   </Grid>
                   <Grid item md={8}>
                     <TableContainer component={Paper}>
-                      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                      <Table aria-label="simple table">
                         <TableHead>
                           <TableRow>
                             <TableCell>ประเภท</TableCell>
@@ -464,7 +464,7 @@ const CreatePostByCode = () => {
                               <TextField
                                 fullWidth
                                 label="ราคา"
-                                value={priceA}
+                                value={priceA.toLocaleString()}
                                 onChange={(e) => setPriceA(e.target.value)}
                               />
                             </TableCell>
@@ -477,7 +477,7 @@ const CreatePostByCode = () => {
                               <TextField
                                 fullWidth
                                 label="ราคา"
-                                value={priceB}
+                                value={priceB.toLocaleString()}
                                 onChange={(e) => setPriceB(e.target.value)}
                               />
                             </TableCell>
@@ -491,7 +491,7 @@ const CreatePostByCode = () => {
                               <TextField
                                 fullWidth
                                 label="ราคา"
-                                value={priceC}
+                                value={priceC.toLocaleString()}
                                 onChange={(e) => setPriceC(e.target.value)}
                               />
                             </TableCell>
@@ -504,7 +504,7 @@ const CreatePostByCode = () => {
                               <TextField
                                 fullWidth
                                 label="ราคา"
-                                value={priceD}
+                                value={priceD.toLocaleString()}
                                 onChange={(e) => setPriceD(e.target.value)}
                               />
                             </TableCell>
@@ -517,7 +517,7 @@ const CreatePostByCode = () => {
                               <TextField
                                 fullWidth
                                 label="ราคา"
-                                value={priceE}
+                                value={priceE.toLocaleString()}
                                 onChange={(e) => setPriceE(e.target.value)}
                               />
                             </TableCell>
@@ -530,7 +530,7 @@ const CreatePostByCode = () => {
                               <TextField
                                 fullWidth
                                 label="ราคา"
-                                value={priceF}
+                                value={priceF.toLocaleString()}
                                 onChange={(e) => setPriceF(e.target.value)}
                               />
                             </TableCell>

@@ -26,6 +26,7 @@ const Posts = () => {
     dispatch(getAllPosts());
   }, [dispatch]);
 
+  // console.log("data", allposts);
   return (
     <Container maxWidth="lg">
       <ResponsiveAppBar />

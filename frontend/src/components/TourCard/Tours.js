@@ -1,13 +1,31 @@
 import React, { lazy, useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import styled from "@emotion/styled";
 // import TourCard from "./TourCard";
 const TourCard = lazy(() => import("./TourCard"));
+
+const SearchBox = styled(Box)`
+  margin: auto;
+  background-color: #c8e4fb;
+  border-radius: 4px;
+`;
 
 const Tours = ({ alltours }) => {
   const [data, setData] = useState("");
   const [sortType, setSortType] = useState("country");
 
-  console.log("data", alltours);
+  const [query, setQuery] = useState("");
+
+  const keys = ["country", "tourName", "startAt"];
+  const searching = (data) => {
+    return data.filter((item) => item.country[0].toLowerCase().includes(query));
+    // return data.filter((item) => item.startAt.toLowerCase().includes(query));
+    // return data.filter((item) =>
+    //   keys.some((key) => item[key].toLowerCase().includes(query))
+    // );
+  };
 
   useEffect(() => {
     const sortArray = (type) => {
@@ -29,9 +47,9 @@ const Tours = ({ alltours }) => {
   }, [sortType]);
 
   const byCountry = (a, b) => {
-    if (a.country[0] < b.country[0]) {
+    if (a.country[0] > b.country[0]) {
       return 1;
-    } else if (b.country[0] < a.country[0]) {
+    } else if (b.country[0] > a.country[0]) {
       return -1;
     } else {
       return 0;
@@ -51,8 +69,20 @@ const Tours = ({ alltours }) => {
   };
   return (
     <Grid container spacing={4}>
+      <Grid item xs={12} md={12} lg={12} justifyContent="center">
+        <SearchBox sx={{ width: { md: "50%", sm: "100%" } }}>
+          <TextField
+            id="outlined-basic"
+            label="ค้นหาประเทศที่อยากไป"
+            variant="outlined"
+            fullWidth
+            onChange={(e) => setQuery(e.target.value.toLocaleLowerCase())}
+          />
+        </SearchBox>
+      </Grid>
       {alltours &&
-        alltours
+        searching(alltours)
+          .sort(byName)
           .sort(byStartDate)
           .sort(byCountry)
           .map((tour, index) => <TourCard data={tour} key={index} />)}
