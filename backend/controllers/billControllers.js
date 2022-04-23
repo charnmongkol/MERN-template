@@ -35,6 +35,7 @@ const createBill = asyncHandler(async (req, res) => {
     tourName,
     tourCode,
     startAt,
+    remark,
   } = req.body;
 
   if (!totalAmount || !tourCode) {
@@ -53,6 +54,7 @@ const createBill = asyncHandler(async (req, res) => {
       quantityD,
       quantityE,
       quantityF,
+      remark,
     });
 
     const createBill = await newbill.save();
@@ -62,11 +64,12 @@ const createBill = asyncHandler(async (req, res) => {
 });
 
 const updateStatusBill = asyncHandler(async (req, res) => {
-  const { status } = req.body;
+  const { status, remark } = req.body;
   const bill = await Bill.findById(req.params.id);
 
   if (bill) {
     bill.status = status;
+    bill.remark = remark;
 
     const updatedBill = await bill.save();
     res.json(updatedBill);

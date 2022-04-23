@@ -122,7 +122,7 @@ const Bill = () => {
     setRows(dataTable);
   }, [dataTable, dispatch]);
 
-  console.log(dataTable.map((i) => i.tour));
+  // console.log(dataTable.map((i) => i.tour));
 
   const columns = [
     { field: "refNumber", headerName: "Ref.", flex: 0.2 },

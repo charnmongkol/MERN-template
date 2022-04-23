@@ -97,7 +97,8 @@ export const createBillAction =
     quantityF,
     tourName,
     tourCode,
-    startAt
+    startAt,
+    remark
   ) =>
   async (dispatch, getState) => {
     try {
@@ -131,6 +132,7 @@ export const createBillAction =
           tourName,
           tourCode,
           startAt,
+          remark,
         },
         config
       );
@@ -186,40 +188,41 @@ export const getBillById = (id) => async (dispatch, getState) => {
   }
 };
 
-export const billUpdateStatus = (id, status) => async (dispatch, getState) => {
-  try {
-    dispatch({
-      type: BILL_STATUS_REQUEST,
-    });
-    const {
-      userLogin: { userInfo },
-    } = getState();
+export const billUpdateStatus =
+  (id, status, remark) => async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: BILL_STATUS_REQUEST,
+      });
+      const {
+        userLogin: { userInfo },
+      } = getState();
 
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
-    const { data } = await axios.put(
-      `/api/bills/updateStatusBill/${id}`,
-      { status },
-      config
-    );
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+      const { data } = await axios.put(
+        `/api/bills/updateStatusBill/${id}`,
+        { status, remark },
+        config
+      );
 
-    dispatch({
-      type: BILL_STATUS_SUCCESS,
-      payload: data,
-    });
-  } catch (error) {
-    const message =
-      error.response && error.response.data.message
-        ? error.response.data.message
-        : error.message;
+      dispatch({
+        type: BILL_STATUS_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
 
-    dispatch({
-      type: BILL_STATUS_FAIL,
-      payload: message,
-    });
-  }
-};
+      dispatch({
+        type: BILL_STATUS_FAIL,
+        payload: message,
+      });
+    }
+  };

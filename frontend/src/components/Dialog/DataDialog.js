@@ -24,6 +24,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Chip from "@mui/material/Chip";
+import TextField from "@mui/material/TextField";
 import { billUpdateStatus } from "../../redux/actions/billsActions";
 import { singleUser } from "../../redux/actions/userActions";
 
@@ -70,21 +71,24 @@ const DataDialog = ({ open, setOpen, data }) => {
   const handleClose = () => setOpen(false);
 
   const [status, setStatus] = useState("");
+  const [remark, setRemark] = useState("");
   const [userId, setUserId] = useState(data.bill?.agent);
 
   const agent = useSelector((state) => state.singleUser);
   const { user } = agent;
 
+  // console.log(data.bill?.status);
   useEffect(() => {
     if (data.bill?.agent && open === true) {
       dispatch(singleUser(data.bill?.agent));
+      setStatus(data.bill?.status);
     }
   }, [data.bill?.agent]);
 
   // console.log(data);
 
   const handleSubmit = () => {
-    dispatch(billUpdateStatus(data.bill?._id, status));
+    dispatch(billUpdateStatus(data.bill?._id, status, remark));
     handleClose();
   };
 
@@ -195,6 +199,17 @@ const DataDialog = ({ open, setOpen, data }) => {
                   </TableBody>
                 </Table>
               </TableContainer>
+              <Box sx={{ my: 2 }}>
+                <TextField
+                  id="standard-basic"
+                  value={remark === "" ? data.bill?.remark : remark}
+                  label="หมายเหตุ"
+                  variant="outlined"
+                  fullWidth
+                  onChange={(e) => setRemark(e.target.value)}
+                  InputLabelProps={{ shrink: true }}
+                />
+              </Box>
             </Box>
           )}
           <Box sx={{ mt: 2, display: "flex", alignItems: "center", gap: 2 }}>
