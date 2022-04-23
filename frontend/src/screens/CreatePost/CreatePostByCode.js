@@ -219,6 +219,7 @@ const CreatePostByCode = () => {
       });
   };
 
+  console.log(priceA, priceB, priceC, priceD, priceE);
   // console.log(
   //   tourName,
   //   tourCode,
@@ -465,7 +466,9 @@ const CreatePostByCode = () => {
                                 fullWidth
                                 label="ราคา"
                                 value={priceA.toLocaleString()}
-                                onChange={(e) => setPriceA(e.target.value)}
+                                onChange={(e) =>
+                                  setPriceA(e.target.value.replace(/,/g, ""))
+                                }
                               />
                             </TableCell>
                           </TableRow>
@@ -478,7 +481,9 @@ const CreatePostByCode = () => {
                                 fullWidth
                                 label="ราคา"
                                 value={priceB.toLocaleString()}
-                                onChange={(e) => setPriceB(e.target.value)}
+                                onChange={(e) =>
+                                  setPriceB(e.target.value.replace(/,/g, ""))
+                                }
                               />
                             </TableCell>
                           </TableRow>
@@ -492,7 +497,9 @@ const CreatePostByCode = () => {
                                 fullWidth
                                 label="ราคา"
                                 value={priceC.toLocaleString()}
-                                onChange={(e) => setPriceC(e.target.value)}
+                                onChange={(e) =>
+                                  setPriceC(e.target.value.replace(/,/g, ""))
+                                }
                               />
                             </TableCell>
                           </TableRow>
@@ -505,7 +512,9 @@ const CreatePostByCode = () => {
                                 fullWidth
                                 label="ราคา"
                                 value={priceD.toLocaleString()}
-                                onChange={(e) => setPriceD(e.target.value)}
+                                onChange={(e) =>
+                                  setPriceD(e.target.value.replace(/,/g, ""))
+                                }
                               />
                             </TableCell>
                           </TableRow>
@@ -518,7 +527,9 @@ const CreatePostByCode = () => {
                                 fullWidth
                                 label="ราคา"
                                 value={priceE.toLocaleString()}
-                                onChange={(e) => setPriceE(e.target.value)}
+                                onChange={(e) =>
+                                  setPriceE(e.target.value.replace(/,/g, ""))
+                                }
                               />
                             </TableCell>
                           </TableRow>
@@ -531,7 +542,9 @@ const CreatePostByCode = () => {
                                 fullWidth
                                 label="ราคา"
                                 value={priceF.toLocaleString()}
-                                onChange={(e) => setPriceF(e.target.value)}
+                                onChange={(e) =>
+                                  setPriceF(e.target.value.replace(/,/g, ""))
+                                }
                               />
                             </TableCell>
                           </TableRow>

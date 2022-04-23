@@ -29,6 +29,7 @@ const ProfilePage = () => {
   const [licensePic, setLicensePic] = useState("");
   const [zone, setZone] = useState("");
   const [password, setPassword] = useState("");
+  const [lineid, setLineid] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [picMessage, setPicMessage] = useState(null);
   //for calling methods
@@ -58,7 +59,8 @@ const ProfilePage = () => {
       setPhoneNumber(userInfo.phoneNumber);
       setWebsite(userInfo.website);
       setLicensePic(userInfo.licensePic);
-      setZone(userInfo.setZone);
+      setZone(userInfo.zone);
+      setLineid(userInfo.lineid);
     }
   }, [navigate, userInfo]);
   //image uploading to Cloudinary
@@ -91,6 +93,35 @@ const ProfilePage = () => {
     }
   };
 
+  const licenseUpload = (license) => {
+    if (!license) {
+      return setPicMessage("โปรดเลือกรูปภาพใบอนุญาตของคุณ");
+    }
+    setPicMessage(null);
+
+    if (license.type === "image/jpeg" || license.type === "image/png") {
+      const data = new FormData();
+      data.append("file", license);
+      data.append("upload_preset", "topoftheworld");
+      data.append("cloud_name", "duby6v8jo");
+
+      fetch("https://api.cloudinary.com/v1_1/duby6v8jo/image/upload", {
+        method: "post",
+        body: data,
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          setLicensePic(data.secure_url.toString());
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      return setPicMessage("ใส่ได้เฉพาะ .jpeg หรือ .png");
+    }
+  };
+
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(
@@ -106,6 +137,7 @@ const ProfilePage = () => {
         website,
         pic,
         licensePic,
+        lineid,
       })
     );
   };
@@ -174,7 +206,16 @@ const ProfilePage = () => {
                     onChange={(e) => setPhoneNumber(e.target.value)}
                   />
                 </Grid>
-                <Grid item md={12} xs={12}>
+                <Grid item md={6} xs={12}>
+                  <TextField
+                    fullWidth
+                    label="Line ID"
+                    variant="outlined"
+                    value={lineid}
+                    onChange={(e) => setLineid(e.target.value)}
+                  />
+                </Grid>
+                <Grid item md={6} xs={12}>
                   <TextField
                     fullWidth
                     label="เลขที่ใบอนุญาต"
@@ -226,6 +267,7 @@ const ProfilePage = () => {
                   <TextField
                     type="file"
                     label="อัพโลหดรูปใบอนุญาตนำเที่ยว"
+                    onChange={(e) => licenseUpload(e.target.files[0])}
                     fullWidth
                     variant="outlined"
                     InputLabelProps={{ shrink: true }}

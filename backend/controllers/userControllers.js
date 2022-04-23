@@ -17,6 +17,7 @@ const registerUser = asyncHandler(async (req, res) => {
     pic,
     licensePic,
     zone,
+    lineid,
   } = req.body;
 
   const userExists = await User.findOne({ email });
@@ -41,6 +42,7 @@ const registerUser = asyncHandler(async (req, res) => {
     pic,
     licensePic,
     zone,
+    lineid,
   });
 
   if (user) {
@@ -59,6 +61,7 @@ const registerUser = asyncHandler(async (req, res) => {
       pic: user.pic,
       licensePic: user.licensePic,
       zone: user.zone,
+      lineid: user.lineid,
       token: generateToken(user._id),
     });
   } else {
@@ -91,6 +94,7 @@ const authUser = asyncHandler(async (req, res) => {
       pic: user.pic,
       licensePic: user.licensePic,
       zone: user.zone,
+      lineid: user.lineid,
       token: generateToken(user._id),
     });
   } else {
@@ -129,6 +133,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       website: updatedUser.website,
       licensePic: updatedUser.licensePic,
       zone: updatedUser.zone,
+      lineid: updatedUser.lineid,
       token: generateToken(updatedUser._id),
     });
   } else {

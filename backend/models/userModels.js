@@ -66,6 +66,9 @@ const userSchema = mongoose.Schema(
       type: String,
       enum: ["n", "s", "e", "w", "c", "isan"],
     },
+    lineid: {
+      type: String,
+    },
   },
   {
     timestamps: true,

@@ -43,6 +43,7 @@ const Registration = () => {
   const [website, setWebsite] = useState("");
   const [licensePic, setLicensePic] = useState("");
   const [zone, setZone] = useState("");
+  const [lineid, setLineid] = useState("");
   const [password, setPassword] = useState({
     password: "",
     showPassword: false,
@@ -125,7 +126,8 @@ const Registration = () => {
           website,
           pic,
           licensePic,
-          zone
+          zone,
+          lineid
         )
       );
     }
@@ -299,6 +301,14 @@ const Registration = () => {
                 type="text"
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Input
+                label="Line ID"
+                type="text"
+                value={lineid}
+                onChange={(e) => setLineid(e.target.value)}
               />
             </Grid>
             <Grid item xs={12} md={4}>

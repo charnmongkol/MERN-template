@@ -12,6 +12,21 @@ import LocalPhoneRoundedIcon from "@mui/icons-material/LocalPhoneRounded";
 import FaxRoundedIcon from "@mui/icons-material/FaxRounded";
 import PhoneAndroidRoundedIcon from "@mui/icons-material/PhoneAndroidRounded";
 import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
+import Button from "@mui/material/Button";
+import styled from "@emotion/styled";
+
+const ItemLine = styled(Button)`
+  background-color: #06c755;
+  color: #ffffff;
+  &:hover,
+  &:active,
+  &:visited,
+  &:link,
+  &:focus {
+    background-color: #06c755;
+    color: #ffffff;
+  }
+`;
 
 const Footer = () => {
   return (
@@ -32,17 +47,30 @@ const Footer = () => {
             <Box>
               <img
                 src={LogoNoBg}
-                width="200"
+                width="100%"
                 height="150"
                 alt="Top of the world"
               />
+            </Box>
+            <Box sx={{ width: "100%" }}>
+              <ItemLine
+                variant="contained"
+                href="https://lin.ee/m6OepL7"
+                target="_blank"
+                sx={{ width: "100%" }}
+              >
+                Add Line
+              </ItemLine>
             </Box>
           </Box>
         </Grid>
         <Grid item xs={12} md={9}>
           <Box sx={{ textAlign: "left" }}>
             <Typography variant="h4" gutterBottom sx={{ color: "#002855" }}>
-              Top of the world Co.,Ltd. (Topworld) TAT : 11/10733
+              Top of the world Co.,Ltd. TAT : 11/10733
+            </Typography>
+            <Typography variant="subtitle1" gutterBottom>
+              TAT : 11/10733
             </Typography>
             <Typography variant="h5" sx={{ color: "#335377" }}>
               ติดต่อเรา

@@ -21,7 +21,11 @@ const Image = styled.img`
 const TourCard = ({ data, index }) => {
   return (
     <Grid item xs={12} md={6} lg={4} key={index}>
-      <Paper elevation={10} style={{ borderRadius: 10 }} key={data._id}>
+      <Paper
+        elevation={10}
+        sx={{ borderRadius: 10, height: "550px" }}
+        key={data._id}
+      >
         <Link href={`/posts/${data._id}`}>
           <Image src={data.featuredImage} alt={data.title} />
         </Link>

@@ -78,7 +78,8 @@ export const register =
     website,
     pic,
     licensePic,
-    zone
+    zone,
+    lineid
   ) =>
   async (dispatch) => {
     try {
@@ -105,6 +106,7 @@ export const register =
           pic,
           licensePic,
           zone,
+          lineid,
         },
         config
       );

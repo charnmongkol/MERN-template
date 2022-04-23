@@ -14,6 +14,7 @@ import PhoneAndroidRoundedIcon from "@mui/icons-material/PhoneAndroidRounded";
 import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
 import LanguageRoundedIcon from "@mui/icons-material/LanguageRounded";
 import Box from "@mui/material/Box";
+import { minHeight } from "@mui/system";
 
 const CardTitle = ({ children }) => {
   return (
@@ -31,9 +32,18 @@ const AgentCard = ({ agents }) => {
     >
       {agents &&
         agents.map((agent, index) => (
-          <Grid item xs={12} sm={12} md={3} key={index}>
-            <Card sx={{ borderRadius: "12px", backgroundColor: "#e8f4fd" }}>
-              <CardHeader title={<CardTitle>{agent.name}</CardTitle>} />
+          <Grid item xs={4} sm={12} md={3} key={index}>
+            <Card
+              sx={{
+                borderRadius: "12px",
+                backgroundColor: "#e8f4fd",
+                height: "500px",
+              }}
+            >
+              <CardHeader
+                sx={{ height: "68px" }}
+                title={<CardTitle>{agent.name}</CardTitle>}
+              />
 
               <CardMedia
                 component="img"
