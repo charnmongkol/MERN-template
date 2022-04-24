@@ -123,9 +123,9 @@ const Bill = () => {
   }, [dataTable, dispatch]);
 
   // console.log(dataTable.map((i) => i.tour));
-
+  // console.log(rows);
   const columns = [
-    { field: "refNumber", headerName: "Ref.", flex: 0.2 },
+    { field: "_id", headerName: "Ref.", flex: 1 },
     {
       field: "createdAt",
       headerName: "วันที่สร้าง",
@@ -165,7 +165,7 @@ const Bill = () => {
       field: "status",
       headerName: "Status",
       type: "actions",
-      flex: 1,
+      flex: 0.4,
       getActions: (params) => [
         <Button
           variant="text"
@@ -185,7 +185,7 @@ const Bill = () => {
       field: "actions",
       type: "actions",
       headerName: "แก้ไข",
-      flex: 0.5,
+      flex: 0.3,
       getActions: (params) => [
         <IconButton
           color="primary"
@@ -206,7 +206,7 @@ const Bill = () => {
           rows={loadingMyBills ? [] : rows}
           columns={columns}
           pageSize={10}
-          getRowId={(row) => row.refNumber}
+          getRowId={(row) => row._id}
           autoHeight
           components={{ Toolbar: QuickSearchToolbar }}
           componentsProps={{

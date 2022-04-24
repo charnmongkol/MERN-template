@@ -129,7 +129,7 @@ const DataDialog = ({ open, setOpen, data }) => {
   // console.log(data);
 
   const handleSubmit = () => {
-    dispatch(billUpdateStatus(data.bill?._id, status));
+    dispatch(billUpdateStatus(data.bill?._id, status, remark));
     if (status === "cancled") {
       dispatch(seatUpdateAction(data.bill?.tourId, totalSeats + newSeatsAval));
     }
@@ -243,6 +243,17 @@ const DataDialog = ({ open, setOpen, data }) => {
                   </TableBody>
                 </Table>
               </TableContainer>
+              <Box sx={{ my: 2 }}>
+                <TextField
+                  id="standard-basic"
+                  value={remark === "" ? data.bill?.remark : remark}
+                  label="หมายเหตุ"
+                  variant="outlined"
+                  fullWidth
+                  onChange={(e) => setRemark(e.target.value)}
+                  InputLabelProps={{ shrink: true }}
+                />
+              </Box>
             </Box>
           )}
           <Box sx={{ mt: 2, display: "flex", alignItems: "center", gap: 2 }}>

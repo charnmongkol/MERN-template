@@ -221,10 +221,16 @@ const Post = () => {
     }
 
     // if (userInfo.isAdmin === false) {
-    //   navigate("/agent/dashboard");
+    //   navigate("/posts");
     // } else {
-    //   navigate("/admin/allbills");
+    //   navigate("/posts");
     // }
+    setPopup({
+      openPopup: true,
+      setOpenPopup: "",
+      title: "success",
+      children: "จองสำเร็จ! ขอบคุณที่ทำการจองทัวร์กับเรา",
+    });
   };
 
   const [popup, setPopup] = useState({
@@ -237,16 +243,16 @@ const Post = () => {
   const billCreate = useSelector((state) => state.billCreate);
   const { success, loading } = billCreate;
 
-  useEffect(() => {
-    if (success === true) {
-      setPopup({
-        openPopup: true,
-        setOpenPopup: "",
-        title: "success",
-        children: "จองสำเร็จ! ขอบคุณที่ทำการจองทัวร์กับเรา",
-      });
-    }
-  }, [success]);
+  // useEffect(() => {
+  //   if (success === true) {
+  //     setPopup({
+  //       openPopup: true,
+  //       setOpenPopup: "",
+  //       title: "success",
+  //       children: "จองสำเร็จ! ขอบคุณที่ทำการจองทัวร์กับเรา",
+  //     });
+  //   }
+  // }, [success]);
 
   return (
     <Card>

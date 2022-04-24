@@ -109,7 +109,7 @@ const MyBills = () => {
   }, [dispatch, mybills]);
 
   const columns = [
-    { field: "refNumber", headerName: "Ref.", flex: 0.2 },
+    { field: "_id", headerName: "Ref.", flex: 1 },
     {
       field: "createdAt",
       headerName: "วันที่สร้าง",
@@ -174,7 +174,7 @@ const MyBills = () => {
           rows={loadingMyBills ? [] : rows}
           columns={columns}
           pageSize={10}
-          getRowId={(row) => row.refNumber}
+          getRowId={(row) => row._id}
           autoHeight
           components={{ Toolbar: QuickSearchToolbar }}
           componentsProps={{
