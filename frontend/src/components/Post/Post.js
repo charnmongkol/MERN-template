@@ -31,6 +31,7 @@ import { createBillAction } from "../../redux/actions/billsActions";
 import Loading from "../Loading";
 import { seatUpdateAction } from "../../redux/actions/postsActions";
 
+const NotiPopup = lazy(() => import("../../components/Modal/NotiPopup"));
 const TourCode = lazy(() => import("./TourCode"));
 
 const TAX_RATE = 0.07;
@@ -139,9 +140,8 @@ const Post = () => {
           priceRow(priceE, seats.quantityE) +
           priceRow(priceF, seats.quantityF)
       );
-      if (totalSeats !== 0) {
-        setSeatsAval(seatsAval - totalSeats);
-      }
+
+      // setSeatsAval(seatsAval - totalSeats);
     }
   }, [
     priceA,
@@ -173,6 +173,11 @@ const Post = () => {
       parseInt(newValues.quantityD) +
       parseInt(newValues.quantityE) +
       parseInt(newValues.quantityF);
+
+    console.log("newTotal", newTotal);
+
+    const newAvalSeats = seatsAval - newTotal;
+    // console.log("newAvalSeats", newAvalSeats);
     setTotalSeats(newTotal);
   };
 
@@ -204,17 +209,44 @@ const Post = () => {
         seats.quantityD,
         seats.quantityE,
         seats.quantityF,
+        postId,
         tourName,
         tourCode,
         startAt
       )
     );
     if (seatsAval) {
-      dispatch(seatUpdateAction(postId, seatsAval));
+      const aseats = seatsAval - totalSeats;
+      dispatch(seatUpdateAction(postId, aseats));
     }
 
-    navigate("/agent/dashboard");
+    // if (userInfo.isAdmin === false) {
+    //   navigate("/agent/dashboard");
+    // } else {
+    //   navigate("/admin/allbills");
+    // }
   };
+
+  const [popup, setPopup] = useState({
+    openPopup: false,
+    setOpenPopup: "",
+    title: "",
+    children: "",
+  });
+
+  const billCreate = useSelector((state) => state.billCreate);
+  const { success, loading } = billCreate;
+
+  useEffect(() => {
+    if (success === true) {
+      setPopup({
+        openPopup: true,
+        setOpenPopup: "",
+        title: "success",
+        children: "จองสำเร็จ! ขอบคุณที่ทำการจองทัวร์กับเรา",
+      });
+    }
+  }, [success]);
 
   return (
     <Card>
@@ -371,7 +403,7 @@ const Post = () => {
                     {" "}
                     <TextField
                       type="number"
-                      InputProps={{ inputProps: { max: seatsCl, min: 0 } }}
+                      InputProps={{ inputProps: { max: seatsAval, min: 0 } }}
                       label="จำนวน"
                       InputLabelProps={{
                         shrink: true,
@@ -397,7 +429,7 @@ const Post = () => {
                     {" "}
                     <TextField
                       type="number"
-                      InputProps={{ inputProps: { max: seatsCl, min: 0 } }}
+                      InputProps={{ inputProps: { max: seatsAval, min: 0 } }}
                       label="จำนวน"
                       InputLabelProps={{
                         shrink: true,
@@ -423,7 +455,7 @@ const Post = () => {
                     {" "}
                     <TextField
                       type="number"
-                      InputProps={{ inputProps: { max: seatsCl, min: 0 } }}
+                      InputProps={{ inputProps: { max: seatsAval, min: 0 } }}
                       label="จำนวน"
                       InputLabelProps={{
                         shrink: true,
@@ -449,7 +481,7 @@ const Post = () => {
                     {" "}
                     <TextField
                       type="number"
-                      InputProps={{ inputProps: { max: seatsCl, min: 0 } }}
+                      InputProps={{ inputProps: { max: seatsAval, min: 0 } }}
                       label="จำนวน"
                       InputLabelProps={{
                         shrink: true,
@@ -474,7 +506,7 @@ const Post = () => {
                   <TableCell align="center">
                     <TextField
                       type="number"
-                      InputProps={{ inputProps: { max: seatsCl, min: 0 } }}
+                      InputProps={{ inputProps: { max: seatsAval, min: 0 } }}
                       label="จำนวน"
                       InputLabelProps={{
                         shrink: true,
@@ -499,7 +531,7 @@ const Post = () => {
                   <TableCell align="center">
                     <TextField
                       type="number"
-                      InputProps={{ inputProps: { max: seatsCl, min: 0 } }}
+                      InputProps={{ inputProps: { max: seatsAval, min: 0 } }}
                       label="จำนวน"
                       InputLabelProps={{
                         shrink: true,
@@ -555,6 +587,7 @@ const Post = () => {
           </Suspense>
         </Box>
       </CardContent>
+      <NotiPopup popup={popup} setPopup={setPopup} />
     </Card>
   );
 };

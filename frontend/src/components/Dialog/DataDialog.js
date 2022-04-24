@@ -27,6 +27,10 @@ import Chip from "@mui/material/Chip";
 import TextField from "@mui/material/TextField";
 import { billUpdateStatus } from "../../redux/actions/billsActions";
 import { singleUser } from "../../redux/actions/userActions";
+import {
+  getPostsByCode,
+  seatUpdateAction,
+} from "../../redux/actions/postsActions";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -74,10 +78,20 @@ const DataDialog = ({ open, setOpen, data }) => {
   const [remark, setRemark] = useState("");
   const [userId, setUserId] = useState(data.bill?.agent);
 
+  const [newSeatsAval, setNewSeatsAval] = useState("");
+  const [totalSeats, setTotalSeats] = useState(0);
+  const [seats, setSeats] = useState({
+    quantityA: 0,
+    quantityB: 0,
+    quantityC: 0,
+    quantityD: 0,
+    quantityE: 0,
+    quantityF: 0,
+  });
+
   const agent = useSelector((state) => state.singleUser);
   const { user } = agent;
 
-  // console.log(data.bill?.status);
   useEffect(() => {
     if (data.bill?.agent && open === true) {
       dispatch(singleUser(data.bill?.agent));
@@ -85,10 +99,40 @@ const DataDialog = ({ open, setOpen, data }) => {
     }
   }, [data.bill?.agent]);
 
+  useEffect(() => {
+    if (status === "cancled") {
+      const newTotal =
+        parseInt(data.bill?.quantityA) +
+        parseInt(data.bill?.quantityB) +
+        parseInt(data.bill?.quantityC) +
+        parseInt(data.bill?.quantityD) +
+        parseInt(data.bill?.quantityE) +
+        parseInt(data.bill?.quantityF);
+      setTotalSeats(newTotal);
+    }
+  }, [status]);
+
+  useEffect(() => {
+    if (status === "cancled") {
+      const fetching = async () => {
+        const responce = await axios.get(`/api/posts/${data.bill?.tourId}`);
+        setNewSeatsAval(responce.data.seatsAval);
+      };
+
+      fetching();
+    }
+  }, [status]);
+
+  console.log(newSeatsAval);
+  console.log(totalSeats + newSeatsAval);
+
   // console.log(data);
 
   const handleSubmit = () => {
-    dispatch(billUpdateStatus(data.bill?._id, status, remark));
+    dispatch(billUpdateStatus(data.bill?._id, status));
+    if (status === "cancled") {
+      dispatch(seatUpdateAction(data.bill?.tourId, totalSeats + newSeatsAval));
+    }
     handleClose();
   };
 
@@ -199,17 +243,6 @@ const DataDialog = ({ open, setOpen, data }) => {
                   </TableBody>
                 </Table>
               </TableContainer>
-              <Box sx={{ my: 2 }}>
-                <TextField
-                  id="standard-basic"
-                  value={remark === "" ? data.bill?.remark : remark}
-                  label="หมายเหตุ"
-                  variant="outlined"
-                  fullWidth
-                  onChange={(e) => setRemark(e.target.value)}
-                  InputLabelProps={{ shrink: true }}
-                />
-              </Box>
             </Box>
           )}
           <Box sx={{ mt: 2, display: "flex", alignItems: "center", gap: 2 }}>

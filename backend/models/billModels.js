@@ -10,6 +10,10 @@ const billSchema = mongoose.Schema(
     refNumber: {
       type: Number,
     },
+    tourId: {
+      type: String,
+      required: true,
+    },
     tourCode: {
       type: String,
       required: true,
@@ -54,9 +58,6 @@ const billSchema = mongoose.Schema(
     quantityF: {
       type: Number,
       default: 0,
-    },
-    remark: {
-      type: String,
     },
   },
   { timestamps: true }

@@ -14,23 +14,6 @@ import { getMyBills } from "../../../redux/actions/billsActions";
 import moment from "moment";
 import Button from "@mui/material/Button";
 
-const columns = [
-  { field: "refNumber", headerName: "Ref.", flex: 1 },
-  { field: "tour", headerName: "ทัวร์", flex: 1 },
-  { field: "totalAmount", headerName: "ยอดรวม", flex: 1 },
-  {
-    field: "createdAt",
-    type: "actions",
-    headerName: "วันที่สร้าง",
-    flex: 1,
-    getActions: ({ createdAt }) => [
-      <Button variant="text" color="warning">
-        {moment(createdAt).format("DD-MM-YYYY")}
-      </Button>,
-    ],
-  },
-  { field: "status", headerName: "Status", flex: 1 },
-];
 function escapeRegExp(value) {
   return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 }
@@ -124,6 +107,65 @@ const MyBills = () => {
       setDataTable(mybills);
     }
   }, [dispatch, mybills]);
+
+  const columns = [
+    { field: "refNumber", headerName: "Ref.", flex: 0.2 },
+    {
+      field: "createdAt",
+      headerName: "วันที่สร้าง",
+      flex: 0.5,
+      type: "actions",
+      getActions: (params) => [
+        <Button variant="text" color="primary">
+          {moment(params.row.createdAt).format("MM/DD/YYYY")}
+        </Button>,
+      ],
+    },
+    {
+      field: "expiredDate",
+      type: "actions",
+      headerName: "วันหมดอายุ",
+      flex: 0.5,
+      getActions: (params) => [
+        <Button variant="text" color="warning">
+          {moment().add(30, "days").calendar(params.row.createdAt)}
+        </Button>,
+      ],
+    },
+    { field: "tourName", headerName: "ทัวร์", flex: 1 },
+    { field: "tourCode", headerName: "รหัสทัวร์", flex: 0.5 },
+    {
+      field: "startAt",
+      type: "actions",
+      headerName: "วันที่เดินทาง",
+      flex: 0.6,
+      getActions: (params) => [
+        <Button variant="text" color="primary">
+          {moment(params.row.startAt).calendar()}
+        </Button>,
+      ],
+    },
+    {
+      field: "status",
+      headerName: "Status",
+      type: "actions",
+      flex: 1,
+      getActions: (params) => [
+        <Button
+          variant="text"
+          color={
+            params.row.status === "pending"
+              ? "warning"
+              : params.row.status === "approved"
+              ? "success"
+              : "error"
+          }
+        >
+          {params.row.status}
+        </Button>,
+      ],
+    },
+  ];
 
   return (
     <AgentLayout title="คำสั่งจอง">
