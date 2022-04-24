@@ -49,7 +49,7 @@ const TourCode = ({ tourCode }) => {
     {
       field: "startAt",
       type: "actions",
-      headerName: "วันไป",
+      headerName: "วันไป (ด/ว/ป)",
       flex: 0.7,
       getActions: (params) => [
         <Button variant="text" color="warning">
@@ -60,7 +60,7 @@ const TourCode = ({ tourCode }) => {
     {
       field: "endAt",
       type: "actions",
-      headerName: "วันกลับ",
+      headerName: "วันกลับ (ด/ว/ป)",
       flex: 0.7,
       getActions: (params) => [
         <Button variant="text" color="warning">

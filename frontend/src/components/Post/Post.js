@@ -174,7 +174,7 @@ const Post = () => {
       parseInt(newValues.quantityE) +
       parseInt(newValues.quantityF);
 
-    console.log("newTotal", newTotal);
+    // console.log("newTotal", newTotal);
 
     const newAvalSeats = seatsAval - newTotal;
     // console.log("newAvalSeats", newAvalSeats);
@@ -258,6 +258,14 @@ const Post = () => {
     <Card>
       <CardMedia component="img" alt={tourName} image={featuredImage} />
       <CardContent sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+        <Box>
+          <Typography variant="h4" gutterBottom component="div">
+            Periodอื่นๆ
+          </Typography>
+          <Suspense fallback={<Loading />}>
+            <TourCode tourCode={tourCode} />
+          </Suspense>
+        </Box>
         <Box sx={{ textAlign: "center", py: 4 }}>
           <Typography variant="h4" component="h2" gutterBottom>
             {tourName}
@@ -583,14 +591,6 @@ const Post = () => {
               </TableBody>
             </Table>
           </TableContainer>
-        </Box>
-        <Box>
-          <Typography variant="h4" gutterBottom component="div">
-            Periodอื่นๆ
-          </Typography>
-          <Suspense fallback={<Loading />}>
-            <TourCode tourCode={tourCode} />
-          </Suspense>
         </Box>
       </CardContent>
       <NotiPopup popup={popup} setPopup={setPopup} />
