@@ -23,21 +23,20 @@ const TourCard = ({ data, index }) => {
     <Grid item xs={12} md={6} lg={4} key={index}>
       <Paper
         elevation={10}
-        sx={{ borderRadius: 10, height: "550px" }}
+        sx={{ borderRadius: 10, height: "620px" }}
         key={data._id}
       >
         <Link href={`/posts/${data._id}`}>
           <Image src={data.featuredImage} alt={data.title} />
         </Link>
         <Link href={`/posts/${data._id}`} underline="none">
-          <Box sx={{ px: 2, pt: 2 }}>
+          <Box sx={{ px: 2, pt: 2, height: "60px" }}>
             <Typography component="h2" variant="h6">
               {data.tourName}
             </Typography>
           </Box>
         </Link>
 
-        <PeriodBox code={data.tourCode} />
         <Box
           sx={{ px: 2, display: "flex", alignItems: "center", gap: 1 }}
           marginTop={3}
@@ -56,8 +55,17 @@ const TourCard = ({ data, index }) => {
             />
           ))}
         </Box>
+
+        <PeriodBox code={data.tourCode} />
+
         <Box
-          sx={{ px: 2, display: "flex", alignItems: "center", gap: 1 }}
+          sx={{
+            px: 2,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-evenly",
+            gap: 1,
+          }}
           marginTop={3}
           paddingBottom={2}
         >

@@ -29,11 +29,19 @@ const PeriodBox = ({ code }) => {
         display: "flex",
         flexDirection: "column",
         alignItems: "flex-start",
+        height: "17%",
+        overflow: "auto",
       }}
     >
       {period &&
         period.sort(byStartDate).map((item, index) => (
-          <Box key={index} sx={{ display: "flex", alignItems: "center" }}>
+          <Box
+            key={index}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
             <DateRangeRoundedIcon />
             <Typography component="p" variant="body2" marginLeft={0.5}>
               {moment(item.startAt).format("LL")} -{" "}
