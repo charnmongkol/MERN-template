@@ -95,8 +95,7 @@ const Bill = () => {
 
   const [searchText, setSearchText] = useState("");
   const [rows, setRows] = useState(dataTable);
-  const [tourName, setTourName] = useState("");
-  const [startAt, setStartAt] = useState("");
+
   const requestSearch = (searchValue) => {
     setSearchText(searchValue);
     const searchRegex = new RegExp(escapeRegExp(searchValue), "i");

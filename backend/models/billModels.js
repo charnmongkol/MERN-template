@@ -60,6 +60,14 @@ const billSchema = mongoose.Schema(
       type: String,
       default: "",
     },
+    userLog: {
+      type: String,
+      default: "",
+    },
+    updatedLog: {
+      type: Date,
+      default: new Date(),
+    },
   },
   { timestamps: true }
 );

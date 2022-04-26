@@ -43,6 +43,13 @@ const TourCode = ({ tourCode }) => {
     window.scrollTo(0, 0);
   }, [pathname]);
 
+  const [sortModel, setSortModel] = useState([
+    {
+      field: "startAt",
+      sort: "asc",
+    },
+  ]);
+
   const columns = [
     { field: "tourCode", headerName: "รหัส", flex: 0.7 },
     { field: "tourName", headerName: "ทัวร์", flex: 0.7 },
@@ -100,7 +107,12 @@ const TourCode = ({ tourCode }) => {
   return (
     <div style={{ height: 400, width: "100%" }}>
       {tours && (
-        <DataGrid rows={tours} columns={columns} getRowId={(row) => row._id} />
+        <DataGrid
+          rows={tours}
+          columns={columns}
+          getRowId={(row) => row._id}
+          sortModel={sortModel}
+        />
       )}
     </div>
   );
