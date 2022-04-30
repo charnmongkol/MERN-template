@@ -16,6 +16,8 @@ import {
   postListReducer,
   postsByCodeReducer,
   postUpdateReducer,
+  updateHighlighReducer,
+  updateSaleReducer,
   updateSeatReducer,
 } from "./reducers/postsReducers";
 import {
@@ -40,6 +42,8 @@ const reducer = combineReducers({
   postCreate: postCreateReducer,
   postUpdate: postUpdateReducer,
   seatUpdate: updateSeatReducer,
+  saleUpdate: updateSaleReducer,
+  highlightUpdate: updateHighlighReducer,
   postDelete: postDeleteReducer,
   allBills: allBillsReducer,
   myBills: myBillsReducer,

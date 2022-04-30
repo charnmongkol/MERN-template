@@ -1,5 +1,6 @@
 const Post = require("../models/postModels");
 const asyncHandler = require("express-async-handler");
+const { post } = require("../routes/postRoutes");
 
 // const getAllPosts = asyncHandler(async (req, res) => {
 //   const qNew = req.query.new;
@@ -56,6 +57,7 @@ const createPost = asyncHandler(async (req, res) => {
     priceD,
     priceE,
     priceF,
+    isSale,
   } = req.body;
 
   if (!tourName || !tourCode) {
@@ -84,6 +86,7 @@ const createPost = asyncHandler(async (req, res) => {
       priceD,
       priceE,
       priceF,
+      isSale,
     });
 
     //save to db
@@ -179,6 +182,34 @@ const updateSeat = asyncHandler(async (req, res) => {
     post.seatsAval = seatsAval;
     const updateTourSeat = await post.save();
     res.json(updateTourSeat);
+  } else {
+    res.status(404).json({ message: "cannot update seat!" });
+  }
+});
+
+const updateIsHighlight = asyncHandler(async (req, res) => {
+  const { isHighlight } = req.body;
+  const highlight = await Post.findById(req.params.id);
+
+  if (highlight) {
+    highlight.isHighlight = isHighlight;
+    const updateHighlight = await highlight.save();
+    res.json(updateHighlight);
+  } else {
+    res.status(404).json({ message: "cannot update highlight!" });
+  }
+});
+
+const updateIsSale = asyncHandler(async (req, res) => {
+  const { isSale } = req.body;
+  const sale = await Post.findById(req.params.id);
+
+  if (sale) {
+    sale.isSale = isSale;
+    const updateSale = await sale.save();
+    res.json(updateSale);
+  } else {
+    res.status(404).json({ message: "cannot update sale!" });
   }
 });
 
@@ -207,5 +238,7 @@ module.exports = {
   getTourByCode,
   updatePost,
   updateSeat,
+  updateIsHighlight,
+  updateIsSale,
   deletePost,
 };

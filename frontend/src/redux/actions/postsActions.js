@@ -14,6 +14,12 @@ import {
   POSTS_LIST_FAIL,
   POSTS_LIST_REQUEST,
   POSTS_LIST_SUCCESS,
+  POSTS_UPDATEHIGHLIGHT_FAILED,
+  POSTS_UPDATEHIGHLIGHT_REQUEST,
+  POSTS_UPDATEHIGHLIGHT_SUCCESS,
+  POSTS_UPDATESALE_FAILED,
+  POSTS_UPDATESALE_REQUEST,
+  POSTS_UPDATESALE_SUCCESS,
   POSTS_UPDATESEAT_REQUEST,
   POSTS_UPDATESEAT_SUCCESS,
   POSTS_UPDATE_FAIL,
@@ -310,6 +316,86 @@ export const seatUpdateAction =
 
       dispatch({
         type: POSTS_UPDATE_FAIL,
+        payload: message,
+      });
+    }
+  };
+
+export const isSaleUpdateAction =
+  (id, isSale) => async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: POSTS_UPDATESALE_REQUEST,
+      });
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      const { data } = await axios.put(
+        `/api/posts/updateIsSale/${id}`,
+        { isSale },
+        config
+      );
+
+      dispatch({
+        type: POSTS_UPDATESALE_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+
+      dispatch({
+        type: POSTS_UPDATESALE_FAILED,
+        payload: message,
+      });
+    }
+  };
+
+export const isHighLightUpdateAction =
+  (id, isHighlight) => async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: POSTS_UPDATEHIGHLIGHT_REQUEST,
+      });
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      const { data } = await axios.put(
+        `/api/posts/updateIsHighlight/${id}`,
+        { isHighlight },
+        config
+      );
+
+      dispatch({
+        type: POSTS_UPDATEHIGHLIGHT_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+
+      dispatch({
+        type: POSTS_UPDATEHIGHLIGHT_FAILED,
         payload: message,
       });
     }

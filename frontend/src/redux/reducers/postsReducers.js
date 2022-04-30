@@ -20,6 +20,12 @@ import {
   POSTS_UPDATESEAT_REQUEST,
   POSTS_UPDATESEAT_SUCCESS,
   POSTS_UPDATESEAT_FAILED,
+  POSTS_UPDATESALE_REQUEST,
+  POSTS_UPDATESALE_SUCCESS,
+  POSTS_UPDATESALE_FAILED,
+  POSTS_UPDATEHIGHLIGHT_REQUEST,
+  POSTS_UPDATEHIGHLIGHT_SUCCESS,
+  POSTS_UPDATEHIGHLIGHT_FAILED,
 } from "../constants/postsConstants";
 
 export const allPostsReducer = (state = { allposts: [] }, action) => {
@@ -95,6 +101,32 @@ export const updateSeatReducer = (state = {}, action) => {
     case POSTS_UPDATESEAT_SUCCESS:
       return { loading: false, success: true };
     case POSTS_UPDATESEAT_FAILED:
+      return { loading: false, error: action.payload, success: false };
+    default:
+      return state;
+  }
+};
+
+export const updateSaleReducer = (state = {}, action) => {
+  switch (action.type) {
+    case POSTS_UPDATESALE_REQUEST:
+      return { loading: true };
+    case POSTS_UPDATESALE_SUCCESS:
+      return { loading: false, success: true };
+    case POSTS_UPDATESALE_FAILED:
+      return { loading: false, error: action.payload, success: false };
+    default:
+      return state;
+  }
+};
+
+export const updateHighlighReducer = (state = {}, action) => {
+  switch (action.type) {
+    case POSTS_UPDATEHIGHLIGHT_REQUEST:
+      return { loading: true };
+    case POSTS_UPDATEHIGHLIGHT_SUCCESS:
+      return { loading: false, success: true };
+    case POSTS_UPDATEHIGHLIGHT_FAILED:
       return { loading: false, error: action.payload, success: false };
     default:
       return state;

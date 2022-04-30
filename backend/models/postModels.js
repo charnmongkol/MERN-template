@@ -87,6 +87,14 @@ const postSchema = mongoose.Schema(
       required: true,
       ref: "User",
     },
+    isSale: {
+      type: Boolean,
+      default: false,
+    },
+    isHighlight: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

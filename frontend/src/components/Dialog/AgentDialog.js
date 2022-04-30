@@ -17,9 +17,62 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import Link from "@mui/material/Link";
+import Modal from "@mui/material/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { updateStatusUser } from "../../redux/actions/userActions";
 
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: { md: "50%", sm: "90%" },
+  height: "90%",
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  overflow: "auto",
+  textAlign: "end",
+  boxShadow: 24,
+  px: 4,
+  pb: 4,
+};
+function ChildModal({ img }) {
+  const [openImg, setOpenImg] = useState(false);
+  const handleOpen = () => {
+    setOpenImg(true);
+  };
+  const handleClose = () => {
+    setOpenImg(false);
+  };
+
+  return (
+    <React.Fragment>
+      <Link onClick={handleOpen}>
+        <img src={img} width="150" height="150" />
+      </Link>
+      <Modal
+        hideBackdrop
+        open={openImg}
+        onClose={handleClose}
+        aria-labelledby="child-modal-title"
+        aria-describedby="child-modal-description"
+      >
+        <Box sx={{ ...style }}>
+          <IconButton
+            edge="end"
+            color="inherit"
+            onClick={handleClose}
+            aria-label="close"
+          >
+            <CloseIcon />
+          </IconButton>
+          <img src={img} width="100%" height="100%" />
+        </Box>
+      </Modal>
+    </React.Fragment>
+  );
+}
 const AgentDialog = ({ open, setOpen }) => {
   const dispatch = useDispatch();
   const singleUser = useSelector((state) => state.singleUser);
@@ -44,7 +97,7 @@ const AgentDialog = ({ open, setOpen }) => {
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
-          <DialogTitle sx={{ textAlign: "end" }}>
+          <DialogTitle sx={{ textAlign: "end", backgroundColor: "#002855" }}>
             <IconButton
               edge="end"
               color="inherit"
@@ -77,7 +130,7 @@ const AgentDialog = ({ open, setOpen }) => {
                       รูปใบอนุญาต
                     </TableCell>
                     <TableCell>
-                      <img src={user.licensePic} width="150" height="150" />
+                      <ChildModal img={user.licensePic} />
                     </TableCell>
                   </TableRow>
                   <TableRow>
