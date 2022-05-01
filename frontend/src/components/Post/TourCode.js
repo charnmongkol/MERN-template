@@ -59,7 +59,11 @@ const TourCode = ({ tourCode }) => {
       headerName: "วันไป (ด/ว/ป)",
       flex: 0.7,
       getActions: (params) => [
-        <Button variant="text" color="warning">
+        <Button
+          variant="text"
+          color="warning"
+          onClick={goToTour(params.row._id)}
+        >
           {moment(params.row.startAt).format("DD-MM-YYYY")}
         </Button>,
       ],
@@ -70,7 +74,11 @@ const TourCode = ({ tourCode }) => {
       headerName: "วันกลับ (ด/ว/ป)",
       flex: 0.7,
       getActions: (params) => [
-        <Button variant="text" color="warning">
+        <Button
+          variant="text"
+          color="warning"
+          onClick={goToTour(params.row._id)}
+        >
           {moment(params.row.endAt).format("DD-MM-YYYY")}
         </Button>,
       ],
@@ -110,6 +118,7 @@ const TourCode = ({ tourCode }) => {
         <DataGrid
           rows={tours}
           columns={columns}
+          pageSize={10}
           getRowId={(row) => row._id}
           sortModel={sortModel}
         />

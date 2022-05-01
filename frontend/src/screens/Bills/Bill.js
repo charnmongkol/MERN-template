@@ -121,6 +121,13 @@ const Bill = () => {
     setRows(dataTable);
   }, [dataTable, dispatch]);
 
+  const [sortModel, setSortModel] = useState([
+    {
+      field: "startAt",
+      sort: "asc",
+    },
+  ]);
+
   // console.log(dataTable.map((i) => i.tour));
   // console.log(rows);
   const columns = [
@@ -207,6 +214,7 @@ const Bill = () => {
           pageSize={10}
           getRowId={(row) => row._id}
           autoHeight
+          sortModel={sortModel}
           components={{ Toolbar: QuickSearchToolbar }}
           componentsProps={{
             toolbar: {

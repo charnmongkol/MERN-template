@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import Layout from "./components/layout";
 import Agents from "./screens/Admin/Agents";
+import Tours from "./screens/Admin/Tours";
 const CreatePost = lazy(() => import("./screens/CreatePost/CreatePost"));
 
 const EditPost = lazy(() => import("./screens/EditPost/EditPost"));
@@ -51,7 +52,7 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/registration" element={<Registration />} />
             <Route path="/admin/profile" element={<ProfilePage />} />
-            <Route path="/admin/myposts" element={<MyPostsPage />} />
+            <Route path="/admin/myposts" element={<Tours />} />
             <Route path="/admin/createpost" element={<CreatePost />} />
             <Route
               path="/admin/createpostbycode"

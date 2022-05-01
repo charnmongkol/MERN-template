@@ -64,7 +64,7 @@ const Agents = () => {
                 allUsers.map((agent, index) => (
                   <TableRow key={index}>
                     <TableCell component="th" scope="row">
-                      {index}
+                      {index + 1}
                     </TableCell>
                     <TableCell align="center">
                       <img src={agent.pic} width="50" height="50" />

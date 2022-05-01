@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Accordion, Badge, Col, Form, FormControl, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { deletePostAction, listPosts } from "../../redux/actions/postsActions";
+import {
+  deletePostAction,
+  isHighLightUpdateAction,
+  isSaleUpdateAction,
+  listPosts,
+} from "../../redux/actions/postsActions";
 import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
 import DashboardLayOut from "../../components/Layout/DashboardLayOut";
@@ -14,6 +18,7 @@ import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import TextField from "@mui/material/TextField";
+import Switch from "@mui/material/Switch";
 import moment from "moment";
 import PropTypes from "prop-types";
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
@@ -76,8 +81,7 @@ QuickSearchToolbar.propTypes = {
 
 const MyPosts = () => {
   const dispatch = useDispatch();
-  const [search, setSearch] = useState("");
-  const [myposts, setMyposts] = useState([]);
+  const navigate = useNavigate();
 
   const postList = useSelector((state) => state?.postList);
   const { loading, posts, error } = postList;
@@ -106,12 +110,11 @@ const MyPosts = () => {
     }
   };
 
-  const navigate = useNavigate();
-
   useEffect(() => {
-    dispatch(listPosts());
     if (!userInfo && userInfo.isAdmin !== true) {
       navigate("/");
+    } else {
+      dispatch(listPosts());
     }
   }, [
     dispatch,
@@ -125,21 +128,6 @@ const MyPosts = () => {
   const [searchText, setSearchText] = useState("");
   const [dataTable, setDataTable] = useState([]);
   const [rows, setRows] = useState(posts);
-  const requestSearch = (searchValue) => {
-    setSearchText(searchValue);
-    const searchRegex = new RegExp(escapeRegExp(searchValue), "i");
-    const filteredRows = posts.filter((row) => {
-      return Object.keys(row).some((field) => {
-        return searchRegex.test(row[field].toString());
-      });
-    });
-    setRows(filteredRows);
-  };
-  useEffect(() => {
-    if (dataTable) {
-      setRows(dataTable);
-    }
-  }, [dataTable]);
 
   useEffect(() => {
     if (posts) {
@@ -147,18 +135,79 @@ const MyPosts = () => {
     }
   }, [dispatch, posts]);
 
-  // console.log("posts", posts);
-  // console.log("dataTable", dataTable);
-  // console.log("rows", rows);
+  const requestSearch = (searchValue) => {
+    setSearchText(searchValue);
+
+    const searchRegex = new RegExp(escapeRegExp(searchValue), "i");
+    const filteredRows = posts.filter((row) => {
+      return Object.keys(row).some((field) => {
+        return searchRegex.test(row[field]);
+      });
+    });
+    setRows(filteredRows);
+  };
+
+  const [sortModel, setSortModel] = useState([
+    {
+      field: "startAt",
+      sort: "asc",
+    },
+    {
+      field: "tourName",
+      sort: "asc",
+    },
+  ]);
+
+  const handleIsSale = (id, isSale) => (e) => {
+    e.stopPropagation();
+    // setCheckSale(!checkSale);
+    dispatch(isSaleUpdateAction(id, !isSale));
+  };
+  const handleIsHighlight = (id, isHighlight) => (e) => {
+    e.stopPropagation();
+    dispatch(isHighLightUpdateAction(id, !isHighlight));
+  };
 
   const editPostList = (id) => (e) => {
     e.stopPropagation();
+    // console.log(id);
     navigate(`/admin/editpost/${id}`);
   };
+
+  useEffect(() => {
+    if (dataTable) {
+      setRows(dataTable);
+    }
+  }, [dataTable]);
+
+  function getIndex(params) {
+    console.log(params);
+    let idx = [];
+    for (var i = 0; i < rows.length; i++) {
+      idx.push(i);
+    }
+    return idx.map((i) => i);
+  }
+
   const columns = [
-    { field: "_id", headerName: "No.", flex: 0.5 },
-    { field: "tourName", headerName: "ทัวร์", flex: 1 },
-    { field: "tourCode", headerName: "รหัส", flex: 1 },
+    { field: "_id", headerName: "No.", flex: 0.5, valueGetter: getIndex },
+
+    {
+      field: "isSale",
+      type: "actions",
+      headerName: "เปิด-ปิด",
+      flex: 0.4,
+      getActions: (params) => [
+        <Switch
+          checked={params.row.isSale}
+          color="primary"
+          onChange={handleIsSale(params.row._id, params.row.isSale)}
+          inputProps={{ "aria-label": "controlled" }}
+        />,
+      ],
+    },
+    { field: "tourName", headerName: "ทัวร์", flex: 1.2 },
+    { field: "tourCode", headerName: "รหัส", flex: 0.7 },
     // { field: "country", headerName: "ประเทศ", flex: 1 },
     {
       field: "startAt",
@@ -182,11 +231,26 @@ const MyPosts = () => {
         </Button>,
       ],
     },
-    { field: "seatsCl", headerName: "ที่นั่ง", flex: 0.5 },
+    { field: "seatsCl", headerName: "ที่นั่ง", flex: 0.3 },
+    {
+      field: "isHighlight",
+      type: "actions",
+      headerName: "highlight",
+      flex: 0.4,
+      editable: true,
+      getActions: (params) => [
+        <Switch
+          checked={params.row.isHighlight}
+          color="success"
+          onChange={handleIsHighlight(params.row._id, params.row.isHighlight)}
+          inputProps={{ "aria-label": "controlled" }}
+        />,
+      ],
+    },
     {
       field: "actions",
       type: "actions",
-      flex: 0.5,
+      flex: 0.4,
       getActions: ({ id }) => [
         <GridActionsCellItem
           icon={<EditIcon />}
