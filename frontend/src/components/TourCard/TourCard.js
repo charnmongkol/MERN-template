@@ -44,6 +44,7 @@ const TourCard = ({ data, index }) => {
         >
           {data.country.map((item, idx) => (
             <Chip
+              key={idx}
               avatar={
                 <Avatar
                   alt={item}

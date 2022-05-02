@@ -27,8 +27,12 @@ const { post } = require("../routes/postRoutes");
 // });
 const getAllPosts = asyncHandler(async (req, res) => {
   const allposts = await Post.find({});
-  res.json(allposts);
+  const filterIsSale = (data) => {
+    return data.filter((item) => item.isSale === true);
+  };
+  res.json(filterIsSale(allposts));
 });
+
 const getPosts = asyncHandler(async (req, res) => {
   //mongodb query
   const posts = await Post.find({ user: req.user._id });
@@ -111,8 +115,12 @@ const getPostById = asyncHandler(async (req, res) => {
 const getTourByCode = asyncHandler(async (req, res) => {
   const posts = await Post.find({ tourCode: req.params.tourCode });
 
+  const filterIsSale = (data) => {
+    return data.filter((item) => item.isSale === true);
+  };
+
   if (posts) {
-    res.json(posts);
+    res.json(filterIsSale(posts));
   } else {
     res.status(404).json({ message: "this code is not found!" });
   }

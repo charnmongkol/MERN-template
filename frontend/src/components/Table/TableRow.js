@@ -28,17 +28,6 @@ const TableRowTour = ({ item, index }) => {
   const [checkedSale, setCheckedSale] = useState(item.isSale);
   const [checkedHighlight, setCheckedHighlight] = useState(item.isHighlight);
 
-  useEffect(() => {
-    const fetching = async () => {
-      const { data } = await axios.get(`/api/posts/${item._id}`);
-      setCheckedSale(data.isSale);
-      setCheckedHighlight(data.isHighlight);
-    };
-    if (checkedSale !== item.isSale) {
-      fetching();
-    }
-  }, [successIsHighlight, successIsSale]);
-
   const handleIsSale = (id, isSale) => (e) => {
     dispatch(isSaleUpdateAction(id, !checkedSale));
     setCheckedSale(!checkedSale);
@@ -51,6 +40,17 @@ const TableRowTour = ({ item, index }) => {
     e.stopPropagation();
     navigate(`/admin/editpost/${id}`);
   };
+
+  useEffect(() => {
+    const fetching = async () => {
+      const { data } = await axios.get(`/api/posts/${item._id}`);
+      setCheckedSale(data.isSale);
+      setCheckedHighlight(data.isHighlight);
+    };
+    if (checkedSale !== item.isSale) {
+      fetching();
+    }
+  }, [successIsHighlight, successIsSale]);
 
   return (
     <>

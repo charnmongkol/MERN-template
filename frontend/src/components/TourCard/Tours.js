@@ -82,7 +82,11 @@ const Tours = ({ alltours }) => {
           .sort(byName)
           .sort(byStartDate)
           .sort(byCountry)
-          .map((tour, index) => <TourCard data={tour} index={index} />)}
+          .map((tour, index) => (
+            <React.Fragment key={index}>
+              <TourCard data={tour} index={index} />
+            </React.Fragment>
+          ))}
     </Grid>
   );
 };

@@ -9,7 +9,6 @@ const CreatePost = lazy(() => import("./screens/CreatePost/CreatePost"));
 
 const EditPost = lazy(() => import("./screens/EditPost/EditPost"));
 const LandingPage = lazy(() => import("./screens/LandingPage/LandingPage"));
-const MyPostsPage = lazy(() => import("./screens/MyPosts/MyPosts"));
 const NotFound = lazy(() => import("./screens/NotFound/NotFound"));
 const Posts = lazy(() => import("./screens/Posts/Posts"));
 const SinglePost = lazy(() => import("./screens/Posts/SinglePost"));
