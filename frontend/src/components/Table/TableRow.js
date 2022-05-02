@@ -2,55 +2,20 @@ import React, { useEffect } from "react";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
-import Switch from "@mui/material/Switch";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import moment from "moment";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  isHighLightUpdateAction,
-  isSaleUpdateAction,
-} from "../../redux/actions/postsActions";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { useState } from "react";
+import SwitchComponent from "../Switch/Switch";
+import SwitchHighlight from "../Switch/SwitchHighlight";
 
 const TableRowTour = ({ item, index }) => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const saleUpdate = useSelector((state) => state.saleUpdate);
-  const { loading: loadingIsSale, success: successIsSale } = saleUpdate;
-  const highlightUpdate = useSelector((state) => state.highlightUpdate);
-  const { loading: loadingIsHighlight, success: successIsHighlight } =
-    highlightUpdate;
-
-  const [checkedSale, setCheckedSale] = useState(item.isSale);
-  const [checkedHighlight, setCheckedHighlight] = useState(item.isHighlight);
-
-  const handleIsSale = (id, isSale) => (e) => {
-    dispatch(isSaleUpdateAction(id, !checkedSale));
-    setCheckedSale(!checkedSale);
-  };
-  const handleIsHighlight = (id, isHighlight) => (e) => {
-    dispatch(isHighLightUpdateAction(id, !checkedHighlight));
-    setCheckedHighlight(!checkedHighlight);
-  };
   const editPostList = (id) => (e) => {
     e.stopPropagation();
     navigate(`/admin/editpost/${id}`);
   };
-
-  useEffect(() => {
-    const fetching = async () => {
-      const { data } = await axios.get(`/api/posts/${item._id}`);
-      setCheckedSale(data.isSale);
-      setCheckedHighlight(data.isHighlight);
-    };
-    if (checkedSale !== item.isSale) {
-      fetching();
-    }
-  }, [successIsHighlight, successIsSale]);
 
   return (
     <>
@@ -59,12 +24,7 @@ const TableRowTour = ({ item, index }) => {
           {index + 1}
         </TableCell>
         <TableCell>
-          <Switch
-            checked={checkedSale}
-            color="primary"
-            onClick={handleIsSale(item._id, item.isSale)}
-            inputProps={{ "aria-label": "controlled" }}
-          />
+          <SwitchComponent id={item._id} isSale={item.isSale} />
         </TableCell>
         <TableCell>{item.tourName}</TableCell>
         <TableCell>{item.tourCode}</TableCell>
@@ -80,11 +40,10 @@ const TableRowTour = ({ item, index }) => {
         </TableCell>
         <TableCell>{item.seatsCl}</TableCell>
         <TableCell>
-          <Switch
-            checked={checkedHighlight}
+          <SwitchHighlight
+            id={item._id}
+            isHighlight={item.isHighlight}
             color="success"
-            onClick={handleIsHighlight(item._id, item.isHighlight)}
-            inputProps={{ "aria-label": "controlled" }}
           />
         </TableCell>
         <TableCell>

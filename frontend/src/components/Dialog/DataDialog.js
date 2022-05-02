@@ -123,8 +123,8 @@ const DataDialog = ({ open, setOpen, data }) => {
     }
   }, [status]);
 
-  console.log(newSeatsAval);
-  console.log(totalSeats + newSeatsAval);
+  // console.log(newSeatsAval);
+  // console.log(totalSeats + newSeatsAval);
 
   // console.log(data);
 
