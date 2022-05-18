@@ -10,6 +10,7 @@ const {
   updateSeat,
   updateIsSale,
   updateIsHighlight,
+  getHighlightPosts,
 } = require("../controllers/postControllers");
 const { protect } = require("../middlewares/authMiddleware");
 
@@ -19,6 +20,7 @@ const router = express.Router();
 router.route("/").get(protect, getPosts);
 router.route("/create").post(protect, createPost);
 router.route("/allPosts").get(getAllPosts);
+router.route("/highlightPosts").get(getHighlightPosts);
 
 router
   .route("/:id")

@@ -11,6 +11,9 @@ import {
   POSTS_DELETE_FAIL,
   POSTS_DELETE_REQUEST,
   POSTS_DELETE_SUCCESS,
+  POSTS_HIGHLIGHT_FAIL,
+  POSTS_HIGHLIGHT_REQUEST,
+  POSTS_HIGHLIGHT_SUCCESS,
   POSTS_LIST_FAIL,
   POSTS_LIST_REQUEST,
   POSTS_LIST_SUCCESS,
@@ -81,6 +84,30 @@ export const listPosts = () => async (dispatch, getState) => {
 
     dispatch({
       type: POSTS_LIST_FAIL,
+      payload: message,
+    });
+  }
+};
+
+export const getHighlightPosts = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: POSTS_HIGHLIGHT_REQUEST,
+    });
+    const { data } = await axios.get("/api/posts/highlightPosts");
+
+    dispatch({
+      type: POSTS_HIGHLIGHT_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+
+    dispatch({
+      type: POSTS_HIGHLIGHT_FAIL,
       payload: message,
     });
   }

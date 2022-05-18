@@ -150,7 +150,7 @@ const Bill = () => {
       flex: 0.5,
       getActions: (params) => [
         <Button variant="text" color="warning">
-          {moment().add(30, "days").calendar(params.row.createdAt)}
+          {moment(params.row.createdAt).add(3, "days").calendar("MM/DD/YYYY")}
         </Button>,
       ],
     },
@@ -163,7 +163,7 @@ const Bill = () => {
       flex: 0.6,
       getActions: (params) => [
         <Button variant="text" color="primary">
-          {moment(params.row.startAt).calendar()}
+          {moment(params.row.startAt).calendar("MM/DD/YYYY")}
         </Button>,
       ],
     },

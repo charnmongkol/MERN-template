@@ -1,30 +1,6 @@
 const Post = require("../models/postModels");
 const asyncHandler = require("express-async-handler");
-const { post } = require("../routes/postRoutes");
 
-// const getAllPosts = asyncHandler(async (req, res) => {
-//   const qNew = req.query.new;
-//   const qCategory = req.query.category;
-
-//   try {
-//     let posts;
-//     if (qNew) {
-//       posts = await Post.find().sort({ createdAt: -1 }).limit(1);
-//     } else if (qCategory) {
-//       posts = await Post.find({
-//         category: {
-//           $in: [qCategory],
-//         },
-//       });
-//     } else {
-//       posts = await Post.find();
-//     }
-
-//     res.status(200).json(posts);
-//   } catch (error) {
-//     res.status(500).json(error);
-//   }
-// });
 const getAllPosts = asyncHandler(async (req, res) => {
   const allposts = await Post.find({});
   const filterIsSale = (data) => {
@@ -37,6 +13,14 @@ const getPosts = asyncHandler(async (req, res) => {
   //mongodb query
   const posts = await Post.find({ user: req.user._id });
   res.json(posts);
+});
+
+const getHighlightPosts = asyncHandler(async (req, res) => {
+  const highlights = await Post.find({});
+  const filterHighlight = (data) => {
+    return data.filter((item) => item.isHighlight === true);
+  };
+  res.json(filterHighlight(highlights));
 });
 
 const createPost = asyncHandler(async (req, res) => {
@@ -241,6 +225,7 @@ const deletePost = asyncHandler(async (req, res) => {
 module.exports = {
   getAllPosts,
   getPosts,
+  getHighlightPosts,
   createPost,
   getPostById,
   getTourByCode,

@@ -26,6 +26,9 @@ import {
   POSTS_UPDATEHIGHLIGHT_REQUEST,
   POSTS_UPDATEHIGHLIGHT_SUCCESS,
   POSTS_UPDATEHIGHLIGHT_FAILED,
+  POSTS_HIGHLIGHT_REQUEST,
+  POSTS_HIGHLIGHT_SUCCESS,
+  POSTS_HIGHLIGHT_FAIL,
 } from "../constants/postsConstants";
 
 export const allPostsReducer = (state = { allposts: [] }, action) => {
@@ -35,6 +38,19 @@ export const allPostsReducer = (state = { allposts: [] }, action) => {
     case POSTS_ALL_SUCCESS:
       return { loading: false, allposts: action.payload };
     case POSTS_ALL_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const highlightPostsReducer = (state = { highlights: [] }, action) => {
+  switch (action.type) {
+    case POSTS_HIGHLIGHT_REQUEST:
+      return { loading: true };
+    case POSTS_HIGHLIGHT_SUCCESS:
+      return { loading: false, highlights: action.payload };
+    case POSTS_HIGHLIGHT_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;

@@ -11,6 +11,7 @@ import {
 } from "./reducers/userReducers";
 import {
   allPostsReducer,
+  highlightPostsReducer,
   postCreateReducer,
   postDeleteReducer,
   postListReducer,
@@ -37,6 +38,7 @@ const reducer = combineReducers({
   allUsers: allUsersReducer,
   singleUser: reviewUserRededucer,
   allPosts: allPostsReducer,
+  highlightPosts: highlightPostsReducer,
   postList: postListReducer,
   tours: postsByCodeReducer,
   postCreate: postCreateReducer,

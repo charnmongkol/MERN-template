@@ -55,7 +55,7 @@ const Footer = () => {
             <Box sx={{ width: "100%" }}>
               <ItemLine
                 variant="contained"
-                href="https://lin.ee/m6OepL7"
+                href="https://line.me/ti/p/5LHQ7_D0qH"
                 target="_blank"
                 sx={{ width: "100%" }}
               >
