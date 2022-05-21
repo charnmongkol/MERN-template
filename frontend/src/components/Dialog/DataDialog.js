@@ -159,7 +159,7 @@ const DataDialog = ({ open, setOpen, data }) => {
                 หมายเลขใบอณุญาต: {user.licenseNumber}
               </Typography>
               <TableContainer component={Paper}>
-                <Table aria-label="simple table" size="">
+                <Table aria-label="simple table">
                   <TableHead sx={{ backgroundColor: "#002855" }}>
                     <TableRow>
                       <TableCell align="center" sx={{ color: "white" }}>

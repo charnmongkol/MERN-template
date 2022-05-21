@@ -36,6 +36,8 @@ const TourCode = lazy(() => import("./TourCode"));
 
 const TAX_RATE = 0.07;
 
+let isBooking = false;
+
 const Post = () => {
   const dispatch = useDispatch();
   const [postId, setPostId] = useState("");
@@ -161,7 +163,11 @@ const Post = () => {
   useEffect(() => {
     // setTax(TAX_RATE * subTotal);
     if (subTotal) {
+      console.log(subTotal);
       setTotalAmount(subTotal);
+      if (subTotal > 0) {
+        isBooking = true;
+      }
     }
   }, [subTotal]);
 
@@ -385,7 +391,7 @@ const Post = () => {
 
         <Box>
           <TableContainer component={Paper}>
-            <Table aria-label="simple table" size="">
+            <Table aria-label="simple table">
               <TableHead sx={{ backgroundColor: "#002855" }}>
                 <TableRow>
                   <TableCell align="center" sx={{ color: "white" }}>
@@ -583,6 +589,7 @@ const Post = () => {
                       color="success"
                       variant="contained"
                       onClick={handleBook}
+                      disabled={!isBooking}
                     >
                       จอง
                     </Button>

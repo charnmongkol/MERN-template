@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModels");
 const generateToken = require("../utils/generateToken");
+const notifyLine = require("../utils/notify");
 
 // registration
 const registerUser = asyncHandler(async (req, res) => {
@@ -20,6 +21,7 @@ const registerUser = asyncHandler(async (req, res) => {
     lineid,
   } = req.body;
 
+  const cur = new Date();
   const userExists = await User.findOne({ email });
 
   //check duplicate email = user is existing
@@ -64,6 +66,7 @@ const registerUser = asyncHandler(async (req, res) => {
       lineid: user.lineid,
       token: generateToken(user._id),
     });
+    notifyLine(`บริษัท ${user.name} เพิ่งสมัครสมาชิกใหม่ => เมื่อ ${cur}`);
   } else {
     res.status(400);
     throw new Error("Error Occured!");
@@ -76,7 +79,7 @@ const authUser = asyncHandler(async (req, res) => {
 
   //find email
   const user = await User.findOne({ email });
-
+  const cur = new Date();
   //if success
   if (user && (await user.matchPassword(password))) {
     res.json({

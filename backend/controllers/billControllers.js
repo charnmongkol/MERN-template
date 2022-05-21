@@ -1,5 +1,6 @@
 const Bill = require("../models/billModels");
 const asyncHandler = require("express-async-handler");
+const notifyLine = require("../utils/notify");
 
 const getAllBills = asyncHandler(async (req, res) => {
   const allBills = await Bill.find({});
@@ -39,6 +40,8 @@ const createBill = asyncHandler(async (req, res) => {
     remark,
   } = req.body;
 
+  const cur = new Date();
+
   if (!totalAmount || !tourCode) {
     res.status(400);
     throw new Error("please fill all the fields");
@@ -62,12 +65,18 @@ const createBill = asyncHandler(async (req, res) => {
     const createBill = await newbill.save();
 
     res.status(201).json(createBill);
+    if (createBill) {
+      notifyLine(
+        `agent ${req.user.name} ทำการจองทัวร์ "${tourName}" => เมื่อ ${cur}`
+      );
+    }
   }
 });
 
 const updateStatusBill = asyncHandler(async (req, res) => {
   const { status, remark } = req.body;
   const bill = await Bill.findById(req.params.id);
+  const cur = new Date();
 
   if (bill) {
     bill.status = status;
@@ -75,6 +84,11 @@ const updateStatusBill = asyncHandler(async (req, res) => {
 
     const updatedBill = await bill.save();
     res.json(updatedBill);
+    if (updatedBill) {
+      notifyLine(
+        `${req.user.name} เปลี่ยน status ของการจองหมายเลข${req.params.id} เป็น "${status}" => เมื่อ ${cur}`
+      );
+    }
   }
 });
 
