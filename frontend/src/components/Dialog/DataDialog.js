@@ -27,10 +27,7 @@ import Chip from "@mui/material/Chip";
 import TextField from "@mui/material/TextField";
 import { billUpdateStatus } from "../../redux/actions/billsActions";
 import { singleUser } from "../../redux/actions/userActions";
-import {
-  getPostsByCode,
-  seatUpdateAction,
-} from "../../redux/actions/postsActions";
+import { seatUpdateAction } from "../../redux/actions/postsActions";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {

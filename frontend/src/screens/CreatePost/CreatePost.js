@@ -64,12 +64,12 @@ const CreatePost = () => {
   const [pdfFile, setPdfFile] = useState("");
   const [wordFile, setWordFile] = useState(null);
   const [featuredImage, setFeaturedImage] = useState("");
-  const [priceA, setPriceA] = useState("");
-  const [priceB, setPriceB] = useState("");
-  const [priceC, setPriceC] = useState("");
-  const [priceD, setPriceD] = useState("");
-  const [priceE, setPriceE] = useState("");
-  const [priceF, setPriceF] = useState("");
+  const [priceA, setPriceA] = useState(0);
+  const [priceB, setPriceB] = useState(0);
+  const [priceC, setPriceC] = useState(0);
+  const [priceD, setPriceD] = useState(0);
+  const [priceE, setPriceE] = useState(0);
+  const [priceF, setPriceF] = useState(0);
   const [picMessage, setPicMessage] = useState(null);
   const [fileMessage, setFileMessage] = useState(null);
 
@@ -228,27 +228,27 @@ const CreatePost = () => {
 
   const addCommas = (num) =>
     num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  const removeNonNumeric = (num) => num.toString().replace(/[^0-9]/g, "");
+  const removeNonNumeric = (num) => num.toString().replace(/,/g, "");
 
   const handleCommaNumberA = (e) => {
-    setPriceA(addCommas(removeNonNumeric(e.target.value)));
+    setPriceA(e.target.value);
   };
   const handleCommaNumberB = (e) => {
-    setPriceB(addCommas(removeNonNumeric(e.target.value)));
+    setPriceB(e.target.value);
   };
   const handleCommaNumberC = (e) => {
-    setPriceC(addCommas(removeNonNumeric(e.target.value)));
+    setPriceC(e.target.value);
   };
   const handleCommaNumberD = (e) => {
-    setPriceD(addCommas(removeNonNumeric(e.target.value)));
+    setPriceD(e.target.value);
   };
   const handleCommaNumberE = (e) => {
-    setPriceE(addCommas(removeNonNumeric(e.target.value)));
+    setPriceE(e.target.value);
   };
   const handleCommaNumberF = (e) => {
-    setPriceF(addCommas(removeNonNumeric(e.target.value)));
+    setPriceF(e.target.value);
   };
-  console.log(priceA, priceB, priceC, priceD, priceE, priceF);
+
   return (
     <DashboardLayOut title="เพิ่มโปรแกรมทัวร์">
       <form autoComplete="off" onSubmit={submitHandler}>
@@ -265,6 +265,7 @@ const CreatePost = () => {
                     fullWidth
                     label="ชื่อโปรแกรมทัวร์"
                     variant="outlined"
+                    required
                     value={tourName}
                     onChange={(e) => setTourName(e.target.value)}
                   />
@@ -274,6 +275,7 @@ const CreatePost = () => {
                     fullWidth
                     label="รหัสโปรแกรม"
                     variant="outlined"
+                    required
                     value={tourCode}
                     onChange={(e) => setTourCode(e.target.value)}
                   />
@@ -284,6 +286,7 @@ const CreatePost = () => {
                     type="date"
                     label="วันออกเดินทาง"
                     variant="outlined"
+                    required
                     defaultValue={defaultValue.today}
                     onChange={(e) => setStartAt(e.target.value)}
                   />
@@ -294,6 +297,7 @@ const CreatePost = () => {
                     type="date"
                     label="วันกลับ"
                     variant="outlined"
+                    required
                     defaultValue={defaultValue.today}
                     onChange={(e) => setEndAt(e.target.value)}
                   />
@@ -304,6 +308,7 @@ const CreatePost = () => {
                       sx={{ flex: 1 }}
                       fullWidth
                       id="input-with-icon-textfield"
+                      required
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
@@ -335,6 +340,7 @@ const CreatePost = () => {
                     fullWidth
                     multiline
                     minRows={4}
+                    required
                     value={highlight}
                     onChange={(e) => setHighlight(e.target.value)}
                     variant="outlined"
@@ -349,6 +355,7 @@ const CreatePost = () => {
                       id="demo-multiple-checkbox"
                       multiple
                       value={country}
+                      required
                       onChange={handleChangeCountry}
                       input={<OutlinedInput label="ประเทศ" />}
                       renderValue={(selected) => selected.join(", ")}
@@ -370,6 +377,7 @@ const CreatePost = () => {
                     fullWidth
                     label="จำนวนที่นั่งลูกค้า"
                     variant="outlined"
+                    required
                     value={seatsCl}
                     onChange={(e) => setSeatsCl(e.target.value)}
                   />
@@ -379,6 +387,7 @@ const CreatePost = () => {
                     fullWidth
                     label="จำนวนที่นั่งไกด์"
                     variant="outlined"
+                    required
                     value={seatsGu}
                     onChange={(e) => setSeatsGu(e.target.value)}
                   />
@@ -388,6 +397,7 @@ const CreatePost = () => {
                     fullWidth
                     label="ค่าคอมบริษัท"
                     variant="outlined"
+                    required
                     value={commission}
                     onChange={(e) => setCommission(e.target.value)}
                   />
@@ -397,6 +407,7 @@ const CreatePost = () => {
                     fullWidth
                     label="ค่าคอมเซลล์"
                     variant="outlined"
+                    required
                     value={comSales}
                     onChange={(e) => setComSales(e.target.value)}
                   />
@@ -406,6 +417,7 @@ const CreatePost = () => {
                     sx={{ flex: 1 }}
                     fullWidth
                     id="input-with-icon-textfield"
+                    required
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
@@ -426,6 +438,7 @@ const CreatePost = () => {
                     sx={{ flex: 1 }}
                     fullWidth
                     id="input-with-icon-textfield"
+                    required
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">

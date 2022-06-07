@@ -1,7 +1,9 @@
 const mongoose = require("mongoose");
+const autoIncrement = require("mongoose-sequence")(mongoose);
 
-const billSchema = mongoose.Schema(
+const BillSchema = mongoose.Schema(
   {
+    _id: Number,
     agent: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
@@ -72,6 +74,31 @@ const billSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-const Bill = mongoose.model("Bill", billSchema);
+BillSchema.plugin(autoIncrement);
+//before save();
+// BillSchema.pre("save", function (next) {
+//   let doc = this;
+//   sequencing
+//     .getSequenceNextValue("bill_id")
+//     .then((counter) => {
+//       console.log("asdasd", counter);
+//       if (!counter) {
+//         sequencing
+//           .insertCounter("bill_id")
+//           .then((counter) => {
+//             doc._id = counter;
+//             console.log(doc);
+//             next();
+//           })
+//           .catch((error) => next(error));
+//       } else {
+//         doc._id = counter;
+//         next();
+//       }
+//     })
+//     .catch((error) => next(error));
+// });
+
+const Bill = mongoose.model("Bill", BillSchema);
 
 module.exports = Bill;

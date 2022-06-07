@@ -158,9 +158,14 @@ const updateStatusUser = asyncHandler(async (req, res) => {
 });
 
 const getUsersforAdmin = asyncHandler(async (req, res) => {
-  const allUsers = await User.find({});
+  const PAGE_SIZE = 10;
+  const page = parseInt(req.query.page || "0");
+  const total = await User.countDocuments({});
+  const allUsers = await User.find({})
+    .limit(PAGE_SIZE)
+    .skip(PAGE_SIZE * page);
 
-  res.json(allUsers);
+  res.json({ totalPages: Math.ceil(total / PAGE_SIZE), allUsers });
 });
 
 const getUserByName = async (req, res) => {

@@ -51,12 +51,12 @@ const CreatePostByCode = () => {
   const [pdfFile, setPdfFile] = useState("");
   const [wordFile, setWordFile] = useState("");
   const [featuredImage, setFeaturedImage] = useState("");
-  const [priceA, setPriceA] = useState("");
-  const [priceB, setPriceB] = useState("");
-  const [priceC, setPriceC] = useState("");
-  const [priceD, setPriceD] = useState("");
-  const [priceE, setPriceE] = useState("");
-  const [priceF, setPriceF] = useState("");
+  const [priceA, setPriceA] = useState(0);
+  const [priceB, setPriceB] = useState(0);
+  const [priceC, setPriceC] = useState(0);
+  const [priceD, setPriceD] = useState(0);
+  const [priceE, setPriceE] = useState(0);
+  const [priceF, setPriceF] = useState(0);
   const [picMessage, setPicMessage] = useState(null);
   const [fileMessage, setFileMessage] = useState(null);
   const [tourID, setTourID] = useState("");
@@ -68,7 +68,7 @@ const CreatePostByCode = () => {
 
   const allPosts = useSelector((state) => state?.allPosts);
   const { loading: lodingAllposts, allposts } = allPosts;
-  // console.log(allposts);
+  console.log(allposts);
   useEffect(() => {
     dispatch(getAllPosts());
   }, [dispatch]);
@@ -219,7 +219,7 @@ const CreatePostByCode = () => {
       });
   };
 
-  console.log(priceA, priceB, priceC, priceD, priceE);
+  // console.log(priceA, priceB, priceC, priceD, priceE);
   // console.log(
   //   tourName,
   //   tourCode,

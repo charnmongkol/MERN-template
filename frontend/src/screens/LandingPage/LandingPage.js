@@ -15,6 +15,7 @@ const LandingPage = () => {
       <Suspense fallback={<div>Loading...</div>}>
         <Banner />
       </Suspense>
+
       {/* <Suspense fallback={<div>Loading...</div>}>
         <ToursSlider />
       </Suspense> */}

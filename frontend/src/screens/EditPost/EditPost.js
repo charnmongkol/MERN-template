@@ -249,6 +249,7 @@ const EditPost = () => {
       });
   };
 
+  console.log(priceA, priceB, priceC, priceD, priceE, priceF);
   return (
     <DashboardLayOut title="แก้ไขโปรแกรมทัวร์">
       <Box sx={{ my: 1, display: "flex", gap: 1 }}>
@@ -439,7 +440,7 @@ const EditPost = () => {
                       onChange={(e) => uploadWordFile(e.target.files[0])}
                     />
                   </Grid>
-                  <Grid item md={8}>
+                  <Grid item md={12}>
                     <TableContainer component={Paper}>
                       <Table sx={{ minWidth: 650 }} aria-label="simple table">
                         <TableHead>

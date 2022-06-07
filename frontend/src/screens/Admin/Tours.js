@@ -12,6 +12,8 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import styled from "@emotion/styled";
 import TableRow from "@mui/material/TableRow";
+import Button from "@mui/material/Button";
+import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 
 const TableRowTour = lazy(() => import("../../components/Table/TableRow"));
 const DashboardLayOut = lazy(() =>
@@ -66,7 +68,25 @@ const Tours = () => {
   };
 
   return (
-    <DashboardLayOut title="รายชื่อ Agent ทั้งหมด">
+    <DashboardLayOut title="Programs ทั้งหมด">
+      <Box sx={{ mt: 1, mb: 4, display: "flex", gap: 1 }}>
+        <Button
+          href="/admin/createpost"
+          variant="outlined"
+          color="primary"
+          startIcon={<AddCircleRoundedIcon />}
+        >
+          เพิ่มทัวร์ใหม่
+        </Button>
+        <Button
+          href="/admin/createpostbycode"
+          variant="outlined"
+          color="primary"
+          startIcon={<AddCircleRoundedIcon />}
+        >
+          เพิ่มทัวร์ (จากtour codeเดิม)
+        </Button>
+      </Box>
       <SearchBox sx={{ width: { md: "50%", sm: "100%" } }}>
         <TextField
           id="outlined-basic"
